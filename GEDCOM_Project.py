@@ -17,103 +17,72 @@ This script will:
 """
 
 #global variables
-#inputGEDCOM = 'Bekier_Project01.txt'; #project01's GED file
-#inputGEDCOM = 'proj02test.ged'; #sample GED file
-inputGEDCOM = 'sample.txt'; #sample GED file
-#outputfile = 'Bekier_Project01_output.txt'; #project01's output file
-#outputfile = 'proj02test_output.txt'; #sample output file
-outputfile = 'sample_output.txt'; #sample output file
-f = open(outputfile,'w');
+#INPUTGEDCOM = 'Bekier_Project01.txt' #project01's GED file
+INPUTGEDCOM = 'proj02test.ged' #sample GED file
+#INPUTGEDCOM = 'sample.txt' #sample GED file
+#OUTPUTFILE = 'Bekier_Project01_output.txt' #project01's output file
+OUTPUTFILE = 'proj02test_output.txt' #sample output file
+#OUTPUTFILE = 'sample_output.txt' #sample output file
+try:
+    F = open(OUTPUTFILE,'w')
+except IOError:
+    print 'cannot open', OUTPUTFILE
 
-level0Tags = [ #all the valid level 0 tags
-              'INDI',
-              'FAM',
-              'HEAD',
-              'TRLR',
-              'NOTE'
-              ];
-
-level1Tags = [ #all the valid level 1 tags
-              'NAME',
-              'SEX',
-              'BIRT',
-              'DEAT',
-              'FAMC',
-              'FAMS',
-              'MARR',
-              'HUSB',
-              'WIFE',
-              'CHIL',
-              'DIV'
-              ];
-
-level2Tags = [ #all the valid level 3 tags
-              'DATE'
-              ];
 
 #main function
 def main():
 
-    with open(inputGEDCOM) as fp:
-        for line in fp:
-            #print the line as it is
-            f.write("--> " + ' '.join(line.split()[0:len(line.split())]) + "\n");
-            #print with the correct format
-            formattedPrint(line)
-    f.close()
-
+    try:
+        with open(INPUTGEDCOM) as fp:
+            for line in fp:
+                #print the line as it is
+                F.write("--> " + line)
+                #print with the correct format
+                formattedPrint(line)
+        F.close()
+    except IOError:
+        print 'ERROR: Cannot Open File:', INPUTGEDCOM
 
 
 #this fuction will print the GEDCOM lines in the correct format
 def formattedPrint(line):
     #parse the GEDCOM line by whitespaces
-    parsedLine = line.split();
+    parsedLine = line.strip().split()
     
     #check if the line's format is valid
-    validLine = isValid(parsedLine);
+    validLine = isValid(parsedLine)
     #check if the line is a valid special case
-    validSpecialCase = isSpecialCase(parsedLine);
+    validSpecialCase = isSpecialCase(parsedLine)
 
     if (validLine or validSpecialCase):
-        validFlag = 'Y';
+        validFlag = 'Y'
     else:
-        validFlag = 'N';
+        validFlag = 'N'
     
     if(validSpecialCase):
         #special case format
-        f.write("<-- " + parsedLine[0] + "|" + parsedLine[2] + "|" + validFlag + "|" + parsedLine[1] + '\n');
+        F.write("<-- " + parsedLine[0] + "|" + parsedLine[2] + "|" + validFlag + "|" + parsedLine[1] + '\n')
     else:
         #normal case format
-        f.write("<-- " + parsedLine[0] + "|" + parsedLine[1] + "|" + validFlag + "|" + ' '.join(parsedLine[2:len(parsedLine)]) + '\n');
+        F.write("<-- " + parsedLine[0] + "|" + parsedLine[1] + "|" + validFlag + "|" + ' '.join(parsedLine[2:len(parsedLine)]) + '\n')
 
 #returns true if the line is in the correct format
 #returns false otherwise
-def isValid(pLine):
-    level = pLine[0];
-    tag = pLine[1];
-    isValid = True;
+def isValid(pLine):    
+    #note that INDI and FAM are not valid here, they are handled in the special case method
+    validTags = {
+            '0': ('HEAD', 'TRLR', 'NOTE'),
+            '1': ('NAME', 'SEX', 'BIRT' , 'DEAT', 'FAMC', 'FAMS', 'MARR', 'HUSB', 'WIFE', 'CHIL', 'DIV'),
+            '2': ('DATE')
+            }
+    level = pLine[0]
+    tag = pLine[1]
+    isValid = False
     
-    if (level == '0'):
-        #level 0
-        if tag not in level0Tags :
-            isValid = False;
-        else:
-            #if INDI or FAM is in the tag location, then it is invalid
-            if (tag == 'INDI' or tag == 'FAM'):
-                isValid = False;
-    elif (level == '1'):
-        #level 1
-        if tag not in level1Tags :
-            isValid = False;
-    elif (level == '2'):
-        #level 2
-        if tag not in level2Tags :
-            isValid = False;
-    else:
-        #the level is not a valid level
-        isValid = False;
+    if (level in validTags and tag in validTags[level]):
+        isValid = True
     
-    return isValid;
+    return isValid
 
 #returns true if the input is a special case in the correct format
 #returns false otherwise
@@ -121,24 +90,20 @@ def isValid(pLine):
 #    0 <id> INDI
 #    0 <id> FAM
 def isSpecialCase(pLine):
-    isValid = True;
-    specialTags = [ #all the valid special tags
-                   'INDI',
-                   'FAM'
-                   ];
+    validTags = {
+            '0': ('INDI', 'FAM')
+            }
 
-    #check if the size of the line is 3
-    if (len(pLine) != 3):
-        isValid = False;
-    else:
-        #check if the level is 0
-        if (pLine[0] != '0'):
-            isValid = False;
-        else:
-            #check if the 'tag' is a special tag
-            if pLine[2] not in specialTags :
-                isValid = False;
-    return isValid;
+    isValid = False
+    
+    #check if the size of the line is 3 so we don't run into an index out of bounds error
+    if (len(pLine) == 3):
+        level = pLine[0]
+        tag = pLine[2]
+        if (level in validTags and tag in validTags[level]):
+            isValid = True
+    
+    return isValid
 
 
-main(); #call to main function
+main() #call to main function
