@@ -30,7 +30,6 @@ class TestGEDCOM_Project(unittest.TestCase):
     
     #test the checkUniqueNameAndBirthDate funciton
     def test_checkUniqueNameAndBirthDate(self):
-        
         test1Dict = {}
         test2Dict = {'I01': {'ID': 'I01',
                              'NAME': 'John Doe',
