@@ -78,6 +78,13 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test3) #False
         self.assertTrue(test4) #True
         self.assertTrue(test5) #True
-        
+    
 if __name__ == '__main__':
-    unittest.main()
+   resultFile = 'Test_Results.txt'
+   try:
+       f = open(resultFile, "w")
+       runner = unittest.TextTestRunner(f)
+       unittest.main(testRunner=runner)
+       f.close()
+   except IOError:
+       print 'Error! Cannot open', resultFile
