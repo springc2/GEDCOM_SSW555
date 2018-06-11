@@ -1,8 +1,9 @@
 """
 Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
-6/10/2018
-Project03 - save info about families and individuals, print info in nice format
+6/17/2018
+Description: 
+    Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
 """
 
 #imports
@@ -18,8 +19,8 @@ try:
 except IOError:
     print 'Error! Cannot open', OUTPUT_FILE
 
-FAMILIES = {} #empty dictionary for families, will be a dict of dicts
-INDIVIDUALS = {} #empty dictionary for individuals, will be a dict of dicts
+FAMILIES = {} #empty dictionary for familie. The key is a families ID and the value is the a dict of  attribute pairs for that family
+INDIVIDUALS = {} #empty dictionary for individuals. The key is an individuals ID and the value is the a dict of  attribute pairs for that individual
 
 #main function
 def main():
@@ -51,8 +52,12 @@ def main():
                 #print 'Invalid GEDCOM format on lines:', invalidLines
                 F.write('The following lines had an invalid format: ' + str(invalidLines) + '\n')
             
+            #next we want to check for errors and anomalies
+            additionalChecking()
+            F.write('\n') #spacing to make the output file easier to read
             #print the individuals in order by their IDs
             printIndividuals(collections.OrderedDict(sorted(INDIVIDUALS.items())))
+            F.write('\n') #spacing to make the output file easier to read
             #print the families in order by their IDs
             printFamilies(collections.OrderedDict(sorted(FAMILIES.items())))
     except IOError:
@@ -68,20 +73,20 @@ def createEntity(pLine, entType):
     entID = pLine[1] #this is the ID of the entity
     if (entType == 'FAM'):
         #check if the ID is a unique ID
-        if (entID not in FAMILIES):
+        if (checkUniqueIDs(entID,FAMILIES)):
             #the new entity is a family so we will create a new dictionary for it within the fam dictionary
             FAMILIES.update({entID: {'ID': entID}})
         else:
+            #the ID is not unique so we will not add it and will not add any of it's info
             entID = ''
-            F.write('Error: not a uniquie Family ID, not adding it or it\'s info!\n')
     elif (entType == 'INDI'):
         #check if the ID is a unique ID
-        if (entID not in INDIVIDUALS):
+        if (checkUniqueIDs(entID,INDIVIDUALS)):
             #the new entity is an individual so we will create a new dictionary for it within the indi dictionary
             INDIVIDUALS.update({entID: {'ID': entID}})
         else:
+            #the ID is not unique so we will not add it and will not add any of it's info
             entID = ''
-            F.write('Error: not a uniquie Family ID, not adding it or it\'s info!\n')
     else:
         entID = ''
         F.write('Unexpected error while creating a new entity!\n')
@@ -230,5 +235,115 @@ def isSpecialCase(pLine):
     
     return isValid
 
+#this fuction is to check if there are any errors or anomalies in the GEDCOM file
+#note that some error checking happens while the information is being stored, 
+#so this function will not recheck for errors that have already been covered earlier in the program
+def additionalChecking():
+    checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
+    checkUniqueFamiliesBySpouses() #User Story 24
+    checkUniqueFirstNamesInFamilies() #User Story 25
+    checkBirthBeforeMarriage() #User Story 02
+    checkBirthBeforeDeath() #User Story 03
+    checkMarriageBeforeDivorce() #User Story 04
+    checkMarriageBeforeDeath() #User Story 05
 
-main() #call to main function
+#Checks User Story 02:
+#Birth should occur before marriage of an individual
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeMarriage():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 03:
+#Birth should occur before death of an individual
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeDeath():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 04:
+#Marriage should occur before divorce of spouses, and divorce can only occur after marriage
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkMarriageBeforeDivorce():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 05:
+#Marriage should occur before death of either spouse
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkMarriageBeforeDeath():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 22:
+#All individual IDs should be unique and all family IDs should be unique
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkUniqueIDs(curID, dictionary):
+    #NOTE that the name of an individual is not included in this error message
+    #because families have no names but can run into the same error
+    #and we want to keep the error message consistent for the both of them
+    passesCheck = True
+    if (curID in dictionary):
+        #the ID is already in the dict, thus it is not unique
+        F.write('Error US22: ID ' + curID + ' is not a uniquie ID. (Not including it or it\'s information!)\n')
+        passesCheck = False
+    #otherwise the ID is unique
+    return passesCheck
+
+#Checks User Story 23:
+#No more than one individual with the same name and birth date should appear in a GEDCOM file
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkUniqueNameAndBirthDate(indi):
+    passesCheck = True
+    all_IDs = [] #all the individual's IDs
+    all_names = [] #all the individual's names
+    all_bDays = [] #all the individual's birth days
+    
+    #loop over all stored individuals
+    for k, v in indi.iteritems():
+        indi_id = v['ID']
+        indi_name = v['NAME']
+        indi_bDay = v['BIRT']
+        isNewNameAndBDay = True
+        
+        for i in range(0, len(all_IDs)):
+            #look at the previously stored names and bdays
+            if (indi_name == all_names[i] and indi_bDay == all_bDays[i]):
+                #there was a match, so we must print out the info
+                F.write('Error US23: ' + indi_name + ' (' + indi_id + ') and '+ all_names[i] + ' (' + all_IDs[i] + ') have the same name and birth date.\n')
+                passesCheck = False
+                isNewNameAndBDay = False
+        
+        if (isNewNameAndBDay):
+            #after logic checking, store the values in the list so the next individual can check against them
+            #no need to have duplicate individuals with the same BDay and Name...since we already included both their names in the print above,
+            #we are still hitting the requirements of mentioning all individuals involved
+            all_IDs.append(indi_id)
+            all_names.append(indi_name)
+            all_bDays.append(indi_bDay)
+    return passesCheck
+
+#Checks User Story 24:
+#No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkUniqueFamiliesBySpouses():
+    passesCheck = True
+    return passesCheck
+    
+#Checks User Story 25:
+#No more than one child with the same name and birth date should appear in a family
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkUniqueFirstNamesInFamilies():
+    passesCheck = True
+    return passesCheck
+
+if __name__ == '__main__':
+    main() #call to main function
