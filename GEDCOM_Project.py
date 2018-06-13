@@ -17,7 +17,7 @@ OUTPUT_FILE = 'GEDCOM_Output.txt' #output file
 try:
     F = open(OUTPUT_FILE,'w')
 except IOError:
-    print 'Error! Cannot open', OUTPUT_FILE
+    print('Error! Cannot open', OUTPUT_FILE)
 
 FAMILIES = {} #empty dictionary for familie. The key is a families ID and the value is the a dict of  attribute pairs for that family
 INDIVIDUALS = {} #empty dictionary for individuals. The key is an individuals ID and the value is the a dict of  attribute pairs for that individual
@@ -51,7 +51,6 @@ def main():
             if(len(invalidLines) > 0):
                 #print 'Invalid GEDCOM format on lines:', invalidLines
                 F.write('The following lines had an invalid format: ' + str(invalidLines) + '\n')
-            
             #next we want to check for errors and anomalies
             additionalChecking()
             F.write('\n') #spacing to make the output file easier to read
@@ -240,8 +239,8 @@ def isSpecialCase(pLine):
 #so this function will not recheck for errors that have already been covered earlier in the program
 def additionalChecking():
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
-    checkUniqueFamiliesBySpouses() #User Story 24
-    checkUniqueFirstNamesInFamilies() #User Story 25
+    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
+    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
     checkBirthBeforeMarriage() #User Story 02
     checkBirthBeforeDeath() #User Story 03
     checkMarriageBeforeDivorce() #User Story 04
@@ -333,16 +332,40 @@ def checkUniqueNameAndBirthDate(indi):
 #No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkUniqueFamiliesBySpouses():
+def checkUniqueFamiliesBySpouses(fam):
     passesCheck = True
+    famIDs = []
+    marHusWife = []
+
+    if(fam):
+        for k,v in fam.iteritems():         # Iterates through the dictionary and appends values into array
+            s = (v['MARR'] + ' ' + v['HUSB'] + ' ' + v['WIFE'])
+            if(s in marHusWife):
+                i = marHusWife.index(s)
+                passesCheck = False
+                F.write('Error US24: Family (' + k + ') has same spouses and marriage date as family (' + famIDs[i] + ').\n')
+            else:
+                famIDs.append(k)
+                marHusWife.append(s)
     return passesCheck
     
 #Checks User Story 25:
 #No more than one child with the same name and birth date should appear in a family
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkUniqueFirstNamesInFamilies():
+def checkUniqueFirstNamesInFamilies(indi, fam):
     passesCheck = True
+    if(fam):
+        for k, v in fam.iteritems():
+            childrenArr = []
+            if(v['CHIL']):
+                for childId in v['CHIL']:
+                    s = indi[childId]['NAME'] + ' ' + indi[childId]['BIRT']
+                    if(s in childrenArr):
+                        F.write('Error US25: Family (' + k + ') child ' + indi[childId]['NAME'] + ' shares a name and birthday. \n')
+                        passesCheck = False
+                    else:
+                        childrenArr.append(s)
     return passesCheck
 
 if __name__ == '__main__':
