@@ -1,7 +1,7 @@
 """
 Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
-6/17/2018
+6/24/2018
 Description: 
     Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
 """
