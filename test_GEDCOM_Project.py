@@ -79,6 +79,111 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertTrue(test4) #True
         self.assertTrue(test5) #True
 
+    # Michael Macari - Test Cases
+    # Tests checkUniqueFamiliesBySpouses function
+    # Tests if there exists more than one family with the same spouses by name and marriage date
+    def test_checkUniqueFamiliesBySpouses(self):
+        # Test case for different families with different everything
+        test1dic = {'F01' : {'MARR': '13 MAY 1986',
+                             'WIFE': 'I14',
+                             'HUSB': 'I01'},
+                    'F02' : {'MARR': '14 JUNE 2002',
+                             'WIFE': 'I11',
+                             'HUSB': 'I02'}}
+
+        # Tests empty dictionary case
+        test2dic = {}
+
+        # Test case for same marriage date but different spouses, should still be true
+        test3dic = {'F04': {'MARR': '12 NOV 1999',
+                            'WIFE': 'I05',
+                            'HUSB': 'I03'},
+                    'F05' : {'MARR': '12 NOV 1999',
+                             'WIFE': 'I06',
+                             'HUSB': 'I07'}}
+
+        # Test case for two families with identical everything should return false
+        test4dic = {'F01': {'MARR': '12 MAY 2000',
+                            'WIFE': 'I01',
+                            'HUSB': 'I02'},
+                    'F02': {'MARR': '12 MAY 2000',
+                            'WIFE': 'I01',
+                            'HUSB': 'I02'}}
+
+        # One valid family and two identical families should return false
+        test5dic = {'F01': {'MARR': '12 MAY 2000',
+                            'WIFE': 'I01',
+                            'HUSB': 'I02'},
+                    'F05': {'MARR': '12 MAY 2000',
+                            'WIFE': 'I01',
+                            'HUSB': 'I02'},
+                    'F03': {'MARR': '16 JUN 2001',
+                            'WIFE': 'I04',
+                            'HUSB': 'I05'}}
+
+
+        test1 = GEDCOM_Project.checkUniqueFamiliesBySpouses(test1dic)   # Valid family
+        test2 = GEDCOM_Project.checkUniqueFamiliesBySpouses(test2dic)   # Empty dictionary
+        test3 = GEDCOM_Project.checkUniqueFamiliesBySpouses(test3dic)   # Same marriage date but different spouses
+        test4 = GEDCOM_Project.checkUniqueFamiliesBySpouses(test4dic)   # Families with identical spouses and marriage date false
+        test5 = GEDCOM_Project.checkUniqueFamiliesBySpouses(test5dic)   # Families with identical spouses and marriage date one without false
+
+        self.assertTrue(test1) # True
+        self.assertTrue(test2) # True
+        self.assertTrue(test3) # True
+        self.assertFalse(test4) # False
+        self.assertFalse(test5) # False
+
+    # Tests checkUniqueFirstNamesInFamilies function
+    # Tests if there is no more than one child with the same name and birth date in a family
+    def test_checkUniqueFirstNamesInFamilies(self):
+
+        test1famdic = {}   # Empty dictionary
+        test1indidic = {}  # Empty dictionary
+
+        test2famdic = {'F01': {'CHIL': ['I01']}}            # One child in family
+        test2indidic = {'I01': {'NAME': 'Jack /Daniels/',   # Checks against list of individuals
+                                'BIRT': '05 NOV 2001'}}
+
+        test3famdic = {'F01': {'CHIL': ['I01', 'I02']},     # Two families with kids of all different names
+                       'F02': {'CHIL': ['I03', 'I04']}}
+        test3indidic = {'I01': {'NAME': 'Taco /Salad/',
+                                'BIRT': '05 JUN 2002'},
+                        'I02': {'NAME': 'Tyrone /Willis/',
+                                'BIRT': '02 JUN 2001'},
+                        'I03': {'NAME': 'Daron /Bonfooboo/',
+                                'BIRT': '01 JAN 1999'},
+                        'I04': {'NAME': 'John /Fosho/',
+                                'BIRT': '22 NOV 1994'}}
+
+        test4famdic = {'F01': {'CHIL': ['I01', 'I02']}}     # Tests false for two kids with same name and birth date
+        test4indidic = {'I01': {'NAME': 'Michael /Flin/',
+                                'BIRT': '04 NOV 1995'},
+                        'I02': {'NAME': 'Michael /Flin/',
+                                'BIRT': '04 NOV 1995'}}
+
+        test5famdic = {'F01': {'CHIL': ['I01', 'I02']},     # Tests true for two different families with kids of same name and birthday
+                       'F02': {'CHIL': ['I03', 'I04']}}
+        test5indidic = {'I01': {'NAME': 'Taco /Salad/',
+                                'BIRT': '05 JUN 2002'},
+                        'I02': {'NAME': 'Tyrone /Willis/',
+                                'BIRT': '02 JUN 2001'},
+                        'I03': {'NAME': 'Taco /Salad/',
+                                'BIRT': '05 JUN 2002'},
+                        'I04': {'NAME': 'John /Fosho/',
+                                'BIRT': '22 NOV 1994'}}
+        test1 = GEDCOM_Project.checkUniqueFirstNamesInFamilies(test1indidic, test1famdic)   # Empty dictionaries
+        test2 = GEDCOM_Project.checkUniqueFirstNamesInFamilies(test2indidic, test2famdic)   # Two families with children of different names and birthday
+        test3 = GEDCOM_Project.checkUniqueFirstNamesInFamilies(test3indidic, test3famdic)   # One family with two children of same name
+        test4 = GEDCOM_Project.checkUniqueFirstNamesInFamilies(test4indidic, test4famdic)   # Two kids with same name and birthday in same family
+        test5 = GEDCOM_Project.checkUniqueFirstNamesInFamilies(test5indidic, test5famdic)   # Two different families with kids of same name and birthday
+
+        self.assertTrue(test1)   # True
+        self.assertTrue(test2)   # True
+        self.assertTrue(test3)   # True
+        self.assertFalse(test4)  # False
+        self.assertTrue(test5)   # True
+
     #test the checkBirthBeforeMarriage function
     def test_checkBirthBeforeMarriage(self):
         test1IndiDict = {}
