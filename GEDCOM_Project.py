@@ -11,6 +11,7 @@ import collections
 import time
 from prettytable import PrettyTable
 from datetime import date
+import time
 
 #global variables
 INPUT_FILE = 'GEDCOM_Input.ged' #input file
@@ -272,8 +273,8 @@ def additionalChecking():
     checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
-    checkMarriageBeforeDivorce() #User Story 04
-    checkMarriageBeforeDeath() #User Story 05
+    checkMarriageBeforeDivorce(FAMILIES) #User Story 04
+    checkMarriageBeforeDeath(FAMILIES,INDIVIDUALS) #User Story 05
 
 #Checks User Story 02:
 #Birth should occur before marriage of an individual
@@ -340,17 +341,60 @@ def checkBirthBeforeDeath(indi):
 #Marriage should occur before divorce of spouses, and divorce can only occur after marriage
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageBeforeDivorce():
-    passesCheck = True
-    return passesCheck
+def checkMarriageBeforeDivorce(fam):
+    
+	passesCheck = True
+	
+	for k, v in fam.iteritems():
+	
+		if v.get('DIV') is None:
+			
+			continue
+			
+		coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
+		
+		coupleDivorceDate = time.strptime(v['DIV'], '%d %b %Y')
+		
+		if coupleDivorceDate < coupleMarriageDate:
+			
+			passesCheck = False
+			F.write('Error US04: Family[' + k +'] has divorce before marriage.\n')
+		
+	return passesCheck
 
 #Checks User Story 05:
 #Marriage should occur before death of either spouse
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageBeforeDeath():
-    passesCheck = True
-    return passesCheck
+def checkMarriageBeforeDeath(fam, ind):
+    
+	passesCheck = True
+	
+	for k, v in fam.iteritems():
+	
+		coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
+		
+		if ind[v['HUSB']].get('DEAT') is not None:
+		
+		    
+		
+			husbandDeathDate = time.strptime(ind[v['HUSB']]['DEAT'], '%d %b %Y')
+			 
+			if coupleMarriageDate > husbandDeathDate:
+			 
+			    passesCheck = False
+			    F.write('Error US05: Family[' + k +'] has death before marriage date for husband ['+v['HUSB']+ '].\n')			
+		
+		if ind[v['WIFE']].get('DEAT') is not None:
+		
+			wifeDeathDate = time.strptime(ind[v['WIFE']]['DEAT'], '%d %b %Y')
+			 
+			if coupleMarriageDate > wifeDeathDate:
+			 
+				passesCheck = False
+				F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')				
+				
+	return passesCheck
 
 #Checks User Story 22:
 #All individual IDs should be unique and all family IDs should be unique
@@ -441,6 +485,7 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
                     else:
                         childrenArr.append(s)
     return passesCheck
-
+	
+	
 if __name__ == '__main__':
     main() #call to main function
