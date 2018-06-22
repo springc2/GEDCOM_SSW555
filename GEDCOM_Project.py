@@ -306,13 +306,29 @@ def isSpecialCase(pLine):
 #note that some error checking happens while the information is being stored, 
 #so this function will not recheck for errors that have already been covered earlier in the program
 def additionalChecking():
-    checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
-    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
-    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
+    checkDatesBeforeCurrentDate() #User Story 01
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
     checkMarriageBeforeDeath(FAMILIES,INDIVIDUALS) #User Story 05
+    checkDivorceBeforeDeath() #User Story 06
+    checkLessThan150YearsOld() #User Story 07
+    checkBirthBeforeMarriageOfParents() #User Story 08
+    checkBirthBeforeDeathOfParents() #User Story 09
+    checkMarriageAfter14() #User Story 10
+    checkParentsNotTooOld() #User Story 12
+    checkFewerThan15Siblings() #User Story 15
+    checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
+    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
+    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
+
+#Checks User Story 01:
+#Dates (birth, marriage, divorce, death) should not be after the current date
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkDatesBeforeCurrentDate():
+    passesCheck = True
+    return passesCheck
 
 #Checks User Story 02:
 #Birth should occur before marriage of an individual
@@ -414,6 +430,62 @@ def checkMarriageBeforeDeath(fam, ind):
                 if coupleMarriageDate > wifeDeathDate:
                     passesCheck = False
                     F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')
+    return passesCheck
+
+#Checks User Story 06:
+#Divorce can only occur before death of both spouses
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkDivorceBeforeDeath():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 07:
+#Death should be less than 150 years after birth for dead people, and current date should be less than 150 years after birth for all living people
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkLessThan150YearsOld():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 08:
+#Children should be born after marriage of parents (and not more than 9 months after their divorce)
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeMarriageOfParents():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 09:
+#Child should be born before death of mother and before 9 months after death of father
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeDeathOfParents():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 10:
+#Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkMarriageAfter14():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 12:
+#Mother should be less than 60 years older than her children and father should be less than 80 years older than his children
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkParentsNotTooOld():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 15:
+#There should be fewer than 15 siblings in a family
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkFewerThan15Siblings():
+    passesCheck = True
     return passesCheck
 
 #Checks User Story 22:
