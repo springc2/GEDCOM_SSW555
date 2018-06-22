@@ -385,7 +385,8 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertTrue(test4) #True
         self.assertTrue(test5) #True
 
-    
+
+
 if __name__ == '__main__':
    resultFile = 'Test_Results.txt'
    try:

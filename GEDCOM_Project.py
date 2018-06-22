@@ -364,16 +364,17 @@ def checkMarriageBeforeDeath(fam, ind):
 
     for k, v in fam.iteritems():
         coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
-        if ind[v['HUSB']].get('DEAT') is not None:
-            husbandDeathDate = time.strptime(ind[v['HUSB']]['DEAT'], '%d %b %Y')
-            if coupleMarriageDate > husbandDeathDate:
-                passesCheck = False
-                F.write('Error US05: Family[' + k +'] has death before marriage date for husband ['+v['HUSB']+ '].\n')			
-        if ind[v['WIFE']].get('DEAT') is not None:
-            wifeDeathDate = time.strptime(ind[v['WIFE']]['DEAT'], '%d %b %Y')
-            if coupleMarriageDate > wifeDeathDate:
-                passesCheck = False
-                F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')
+        if(ind):
+            if ind[v['HUSB']].get('DEAT') is not None:
+                husbandDeathDate = time.strptime(ind[v['HUSB']]['DEAT'], '%d %b %Y')
+                if coupleMarriageDate > husbandDeathDate:
+                    passesCheck = False
+                    F.write('Error US05: Family[' + k +'] has death before marriage date for husband ['+v['HUSB']+ '].\n')
+            if ind[v['WIFE']].get('DEAT') is not None:
+                wifeDeathDate = time.strptime(ind[v['WIFE']]['DEAT'], '%d %b %Y')
+                if coupleMarriageDate > wifeDeathDate:
+                    passesCheck = False
+                    F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')
     return passesCheck
 
 #Checks User Story 22:
@@ -465,7 +466,7 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
                     else:
                         childrenArr.append(s)
     return passesCheck
-	
-	
+
+
 if __name__ == '__main__':
     main() #call to main function
