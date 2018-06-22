@@ -457,7 +457,7 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
     if(fam):
         for k, v in fam.iteritems():
             childrenArr = []
-            if(v['CHIL']):
+            if('CHIL' in v.keys()):
                 for childId in v['CHIL']:
                     s = indi[childId]['NAME'] + ' ' + indi[childId]['BIRT']
                     if(s in childrenArr):
