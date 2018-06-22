@@ -149,12 +149,15 @@ def printIndividuals(indi):
     pt = PrettyTable()
     pt.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     for k, v in indi.iteritems():
-        #get age
-        age = getAge([v['BIRT']])
         #check if they are still living
         alive = True
         if (v.get('DEAT', 'NA') != 'NA'):
             alive = False
+        #get age
+        if(alive):
+            age = getAgeAlive([v['BIRT']])
+        else:
+            age = getAgeDead([v['BIRT']], [v['DEAT']])
         pt.add_row([v['ID'], v['NAME'], v['SEX'], v['BIRT'], age, alive, v.get('DEAT', 'NA'), v.get('FAMC', 'NA'), v.get('FAMS', 'NA')])
     F.write('Individuals:\n')
     F.write(str(pt) + '\n')
@@ -169,9 +172,10 @@ def printFamilies(fam):
     F.write('Families:\n')
     F.write(str(pt) + '\n')
 
-#returns the age of an individual given their birthdate
+#this function is only for individuals who are alive
+#returns the age of an individual given their birthdate based on today's date
 #dates are in the format <day month year>
-def getAge(birthDate):
+def getAgeAlive(birthDate):
     today = date.today()
     bDate = birthDate[0].split() #parse the birthday
     birthDay = int(bDate[0])
@@ -195,6 +199,41 @@ def getAge(birthDate):
         F.write('Unexpected error with birthdate!\n')
     birthYear = int(bDate[2])
     return today.year - birthYear - ((today.month, today.day) < (birthMonth, birthDay))
+
+#this function is only for individuals who are dead
+#returns the age of an individual given their birthdate based on their death date
+#dates are in the format <day month year>
+def getAgeDead(birthDate, deathDate):
+    dDate = deathDate[0].split() #parse the deathday
+    deathDay = int(dDate[0])
+    
+    bDate = birthDate[0].split() #parse the birthday
+    birthDay = int(bDate[0])
+    months = {
+            'JAN': 1,
+            'FEB': 2,
+            'MAR': 3,
+            'APR': 4,
+            'MAY': 5,
+            'JUN': 6,
+            'JUL': 7,
+            'AUG': 8,
+            'SEP': 9,
+            'OCT': 10,
+            'NOV': 11,
+            'DEC': 12,
+            }
+    if (dDate[1] in months):
+        deathMonth = months[dDate[1]]
+    else:
+        F.write('Unexpected error with deathdate!\n')
+    if (bDate[1] in months):
+        birthMonth = months[bDate[1]]
+    else:
+        F.write('Unexpected error with birthdate!\n')
+    deathYear = int(dDate[2])
+    birthYear = int(bDate[2])
+    return deathYear - birthYear - ((deathMonth, deathDay) < (birthMonth, birthDay))
 
 #returns the a formatted string representation of a date
 #input dates are in the format <day month year>

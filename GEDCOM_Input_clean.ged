@@ -1,0 +1,220 @@
+0 NOTE Team members - Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
+0 NOTE GITHUB URL https://github.com/springc2/GEDCOM_SSW555
+0 NOTE start of the Smith family tree
+0 NOTE start of the family Smith1
+0 F01 FAM
+1 MARR
+2 DATE 28 MAR 1987
+1 WIFE I05
+1 HUSB I06
+1 CHIL I01
+1 CHIL I02
+1 CHIL I03
+1 CHIL I04
+0 NOTE end of the family Smith1
+0 NOTE start of the family Smith2
+0 F02 FAM
+1 MARR
+2 DATE 18 MAY 1950
+1 WIFE I07
+1 HUSB I08
+1 CHIL I06
+1 CHIL I13
+0 NOTE end of the family Smith2
+0 NOTE start of the family Anderson
+0 F03 FAM
+1 MARR
+2 DATE 25 AUG 1955
+1 WIFE I09
+1 HUSB I10
+1 CHIL I05
+0 NOTE end of the family Anderson
+0 NOTE start of the family Wheeldon
+0 F04 FAM
+1 MARR
+2 DATE 20 JUN 1928
+1 WIFE I11
+1 HUSB I12
+1 CHIL I09
+0 NOTE end of the family Wheeldon
+0 NOTE start of the family Smith5
+0 F05 FAM
+1 MARR
+2 DATE 13 MAY 1986
+1 WIFE I14
+1 HUSB I13
+1 CHIL I15
+1 CHIL I16
+1 DIV
+2 DATE 22 OCT 1999
+0 NOTE end of the family Smith5
+0 NOTE start of the family Smith6
+0 F06 FAM
+1 MARR
+2 DATE 21 JUN 2001
+1 WIFE I17
+1 HUSB I13
+1 CHIL I18
+0 NOTE end of the family Smith6
+0 NOTE start of the individual Dan Smith
+0 I01 INDI
+1 NAME Dan /Smith/
+1 BIRT
+2 DATE 8 OCT 1993
+1 SEX M
+1 FAMC F01
+0 NOTE end of individual Dan Smith
+0 NOTE start of the individual Laura Smith
+0 I02 INDI
+1 NAME Laura /Smith/
+1 BIRT
+2 DATE 15 SEP 1988
+1 SEX F
+1 FAMC F01
+0 NOTE end of individual Laura Smith
+0 NOTE start of the individual William Smith
+0 I03 INDI
+1 NAME William /Smith/
+1 BIRT
+2 DATE 15 NOV 1990
+1 SEX M
+1 FAMC F01
+0 NOTE end of individual William Smith
+0 NOTE start of the individual Madeline Smith
+0 I04 INDI
+1 NAME Madeline /Smith/
+1 BIRT
+2 DATE 18 MAR 1995
+1 SEX F
+1 FAMC F01
+0 NOTE end of individual Madeline Smith
+0 NOTE start of the individual Renee Smith
+0 I05 INDI
+1 NAME Renee /Smith/
+1 BIRT
+2 DATE 11 FEB 1962
+1 SEX F
+1 FAMS F01
+1 FAMC F03
+0 NOTE end of individual Renee Smith
+0 NOTE start of the individual Mark Smith
+0 I06 INDI
+1 NAME Mark /Smith/
+1 BIRT
+2 DATE 4 APR 1960
+1 SEX M
+1 FAMS F01
+1 FAMC F02
+0 NOTE end of individual Mark Smith
+0 NOTE start of the individual Jean Smith
+0 I07 INDI
+1 NAME Jean /Smith/
+1 BIRT
+2 DATE 6 OCT 1933
+1 SEX F
+1 FAMS F02
+0 NOTE end of individual Jean Smith
+0 NOTE start of the individual Matthew Smith
+0 I08 INDI
+1 NAME Matthew /Smith/
+1 BIRT
+2 DATE 16 FEB 1935
+1 SEX M
+1 FAMS F02
+1 DEAT
+2 DATE 10 FEB 1995
+0 NOTE end of individual Matthew Smith
+0 NOTE start of the individual Jane Anderson
+0 I09 INDI
+1 NAME Jane /Anderson/
+1 BIRT
+2 DATE 4 JAN 1933
+1 SEX F
+1 FAMS F03
+1 FAMC F04
+1 DEAT
+2 DATE 26 APR 2014
+0 NOTE end of individual Jane Anderson
+0 NOTE start of the individual William Anderson
+0 I10 INDI
+1 NAME William /Anderson/
+1 BIRT
+2 DATE 7 JAN 1926
+1 SEX M
+1 FAMS F03
+1 DEAT
+2 DATE 9 JAN 1986
+0 NOTE end of individual William Anderson
+0 NOTE start of the individual Madeline Wheeldon
+0 I11 INDI
+1 NAME Madeline /Wheeldon/
+1 BIRT
+2 DATE 27 JUN 1908
+1 SEX F
+1 FAMS F04
+1 DEAT
+2 DATE 17 MAY 1985
+0 NOTE end of individual Madeline Wheeldon
+0 NOTE start of the individual Isaac Wheeldon
+0 I12 INDI
+1 NAME Isaac /Wheeldon/
+1 BIRT
+2 DATE 1 OCT 1907
+1 SEX M
+1 FAMS F04
+1 DEAT
+2 DATE 10 MAY 1970
+0 NOTE end of individual Isaac Wheeldon
+0 NOTE start of the individual Vince Smith
+0 I13 INDI
+1 NAME Vince /Smith/
+1 BIRT
+2 DATE 7 JUL 1965
+1 SEX M
+1 FAMC F02
+1 FAMS F05
+1 FAMS F06
+0 NOTE end of individual Vince Smith
+0 NOTE start of the individual Brenda Smith
+0 I14 INDI
+1 NAME Brenda /Smith/
+1 BIRT
+2 DATE 3 MAR 1965
+1 SEX F
+1 FAMS F05
+1 DEAT
+2 DATE 21 OCT 1999
+0 NOTE end of individual Brenda Smith
+0 NOTE start of the individual Paul Smith
+0 I15 INDI
+1 NAME Paul /Smith/
+1 BIRT
+2 DATE 26 NOV 1990
+1 SEX M
+1 FAMC F05
+0 NOTE end of individual Paul Smith
+0 NOTE start of the individual Jason Smith
+0 I16 INDI
+1 NAME Jason /Smith/
+1 BIRT
+2 DATE 6 SEP 1992
+1 SEX M
+1 FAMC F05
+0 NOTE end of individual Jason Smith
+0 NOTE start of the individual Jenn Smith
+0 I17 INDI
+1 NAME Jenn /Smith/
+1 BIRT
+2 DATE 18 DEC 1966
+1 SEX F
+1 FAMS F06
+0 NOTE end of individual Jenn Smith
+0 NOTE start of the individual Luke Smith
+0 I18 INDI
+1 NAME Luke /Smith/
+1 BIRT
+2 DATE 11 AUG 2003
+1 SEX M
+1 FAMC F06
+0 NOTE end of individual Luke Smith
+0 NOTE end of the Smith family tree

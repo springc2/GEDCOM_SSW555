@@ -15,7 +15,7 @@
 0 NOTE start of the family Smith2
 0 F02 FAM
 1 MARR
-2 DATE 18 MAY 1950
+2 DATE 18 MAY 1900
 1 WIFE I07
 1 HUSB I08
 1 CHIL I06
@@ -93,14 +93,6 @@
 1 WIFE I09
 1 HUSB I13
 0 NOTE end of the family Raunchy
-0 NOTE start of the Polo family tree
-0 NOTE start of the family Polo
-0 F11 FAM
-1 MARR
-2 DATE 2 DEC 1968
-1 WIFE I09
-1 HUSB I01
-0 NOTE end of the family Polo
 0 NOTE start of the individual Dan Smith
 0 I01 INDI
 1 NAME Dan /Smith/
@@ -260,7 +252,7 @@
 1 BIRT
 2 DATE 11 AUG 2003
 1 SEX M
-1 FAMC F06
+1 FAMC F08
 0 NOTE end of individual Luke Smith
 0 NOTE start of the individual Luke Smith
 0 I19 INDI
@@ -272,9 +264,9 @@
 0 NOTE end of individual Luke Smith
 0 NOTE start of the individual Luke Smith
 0 I19 INDI
-1 NAME Luke /Smith/
+1 NAME Duplicate /Smith/
 1 BIRT
-2 DATE 11 AUG 2003
+2 DATE 12 AUG 2004
 1 SEX M
 1 FAMC F08
 0 NOTE end of individual Luke Smith
