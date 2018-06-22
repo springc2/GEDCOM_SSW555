@@ -79,59 +79,63 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertTrue(test4) #True
         self.assertTrue(test5) #True
 
+    #US04 - test the checkMarriageBeforeDivorce function
     def test_checkMarriageBeforeDivorce(self):
 
-		test1Dict = {'F01' : {'MARR': '13 MAY 1986'}}
-		
-		test2Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1987'}}
-		
-		test3Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1984'}}
-		
-		test4Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'}, 'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1988'}}							
-		
-		test5Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'}, 'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1978'}}								 
+        test1Dict = {'F01' : {'MARR': '13 MAY 1986'}}
+        test2Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1987'}}
+        test3Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1984'}}		
+        test4Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'},
+                     'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1988'}}
+        test5Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'},
+                     'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1978'}}			
+        test6Dict = {}			 
 
-		test1 = GEDCOM_Project.checkMarriageBeforeDivorce(test1Dict) 
-		test2 = GEDCOM_Project.checkMarriageBeforeDivorce(test2Dict) #no one has the same bday and name
-		test3 = GEDCOM_Project.checkMarriageBeforeDivorce(test3Dict) #name and bday both match
-		test4 = GEDCOM_Project.checkMarriageBeforeDivorce(test4Dict) #name matches, bday does not match
-		test5 = GEDCOM_Project.checkMarriageBeforeDivorce(test5Dict) #name does not match, bday does match
-		
-		self.assertTrue(test1) #No DIvorce, True
-		self.assertTrue(test2) #Marriage before Divorce TRUE
-		self.assertFalse(test3) #Marriage after divorce FALSE
-		self.assertTrue(test4) #marriage before divorce second family true
-		self.assertFalse(test5) #marriage after divorce second family false
-     
+        test1 = GEDCOM_Project.checkMarriageBeforeDivorce(test1Dict) #No divorce
+        test2 = GEDCOM_Project.checkMarriageBeforeDivorce(test2Dict) #Marriage before divorce
+        test3 = GEDCOM_Project.checkMarriageBeforeDivorce(test3Dict) #Marriage after divorce
+        test4 = GEDCOM_Project.checkMarriageBeforeDivorce(test4Dict) #Marriage before divorce second family
+        test5 = GEDCOM_Project.checkMarriageBeforeDivorce(test5Dict) #Marriage after divorce second family
+        test6 = GEDCOM_Project.checkMarriageBeforeDivorce(test6Dict) #Empty dict
+
+        self.assertTrue(test1) #No divorce, True
+        self.assertTrue(test2) #Marriage before divorce TRUE
+        self.assertFalse(test3) #Marriage after divorce FALSE
+        self.assertTrue(test4) #Marriage before divorce second family TRUE
+        self.assertFalse(test5) #Marriage after divorce second family FALSE
+        self.assertTrue(test6) #Empty dict TRUE
+
+    #US05 - test the checkMarriageBeforeDeath function
     def test_checkMarriageBeforeDeath(self):
-		
-		test1DictFam = {'F01' : {'MARR': '13 MAY 1986', 'HUSB': 'I01', 'WIFE': 'I02'}}
-		
-		test2DictFam = {'F01' : {'MARR': '13 MAY 1986', 'HUSB': 'I01', 'WIFE': 'I02'}}
-		
-		test3DictFam = {'F01' : {'MARR': '13 MAY 1986', 'HUSB': 'I01', 'WIFE': 'I02'}}
-		
-		
-		test1DictInd = {'I01': {'ID': 'I01',
-                             'DEAT': '8 OCT 1993'},
-                     'I02': {'ID': 'I02',
-                             'DEAT': '16 JUN 1993'}}
-							 
-		test2DictInd = {'I01': {'ID': 'I01', 'DEAT': '8 OCT 1900'}, 'I02': {'ID': 'I02', 'DEAT': '16 JUN 1993'}}    
-		test3DictInd = {'I01': {'ID': 'I01',
-                             'DEAT': '8 OCT 1993'},
-                     'I02': {'ID': 'I02',
-                             'DEAT': '16 JUN 1900'}}
-							 
-							 
-		test1 = GEDCOM_Project.checkMarriageBeforeDeath(test1DictFam, test1DictInd) 
-		test2 = GEDCOM_Project.checkMarriageBeforeDeath(test2DictFam, test2DictInd) #no one has the same bday and name
-		test3 = GEDCOM_Project.checkMarriageBeforeDeath(test3DictFam, test3DictInd) #name and bday both match
-		
-		
-		self.assertTrue(test1) #No DIvorce, True
-		self.assertFalse(test2) #Marriage before Divorce TRUE
-		self.assertFalse(test3) #Marriage after divorce FALSE
+
+        testDictFam = {'F01' : {'MARR': '13 MAY 1986', 'HUSB': 'I01', 'WIFE': 'I02'}}
+        test1DictInd = {'I01': {'ID': 'I01','DEAT': '8 OCT 1993'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1993'}}
+        test2DictInd = {'I01': {'ID': 'I01','DEAT': '8 OCT 1900'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1993'}}
+        test3DictInd = {'I01': {'ID': 'I01','DEAT': '8 OCT 1993'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1900'}}
+        test4DictInd = {}
+        test5DictInd = {'I01': {'ID': 'I01','DEAT': '8 OCT 1900'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1900'}}
+        test6DictInd = {'I01': {'ID': 'I01'},
+                        'I02': {'ID': 'I02'}}
+        
+
+        test1 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test1DictInd) #deaths after marriage
+        test2 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test2DictInd) #husb death before, wife after marriage
+        test3 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test3DictInd) #husb death after, wife before marriage
+        test4 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test4DictInd) #empty dict
+        test5 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test5DictInd) #both husb and wife died before marriage
+        test6 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test6DictInd) #both husb and wife still alive
+
+        self.assertTrue(test1) #True
+        self.assertFalse(test2) #False
+        self.assertFalse(test3) #False
+        self.assertTrue(test4) #True
+        self.assertFalse(test5) #False
+        self.assertTrue(test6) #True
+
 
     # US24 - Tests checkUniqueFamiliesBySpouses function
     # Tests if there exists more than one family with the same spouses by name and marriage date
