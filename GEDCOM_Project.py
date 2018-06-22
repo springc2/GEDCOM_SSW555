@@ -1,7 +1,7 @@
 """
 Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
-6/17/2018
+6/24/2018
 Description: 
     Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
 """
@@ -52,7 +52,6 @@ def main():
             if(len(invalidLines) > 0):
                 #print 'Invalid GEDCOM format on lines:', invalidLines
                 F.write('The following lines had an invalid format: ' + str(invalidLines) + '\n')
-            
             #next we want to check for errors and anomalies
             additionalChecking()
             F.write('\n') #spacing to make the output file easier to read
@@ -150,12 +149,15 @@ def printIndividuals(indi):
     pt = PrettyTable()
     pt.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']
     for k, v in indi.iteritems():
-        #get age
-        age = getAge([v['BIRT']])
         #check if they are still living
         alive = True
         if (v.get('DEAT', 'NA') != 'NA'):
             alive = False
+        #get age
+        if(alive):
+            age = getAgeAlive([v['BIRT']])
+        else:
+            age = getAgeDead([v['BIRT']], [v['DEAT']])
         pt.add_row([v['ID'], v['NAME'], v['SEX'], v['BIRT'], age, alive, v.get('DEAT', 'NA'), v.get('FAMC', 'NA'), v.get('FAMS', 'NA')])
     F.write('Individuals:\n')
     F.write(str(pt) + '\n')
@@ -170,9 +172,10 @@ def printFamilies(fam):
     F.write('Families:\n')
     F.write(str(pt) + '\n')
 
-#returns the age of an individual given their birthdate
+#this function is only for individuals who are alive
+#returns the age of an individual given their birthdate based on today's date
 #dates are in the format <day month year>
-def getAge(birthDate):
+def getAgeAlive(birthDate):
     today = date.today()
     bDate = birthDate[0].split() #parse the birthday
     birthDay = int(bDate[0])
@@ -196,6 +199,41 @@ def getAge(birthDate):
         F.write('Unexpected error with birthdate!\n')
     birthYear = int(bDate[2])
     return today.year - birthYear - ((today.month, today.day) < (birthMonth, birthDay))
+
+#this function is only for individuals who are dead
+#returns the age of an individual given their birthdate based on their death date
+#dates are in the format <day month year>
+def getAgeDead(birthDate, deathDate):
+    dDate = deathDate[0].split() #parse the deathday
+    deathDay = int(dDate[0])
+    
+    bDate = birthDate[0].split() #parse the birthday
+    birthDay = int(bDate[0])
+    months = {
+            'JAN': 1,
+            'FEB': 2,
+            'MAR': 3,
+            'APR': 4,
+            'MAY': 5,
+            'JUN': 6,
+            'JUL': 7,
+            'AUG': 8,
+            'SEP': 9,
+            'OCT': 10,
+            'NOV': 11,
+            'DEC': 12,
+            }
+    if (dDate[1] in months):
+        deathMonth = months[dDate[1]]
+    else:
+        F.write('Unexpected error with deathdate!\n')
+    if (bDate[1] in months):
+        birthMonth = months[bDate[1]]
+    else:
+        F.write('Unexpected error with birthdate!\n')
+    deathYear = int(dDate[2])
+    birthYear = int(bDate[2])
+    return deathYear - birthYear - ((deathMonth, deathDay) < (birthMonth, birthDay))
 
 #returns the a formatted string representation of a date
 #input dates are in the format <day month year>
@@ -269,12 +307,12 @@ def isSpecialCase(pLine):
 #so this function will not recheck for errors that have already been covered earlier in the program
 def additionalChecking():
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
-    checkUniqueFamiliesBySpouses() #User Story 24
-    checkUniqueFirstNamesInFamilies() #User Story 25
+    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
+    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
-    checkMarriageBeforeDivorce() #User Story 04
-    checkMarriageBeforeDeath() #User Story 05
+    checkMarriageBeforeDivorce(FAMILIES) #User Story 04
+    checkMarriageBeforeDeath(FAMILIES,INDIVIDUALS) #User Story 05
 
 #Checks User Story 02:
 #Birth should occur before marriage of an individual
@@ -319,7 +357,7 @@ def checkBirthBeforeMarriage(indi, fam):
 def checkBirthBeforeDeath(indi):
     passesCheck = True
 
-     #loop over all stored individuals
+    #loop over all stored individuals
     for k, v in indi.iteritems():
         indi_id = v['ID']
         indi_name = v['NAME']
@@ -341,16 +379,41 @@ def checkBirthBeforeDeath(indi):
 #Marriage should occur before divorce of spouses, and divorce can only occur after marriage
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageBeforeDivorce():
+def checkMarriageBeforeDivorce(fam):
     passesCheck = True
+    
+    for k, v in fam.iteritems():
+        if v.get('DIV') is None:
+            continue
+        coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
+        coupleDivorceDate = time.strptime(v['DIV'], '%d %b %Y')
+
+        if coupleDivorceDate < coupleMarriageDate:
+            passesCheck = False
+            F.write('Error US04: Family[' + k +'] has divorce before marriage.\n')
+        
     return passesCheck
 
 #Checks User Story 05:
 #Marriage should occur before death of either spouse
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageBeforeDeath():
+def checkMarriageBeforeDeath(fam, ind):
     passesCheck = True
+
+    for k, v in fam.iteritems():
+        coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
+        if(ind):
+            if ind[v['HUSB']].get('DEAT') is not None:
+                husbandDeathDate = time.strptime(ind[v['HUSB']]['DEAT'], '%d %b %Y')
+                if coupleMarriageDate > husbandDeathDate:
+                    passesCheck = False
+                    F.write('Error US05: Family[' + k +'] has death before marriage date for husband ['+v['HUSB']+ '].\n')
+            if ind[v['WIFE']].get('DEAT') is not None:
+                wifeDeathDate = time.strptime(ind[v['WIFE']]['DEAT'], '%d %b %Y')
+                if coupleMarriageDate > wifeDeathDate:
+                    passesCheck = False
+                    F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')
     return passesCheck
 
 #Checks User Story 22:
@@ -407,17 +470,42 @@ def checkUniqueNameAndBirthDate(indi):
 #No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkUniqueFamiliesBySpouses():
+def checkUniqueFamiliesBySpouses(fam):
     passesCheck = True
+    famIDs = []
+    marHusWife = []
+
+    if(fam):
+        for k,v in fam.iteritems():         # Iterates through the dictionary and appends values into array
+            s = (v['MARR'] + ' ' + v['HUSB'] + ' ' + v['WIFE'])
+            if(s in marHusWife):
+                i = marHusWife.index(s)
+                passesCheck = False
+                F.write('Error US24: Family (' + k + ') has same spouses and marriage date as family (' + famIDs[i] + ').\n')
+            else:
+                famIDs.append(k)
+                marHusWife.append(s)
     return passesCheck
     
 #Checks User Story 25:
 #No more than one child with the same name and birth date should appear in a family
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkUniqueFirstNamesInFamilies():
+def checkUniqueFirstNamesInFamilies(indi, fam):
     passesCheck = True
+    if(fam):
+        for k, v in fam.iteritems():
+            childrenArr = []
+            if('CHIL' in v.keys()):
+                for childId in v['CHIL']:
+                    s = indi[childId]['NAME'] + ' ' + indi[childId]['BIRT']
+                    if(s in childrenArr):
+                        F.write('Error US25: Family (' + k + ') child ' + indi[childId]['NAME'] + ' shares a name and birthday. \n')
+                        passesCheck = False
+                    else:
+                        childrenArr.append(s)
     return passesCheck
+
 
 if __name__ == '__main__':
     main() #call to main function
