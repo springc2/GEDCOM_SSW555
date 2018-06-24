@@ -10,6 +10,7 @@ Description:
 import collections
 import time
 from prettytable import PrettyTable
+import datetime
 from datetime import date
 
 #global variables
@@ -263,6 +264,42 @@ def getFormattedDateString(date):
 
     return dateString
 
+#returns a date to compare to the current date
+#input dates are in the format <day month year>
+def getFormattedDateForCompare(date):
+    _date = date.split() #parse the date
+    
+    workingDay = int(_date[0])    
+    workingYear = int(_date[2])
+    
+    if (_date[1] == 'JAN'):
+        workingMonth = 1
+    elif (_date[1] == 'FEB'):
+        workingMonth = 2
+    elif (_date[1] == 'MAR'):
+        workingMonth = 3
+    elif (_date[1] == 'APR'):
+        workingMonth = 4
+    elif (_date[1] == 'MAY'):
+        workingMonth = 5
+    elif (_date[1] == 'JUN'):
+        workingMonth = 6
+    elif (_date[1] == 'JUL'):
+        workingMonth = 7
+    elif (_date[1] == 'AUG'):
+        workingMonth = 8
+    elif (_date[1] == 'SEP'):
+        workingMonth = 9
+    elif (_date[1] == 'OCT'):
+        workingMonth = 10
+    elif (_date[1] == 'NOV'):
+        workingMonth = 11
+    else:
+        workingMonth = 12
+    
+    workingDate = datetime.date(workingYear, workingMonth, workingDay)
+    return workingDate
+
 #returns true if the line is in the correct format
 #returns false otherwise
 def isValid(pLine):    
@@ -306,13 +343,67 @@ def isSpecialCase(pLine):
 #note that some error checking happens while the information is being stored, 
 #so this function will not recheck for errors that have already been covered earlier in the program
 def additionalChecking():
-    checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
-    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
-    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
+    checkDatesBeforeCurrentDate(INDIVIDUALS, FAMILIES) #User Story 01
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
     checkMarriageBeforeDeath(FAMILIES,INDIVIDUALS) #User Story 05
+    checkDivorceBeforeDeath() #User Story 06
+    checkLessThan150YearsOld() #User Story 07
+    checkBirthBeforeMarriageOfParents() #User Story 08
+    checkBirthBeforeDeathOfParents() #User Story 09
+    checkMarriageAfter14() #User Story 10
+    checkParentsNotTooOld() #User Story 12
+    checkFewerThan15Siblings() #User Story 15
+    checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
+    checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
+    checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
+
+#Checks User Story 01:
+#Dates (birth, marriage, divorce, death) should not be after the current date
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkDatesBeforeCurrentDate(indi, fam):
+    passesCheck = True
+    
+    currentDate = date.today() #today's date
+
+    #look at the birth and death dates for individuals
+    if(indi):
+        for k, v in indi.iteritems():
+            #looking at the birthdate if there is one
+            if (v.get('BIRT', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['BIRT'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a birth date after the current date.\n')
+
+            #looking at the deathdate if there is one
+            if (v.get('DEAT', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['DEAT'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a death date after the current date.\n')
+
+    #look at the marr and div dates for families
+    if(fam):
+        for k, v in fam.iteritems():
+            #looking at the marriage date if there is one
+            if (v.get('MARR', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['MARR'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Family ' + v.get('ID', 'NA') + ' has a marriage date after the current date.\n')
+
+            #looking at the divorce if there is one
+            if (v.get('DIV', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['DIV'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Family ' + v.get('ID', 'NA') + ' has a divorce date after the current date.\n')
+
+
+    return passesCheck
 
 #Checks User Story 02:
 #Birth should occur before marriage of an individual
@@ -414,6 +505,62 @@ def checkMarriageBeforeDeath(fam, ind):
                 if coupleMarriageDate > wifeDeathDate:
                     passesCheck = False
                     F.write('Error US05: Family[' + k +'] has death before marriage date for wife ['+v['WIFE']+ '].\n')
+    return passesCheck
+
+#Checks User Story 06:
+#Divorce can only occur before death of both spouses
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkDivorceBeforeDeath():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 07:
+#Death should be less than 150 years after birth for dead people, and current date should be less than 150 years after birth for all living people
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkLessThan150YearsOld():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 08:
+#Children should be born after marriage of parents (and not more than 9 months after their divorce)
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeMarriageOfParents():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 09:
+#Child should be born before death of mother and before 9 months after death of father
+#This is considered an Error
+#Returns True if the check is passed, and False if the check is failed
+def checkBirthBeforeDeathOfParents():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 10:
+#Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkMarriageAfter14():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 12:
+#Mother should be less than 60 years older than her children and father should be less than 80 years older than his children
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkParentsNotTooOld():
+    passesCheck = True
+    return passesCheck
+
+#Checks User Story 15:
+#There should be fewer than 15 siblings in a family
+#This is considered an Anomaly
+#Returns True if the check is passed, and False if the check is failed
+def checkFewerThan15Siblings():
+    passesCheck = True
     return passesCheck
 
 #Checks User Story 22:
