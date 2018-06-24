@@ -8,13 +8,120 @@ Description:
 
 import unittest
 import GEDCOM_Project
+from datetime import date
 
 class TestGEDCOM_Project(unittest.TestCase):
     
     #US01 - test the checkDatesBeforeCurrentDate function
     def test_checkDatesBeforeCurrentDate(self):
-        test1 = True
-        self.assertTrue(test1)
+        currentDate = date.today() #today's date
+        
+        if (currentDate.month == 1):
+            currMonth = 'JAN'
+        elif (currentDate.month == 2):
+            currMonth = 'FEB'
+        elif (currentDate.month == 3):
+            currMonth = 'MAR'
+        elif (currentDate.month == 4):
+            currMonth = 'APR'
+        elif (currentDate.month == 5):
+            currMonth = 'MAY'
+        elif (currentDate.month == 6):
+            currMonth = 'JUN'
+        elif (currentDate.month == 7):
+            currMonth = 'JUL'
+        elif (currentDate.month == 8):
+            currMonth = 'AUG'
+        elif (currentDate.month == 9):
+            currMonth = 'SEP'
+        elif (currentDate.month == 10):
+            currMonth = 'OCT'
+        elif (currentDate.month == 11):
+            currMonth = 'NOV'
+        else:
+            currMonth = 'DEC'
+        
+        currdate = str(currentDate.day) + ' ' + currMonth + ' ' + str(currentDate.year)
+        
+        emptyIndiDict = {}
+        emptyFamDict = {}
+        
+        test2IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976'}}
+        test3IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 3000'}}
+        test4IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': currdate}}
+        test5IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': '11 OCT 1996'}}
+        test6IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': '11 OCT 3000'}}
+        test7IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': currdate}}
+        test8FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test9FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 3000',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test10FamDict = {'F01': {'ID': 'F01',
+                                'MARR': currdate,
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test11FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': '10 OCT 1977',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test12FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': '10 OCT 3000',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test13FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': currdate,
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        
+        test1 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, emptyFamDict) #empty dictionary check
+        test2 = GEDCOM_Project.checkDatesBeforeCurrentDate(test2IndiDict, emptyFamDict) #birthday is before current date
+        test3 = GEDCOM_Project.checkDatesBeforeCurrentDate(test3IndiDict, emptyFamDict) #birthday is after current date
+        test4 = GEDCOM_Project.checkDatesBeforeCurrentDate(test4IndiDict, emptyFamDict) #birthday is on current date
+        test5 = GEDCOM_Project.checkDatesBeforeCurrentDate(test5IndiDict, emptyFamDict) #death is before current date
+        test6 = GEDCOM_Project.checkDatesBeforeCurrentDate(test6IndiDict, emptyFamDict) #death is after current date
+        test7 = GEDCOM_Project.checkDatesBeforeCurrentDate(test7IndiDict, emptyFamDict) #death is on current date
+        test8 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test8FamDict) #marr is before current date
+        test9 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test9FamDict) #marr is after current date
+        test10 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test10FamDict) #marr is on current date
+        test11 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test11FamDict) #div is before current date
+        test12 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test12FamDict) #div is after current date
+        test13 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test13FamDict) #div is on current date
+        
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertFalse(test3) #False
+        self.assertTrue(test4) #True (current date is supposed to pass)
+        self.assertTrue(test5) #True
+        self.assertFalse(test6) #False
+        self.assertTrue(test7) #True (current date is supposed to pass)
+        self.assertTrue(test8) #True
+        self.assertFalse(test9) #False
+        self.assertTrue(test10) #True (current date is supposed to pass)
+        self.assertTrue(test11) #True
+        self.assertFalse(test12) #False
+        self.assertTrue(test13) #True (current date is supposed to pass)
 
     #US02 - test the checkBirthBeforeMarriage function
     def test_checkBirthBeforeMarriage(self):
