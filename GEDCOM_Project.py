@@ -10,6 +10,7 @@ Description:
 import collections
 import time
 from prettytable import PrettyTable
+import datetime
 from datetime import date
 
 #global variables
@@ -263,6 +264,42 @@ def getFormattedDateString(date):
 
     return dateString
 
+#returns a date to compare to the current date
+#input dates are in the format <day month year>
+def getFormattedDateForCompare(date):
+    _date = date.split() #parse the date
+    
+    workingDay = int(_date[0])    
+    workingYear = int(_date[2])
+    
+    if (_date[1] == 'JAN'):
+        workingMonth = 1
+    elif (_date[1] == 'FEB'):
+        workingMonth = 2
+    elif (_date[1] == 'MAR'):
+        workingMonth = 3
+    elif (_date[1] == 'APR'):
+        workingMonth = 4
+    elif (_date[1] == 'MAY'):
+        workingMonth = 5
+    elif (_date[1] == 'JUN'):
+        workingMonth = 6
+    elif (_date[1] == 'JUL'):
+        workingMonth = 7
+    elif (_date[1] == 'AUG'):
+        workingMonth = 8
+    elif (_date[1] == 'SEP'):
+        workingMonth = 9
+    elif (_date[1] == 'OCT'):
+        workingMonth = 10
+    elif (_date[1] == 'NOV'):
+        workingMonth = 11
+    else:
+        workingMonth = 12
+    
+    workingDate = datetime.date(workingYear, workingMonth, workingDay)
+    return workingDate
+
 #returns true if the line is in the correct format
 #returns false otherwise
 def isValid(pLine):    
@@ -306,7 +343,7 @@ def isSpecialCase(pLine):
 #note that some error checking happens while the information is being stored, 
 #so this function will not recheck for errors that have already been covered earlier in the program
 def additionalChecking():
-    checkDatesBeforeCurrentDate() #User Story 01
+    checkDatesBeforeCurrentDate(INDIVIDUALS, FAMILIES) #User Story 01
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
@@ -326,8 +363,46 @@ def additionalChecking():
 #Dates (birth, marriage, divorce, death) should not be after the current date
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkDatesBeforeCurrentDate():
+def checkDatesBeforeCurrentDate(indi, fam):
     passesCheck = True
+    
+    currentDate = date.today() #today's date
+
+    #look at the birth and death dates for individuals
+    if(indi):
+        for k, v in indi.iteritems():
+            #looking at the birthdate if there is one
+            if (v.get('BIRT', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['BIRT'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a birth date after the current date.\n')
+
+            #looking at the deathdate if there is one
+            if (v.get('DEAT', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['DEAT'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a death date after the current date.\n')
+
+    #look at the marr and div dates for families
+    if(fam):
+        for k, v in fam.iteritems():
+            #looking at the marriage date if there is one
+            if (v.get('MARR', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['MARR'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Family ' + v.get('ID', 'NA') + ' has a marriage date after the current date.\n')
+
+            #looking at the divorce if there is one
+            if (v.get('DIV', 'NA') != 'NA'):
+                workingDate = getFormattedDateForCompare(v['DIV'])
+                if (workingDate > currentDate):
+                    passesCheck = False
+                    F.write('Error US01: Family ' + v.get('ID', 'NA') + ' has a divorce date after the current date.\n')
+
+
     return passesCheck
 
 #Checks User Story 02:
