@@ -11,6 +11,8 @@ import collections
 import time
 from prettytable import PrettyTable
 from datetime import date
+from dateutil.relativedelta import relativedelta
+import datetime
 
 #global variables
 INPUT_FILE = 'GEDCOM_Input.ged' #input file
@@ -310,11 +312,11 @@ def additionalChecking():
     checkBirthBeforeMarriage(INDIVIDUALS, FAMILIES) #User Story 02
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
-    checkMarriageBeforeDeath(FAMILIES,INDIVIDUALS) #User Story 05
+    checkMarriageBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 05
     checkDivorceBeforeDeath() #User Story 06
     checkLessThan150YearsOld() #User Story 07
-    checkBirthBeforeMarriageOfParents() #User Story 08
-    checkBirthBeforeDeathOfParents() #User Story 09
+    checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
+    checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
     checkMarriageAfter14() #User Story 10
     checkParentsNotTooOld() #User Story 12
     checkFewerThan15Siblings() #User Story 15
@@ -414,7 +416,7 @@ def checkMarriageBeforeDivorce(fam):
 #Marriage should occur before death of either spouse
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageBeforeDeath(fam, ind):
+def checkMarriageBeforeDeath(ind, fam):
     passesCheck = True
 
     for k, v in fam.iteritems():
@@ -452,15 +454,39 @@ def checkLessThan150YearsOld():
 #Children should be born after marriage of parents (and not more than 9 months after their divorce)
 #This is considered an Anomaly
 #Returns True if the check is passed, and False if the check is failed
-def checkBirthBeforeMarriageOfParents():
+def checkBirthBeforeMarriageOfParents(indi, fam):
     passesCheck = True
+
+    for k, v in fam.iteritems():
+        #check against marr date if there is one
+        if (v.get('MARR', 'NA') != 'NA' and v.get('CHIL', 'NA') != 'NA'):
+            coupleMarriageDate = datetime.datetime.strptime(v['MARR'], '%d %b %Y').date()
+            #loop over all children
+            for i in range(0, len(v['CHIL'])):
+                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                if coupleMarriageDate >= childAge:
+                    F.write('Anomaly US08: Individual[' + indi[v['CHIL'][i]].get('ID') + '] was born before marriage in Family[' + k +'].\n')
+                    passesCheck = False
+
+        #check against div date if there is one
+        if (v.get('DIV', 'NA') != 'NA' and v.get('CHIL', 'NA') != 'NA'):
+            coupleDivorceDate = datetime.datetime.strptime(v['DIV'], '%d %b %Y').date()
+            #get the +9 months date for compairson
+            plus9MonthDivDate = coupleDivorceDate + relativedelta(months=9)
+            #loop over all children
+            for i in range(0, len(v['CHIL'])):
+                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                if plus9MonthDivDate < childAge:
+                    F.write('Anomaly US08: Individual[' + indi[v['CHIL'][i]].get('ID') + '] was born more than 9 months after divorce in Family[' + k +'].\n')
+                    passesCheck = False
+
     return passesCheck
 
 #Checks User Story 09:
 #Child should be born before death of mother and before 9 months after death of father
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkBirthBeforeDeathOfParents():
+def checkBirthBeforeDeathOfParents(indi, fam):
     passesCheck = True
     return passesCheck
 
