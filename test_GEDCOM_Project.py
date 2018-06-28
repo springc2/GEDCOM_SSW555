@@ -8,13 +8,120 @@ Tests for the GEDCOM_Project.py file
 
 import unittest
 import GEDCOM_Project
+from datetime import date
 
 class TestGEDCOM_Project(unittest.TestCase):
     
     #US01 - test the checkDatesBeforeCurrentDate function
     def test_checkDatesBeforeCurrentDate(self):
-        test1 = True
-        self.assertTrue(test1)
+        currentDate = date.today() #today's date
+        
+        if (currentDate.month == 1):
+            currMonth = 'JAN'
+        elif (currentDate.month == 2):
+            currMonth = 'FEB'
+        elif (currentDate.month == 3):
+            currMonth = 'MAR'
+        elif (currentDate.month == 4):
+            currMonth = 'APR'
+        elif (currentDate.month == 5):
+            currMonth = 'MAY'
+        elif (currentDate.month == 6):
+            currMonth = 'JUN'
+        elif (currentDate.month == 7):
+            currMonth = 'JUL'
+        elif (currentDate.month == 8):
+            currMonth = 'AUG'
+        elif (currentDate.month == 9):
+            currMonth = 'SEP'
+        elif (currentDate.month == 10):
+            currMonth = 'OCT'
+        elif (currentDate.month == 11):
+            currMonth = 'NOV'
+        else:
+            currMonth = 'DEC'
+        
+        currdate = str(currentDate.day) + ' ' + currMonth + ' ' + str(currentDate.year)
+        
+        emptyIndiDict = {}
+        emptyFamDict = {}
+        
+        test2IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976'}}
+        test3IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 3000'}}
+        test4IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': currdate}}
+        test5IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': '11 OCT 1996'}}
+        test6IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': '11 OCT 3000'}}
+        test7IndiDict = {'I01': {'ID': 'I01',
+                                 'NAME': 'John Doe',
+                                 'BIRT': '12 MAY 1976',
+                                 'DEAT': currdate}}
+        test8FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test9FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 3000',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test10FamDict = {'F01': {'ID': 'F01',
+                                'MARR': currdate,
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test11FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': '10 OCT 1977',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test12FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': '10 OCT 3000',
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        test13FamDict = {'F01': {'ID': 'F01',
+                                'MARR': '12 MAY 1976',
+                                'DIV': currdate,
+                                'HUSB': 'I01',
+                                'WIFE': 'I02'}}
+        
+        test1 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, emptyFamDict) #empty dictionary check
+        test2 = GEDCOM_Project.checkDatesBeforeCurrentDate(test2IndiDict, emptyFamDict) #birthday is before current date
+        test3 = GEDCOM_Project.checkDatesBeforeCurrentDate(test3IndiDict, emptyFamDict) #birthday is after current date
+        test4 = GEDCOM_Project.checkDatesBeforeCurrentDate(test4IndiDict, emptyFamDict) #birthday is on current date
+        test5 = GEDCOM_Project.checkDatesBeforeCurrentDate(test5IndiDict, emptyFamDict) #death is before current date
+        test6 = GEDCOM_Project.checkDatesBeforeCurrentDate(test6IndiDict, emptyFamDict) #death is after current date
+        test7 = GEDCOM_Project.checkDatesBeforeCurrentDate(test7IndiDict, emptyFamDict) #death is on current date
+        test8 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test8FamDict) #marr is before current date
+        test9 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test9FamDict) #marr is after current date
+        test10 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test10FamDict) #marr is on current date
+        test11 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test11FamDict) #div is before current date
+        test12 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test12FamDict) #div is after current date
+        test13 = GEDCOM_Project.checkDatesBeforeCurrentDate(emptyIndiDict, test13FamDict) #div is on current date
+        
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertFalse(test3) #False
+        self.assertTrue(test4) #True (current date is supposed to pass)
+        self.assertTrue(test5) #True
+        self.assertFalse(test6) #False
+        self.assertTrue(test7) #True (current date is supposed to pass)
+        self.assertTrue(test8) #True
+        self.assertFalse(test9) #False
+        self.assertTrue(test10) #True (current date is supposed to pass)
+        self.assertTrue(test11) #True
+        self.assertFalse(test12) #False
+        self.assertTrue(test13) #True (current date is supposed to pass)
 
     #US02 - test the checkBirthBeforeMarriage function
     def test_checkBirthBeforeMarriage(self):
@@ -183,12 +290,12 @@ class TestGEDCOM_Project(unittest.TestCase):
                         'I02': {'ID': 'I02'}}
         
 
-        test1 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test1DictInd) #deaths after marriage
-        test2 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test2DictInd) #husb death before, wife after marriage
-        test3 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test3DictInd) #husb death after, wife before marriage
-        test4 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test4DictInd) #empty dict
-        test5 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test5DictInd) #both husb and wife died before marriage
-        test6 = GEDCOM_Project.checkMarriageBeforeDeath(testDictFam, test6DictInd) #both husb and wife still alive
+        test1 = GEDCOM_Project.checkMarriageBeforeDeath(test1DictInd, testDictFam) #deaths after marriage
+        test2 = GEDCOM_Project.checkMarriageBeforeDeath(test2DictInd, testDictFam) #husb death before, wife after marriage
+        test3 = GEDCOM_Project.checkMarriageBeforeDeath(test3DictInd, testDictFam) #husb death after, wife before marriage
+        test4 = GEDCOM_Project.checkMarriageBeforeDeath(test4DictInd, testDictFam) #empty dict
+        test5 = GEDCOM_Project.checkMarriageBeforeDeath(test5DictInd, testDictFam) #both husb and wife died before marriage
+        test6 = GEDCOM_Project.checkMarriageBeforeDeath(test6DictInd, testDictFam) #both husb and wife still alive
 
         self.assertTrue(test1) #True
         self.assertFalse(test2) #False
@@ -252,13 +359,259 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     #US08 - test the checkBirthBeforeMarriageOfParents function
     def test_checkBirthBeforeMarriageOfParents(self):
-        test1 = True
-        self.assertTrue(test1)
+        
+        emptyDictFam = {}
+        testDictFam = {'F01' : {'MARR': '13 MAY 1986', 
+                                'DIV' : '20 MAY 2012',
+                                'HUSB': 'I01', 
+                                'WIFE': 'I02',
+                                'CHIL': ['I03']}}
+        testDictFam['F01']['CHIL'].append('I04') #adding I04 to the family
+        
+        emptyDictInd = {}
+        test2DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 MAY 1996',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 2012',
+                                'FAMC': 'F01'}}
+        test3DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '10 MAY 1986',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '13 MAY 1996',
+                                'FAMC': 'F01'}}
+        test4DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '10 MAY 1986',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '11 MAY 1986',
+                                'FAMC': 'F01'}}
+        test5DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 MAY 1986',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '22 MAY 1996',
+                                'FAMC': 'F01'}}
+        test6DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 MAY 1996',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 2020',
+                                'FAMC': 'F01'}}
+        test7DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '25 MAY 2020',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '20 FEB 2020',
+                                'FAMC': 'F01'}}
+        test8DictInd = {'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '25 MAY 2000',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '20 FEB 2013',
+                                'FAMC': 'F01'}}
+
+        test1 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(emptyDictInd, emptyDictFam) #empty dicts
+        test2 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test2DictInd, testDictFam) #both children born after marr (and within 9 months of div)
+        test3 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test3DictInd, testDictFam) #one child born before marr
+        test4 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test4DictInd, testDictFam) #both children born before marr
+        test5 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test5DictInd, testDictFam) #one child born on date of marr (still false)
+        test6 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test6DictInd, testDictFam) #one child born after 9 months of div
+        test7 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test7DictInd, testDictFam) #both child born after 9 months of div
+        test8 = GEDCOM_Project.checkBirthBeforeMarriageOfParents(test8DictInd, testDictFam) #one child born 9 months after div
+
+
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertFalse(test3) #False
+        self.assertFalse(test4) #False
+        self.assertFalse(test5) #False
+        self.assertFalse(test6) #False
+        self.assertFalse(test7) #False
+        self.assertTrue(test8) #True
 
     #US09 - test the checkBirthBeforeDeathOfParents function
     def test_checkBirthBeforeDeathOfParents(self):
-        test1 = True
-        self.assertTrue(test1)
+        emptyDictFam = {}
+        testDictFam = {'F01' : {'MARR': '13 MAY 1986', 
+                                'HUSB': 'I01', 
+                                'WIFE': 'I02',
+                                'CHIL': ['I03']}}
+        testDictFam['F01']['CHIL'].append('I04') #adding I04 to the family
+        
+        emptyDictInd = {}
+        test2DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 MAY 1996',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test3DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'DEAT': '15 NOV 2031',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 MAY 1996',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test4DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '14 DEC 2035',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test5DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '14 DEC 2035',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '15 DEC 2036',
+                                'FAMC': 'F01'}}
+        test6DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 DEC 2035',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test7DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '14 FEB 2036',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test8DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '14 FEB 2037',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        test9DictInd = {'I01': {'ID': 'I01',
+                                'NAME': 'Ed Doe',
+                                'BIRT': '10 OCT 1970',
+                                'DEAT': '13 DEC 2035',
+                                'FAMS': 'F01'},
+                        'I02': {'ID': 'I02',
+                                'NAME': 'Karen Doe',
+                                'BIRT': '16 JUN 1971',
+                                'FAMS': 'F01'},
+                        'I03': {'ID': 'I03',
+                                'NAME': 'John Doe',
+                                'BIRT': '13 SEP 2036',
+                                'FAMC': 'F01'},
+                        'I04': {'ID': 'I04',
+                                'NAME': 'Jane Doe',
+                                'BIRT': '25 MAY 1998',
+                                'FAMC': 'F01'}}
+        
+        test1 = GEDCOM_Project.checkBirthBeforeDeathOfParents(emptyDictInd, emptyDictFam) #empty dicts
+        test2 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test2DictInd, testDictFam) #parents are alive
+        test3 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test3DictInd, testDictFam) #both kids are born well before their parents deaths
+        test4 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test4DictInd, testDictFam) #one kid is born after mother's death date
+        test5 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test5DictInd, testDictFam) #both kids are born after mother's death date
+        test6 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test6DictInd, testDictFam) #one kid is born on the date of his mothers death
+        test7 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test7DictInd, testDictFam) #one kid is born after -9months of father's death date
+        test7 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test7DictInd, testDictFam) #one kid is born after father's death, but not more than 9 months after
+        test8 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test8DictInd, testDictFam) #one kid is born after +9months of father's death
+        test9 = GEDCOM_Project.checkBirthBeforeDeathOfParents(test9DictInd, testDictFam) #one kid is born on the +9months date of father's death
+
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertTrue(test3) #True
+        self.assertFalse(test4) #False
+        self.assertFalse(test5) #False
+        self.assertFalse(test6) #False
+        self.assertTrue(test7) #True
+        self.assertFalse(test8) #False
+        self.assertFalse(test9) #False
 
     #US10 - test the checkMarriageAfter14 function
     def test_checkMarriageAfter14(self):
