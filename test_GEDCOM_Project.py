@@ -407,6 +407,55 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test5)  # False
 
 
+# Michael Macari
+    # US12 test to check that mother and father aren't too old
+    def test_checkParentsNotTooOld(self):
+        test1fam = {}
+        test1ind = {}
+
+        test2fam = {'F01': {'HUSB': 'I01',
+                            'WIFE': 'I02',
+                            'CHIL': ['I03', 'I04']}}
+        test2ind = {'I01': {'BIRT': '01 JAN 1920'},
+                    'I02': {'BIRT': '01 JAN 1930'},
+                    'I03': {'BIRT': '02 FEB 1952'},
+                    'I04': {'BIRT': '02 FEB 1953'}}
+        test3fam = {'F01': {'HUSB': 'I01',
+                            'WIFE': 'I02',
+                            'CHIL': ['I03', 'I04']}}
+        test3ind = {'I01': {'BIRT': '01 JAN 1920'},
+                    'I02': {'BIRT': '01 JAN 1930'},
+                    'I03': {'BIRT': '02 FEB 1990'},
+                    'I04': {'BIRT': '02 FEB 1953'}}
+        test4fam = {'F02': {'HUSB': 'I01',
+                            'WIFE': 'I02',
+                            'CHIL': ['I03', 'I04']}}
+        test4ind = {'I01': {'BIRT': '01 JAN 1910'},
+                    'I02': {'BIRT': '01 JAN 1950'},
+                    'I03': {'BIRT': '02 FEB 2000'},
+                    'I04': {'BIRT': '02 FEB 1953'}}
+        test5fam = {'F01': {'HUSB': 'I01',
+                            'WIFE': 'I02',
+                            'CHIL': ['I03', 'I04']}}
+        test5ind = {'I01': {'BIRT': '01 JAN 1920'},
+                    'I02': {'BIRT': '01 JAN 1930'},
+                    'I03': {'BIRT': '02 FEB 1931'},
+                    'I04': {'BIRT': '02 FEB 2014'}}
+
+
+        test1 = GEDCOM_Project.checkParentsNotTooOld(test1fam, test1ind)    # Empty family and individuals, should pass true
+        test2 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test2ind)    # Neither parent is too old, should pass true
+        test3 = GEDCOM_Project.checkParentsNotTooOld(test3fam, test3ind)    # Just the mom is too old
+        test4 = GEDCOM_Project.checkParentsNotTooOld(test4fam, test4ind)    # Just the dad is too old
+        test5 = GEDCOM_Project.checkParentsNotTooOld(test5fam, test5ind)    # Both parents are too old
+
+        self.assertTrue(test1)  # True
+        self.assertTrue(test2)  # True
+        self.assertFalse(test3) # False
+        self.assertFalse(test4) # False
+        self.assertFalse(test5) # False
+
+
 if __name__ == '__main__':
    resultFile = 'Test_Results.txt'
    try:
