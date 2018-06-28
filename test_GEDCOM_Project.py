@@ -229,26 +229,26 @@ class TestGEDCOM_Project(unittest.TestCase):
                             'BIRT': '19 JUN 1850',
                             'DEAT': '19 JUN 2000'}}
 
-        test8Dict = {'I01': {'ID': 'I01',
+        test7Dict = {'I01': {'ID': 'I01',
                             'NAME': 'John Doe',
                             'BIRT': '24 JUN 1868',
                             'DEAT': '24 JUN 2018'}}
         
-        test1 = GEDCOM_Project.checkBirthBeforeDeath(test1Dict) #Empty dic
-        test2 = GEDCOM_Project.checkBirthBeforeDeath(test2Dict) #Death more than 150 years after birth
-        test3 = GEDCOM_Project.checkBirthBeforeDeath(test3Dict) #Death less than 150 years after birth
-        test4 = GEDCOM_Project.checkBirthBeforeDeath(test4Dict) #Person is alive and birth more than 150 years ago
-        test5 = GEDCOM_Project.checkBirthBeforeDeath(test5Dict) #Person is alive and birth less than 150 years ago
-        test6 = GEDCOM_Project.checkBirthBeforeDeath(test6Dict) #Person died at 150 years old
-        test7 = GEDCOM_Project.checkBirthBeforeDeath(test7Dict) #Person is exactly 150 years old
+        test1 = GEDCOM_Project.checkLessThan150YearsOld(test1Dict) #Empty dic
+        test2 = GEDCOM_Project.checkLessThan150YearsOld(test2Dict) #Death more than 150 years after birth
+        test3 = GEDCOM_Project.checkLessThan150YearsOld(test3Dict) #Death less than 150 years after birth
+        test4 = GEDCOM_Project.checkLessThan150YearsOld(test4Dict) #Person is alive and birth more than 150 years ago
+        test5 = GEDCOM_Project.checkLessThan150YearsOld(test5Dict) #Person is alive and birth less than 150 years ago
+        test6 = GEDCOM_Project.checkLessThan150YearsOld(test6Dict) #Person died at 150 years old
+        test7 = GEDCOM_Project.checkLessThan150YearsOld(test7Dict) #Person is exactly 150 years old
         
         self.assertTrue(test1) #True
-        self.assertTrue(test2) #False
+        self.assertFalse(test2) #False
         self.assertTrue(test3) #True
-        self.assertTrue(test4) #False
+        self.assertFalse(test4) #False
         self.assertTrue(test5) #True
-        self.assertTrue(test6) #False
-        self.assertTrue(test7) #False
+        self.assertFalse(test6) #False
+        self.assertFalse(test7) #False
 
     #US08 - test the checkBirthBeforeMarriageOfParents function
     def test_checkBirthBeforeMarriageOfParents(self):

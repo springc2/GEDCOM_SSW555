@@ -444,7 +444,7 @@ def checkDivorceBeforeDeath():
 #Death should be less than 150 years after birth for dead people, and current date should be less than 150 years after birth for all living people
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkLessThan150YearsOld():
+def checkLessThan150YearsOld(indi):
     passesCheck = True
 
     for k, v in indi.iteritems():
@@ -463,7 +463,7 @@ def checkLessThan150YearsOld():
 
         if (age >= 150):
             #there was a match, so we must print out the info
-            F.write('Error US07: ' + indi_name + ' (' + indi_id + ') has age greater than 150 years.\n')
+            F.write('Error US07: ' + indi_name + ' (' + indi_id + ') is at least 150 years old.\n')
             passesCheck = False
 
     return passesCheck
