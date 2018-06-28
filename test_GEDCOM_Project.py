@@ -3,7 +3,7 @@ Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
 6/24/2018
 Description: 
-    Tests for the GEDCOM_Project.py file
+Tests for the GEDCOM_Project.py file
 """
 
 import unittest
@@ -252,12 +252,12 @@ class TestGEDCOM_Project(unittest.TestCase):
 
         test1Dict = {'F01' : {'MARR': '13 MAY 1986'}}
         test2Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1987'}}
-        test3Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1984'}}		
+        test3Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1984'}}     
         test4Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'},
                      'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1988'}}
         test5Dict = {'F01' : {'MARR': '13 MAY 1986', 'DIV': '13 MAY 1988'},
-                     'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1978'}}			
-        test6Dict = {}			 
+                     'F02' : {'MARR': '20 SEP 1986', 'DIV': '13 JUN 1978'}}         
+        test6Dict = {}           
 
         test1 = GEDCOM_Project.checkMarriageBeforeDivorce(test1Dict) #No divorce
         test2 = GEDCOM_Project.checkMarriageBeforeDivorce(test2Dict) #Marriage before divorce
@@ -311,8 +311,51 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     #US07 - test the checkLessThan150YearsOld function
     def test_checkLessThan150YearsOld(self):
-        test1 = True
-        self.assertTrue(test1)
+        test1Dict = {}
+
+        test2Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '19 JUN 1850',
+                            'DEAT': '15 AUG 2006'}}
+
+        test3Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '19 JUN 1906',
+                            'DEAT': '15 AUG 1986'}}
+
+        test4Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '12 MAY 1850'}}
+
+        test5Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '12 MAY 1950'}}
+
+        test6Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '19 JUN 1850',
+                            'DEAT': '19 JUN 2000'}}
+
+        test7Dict = {'I01': {'ID': 'I01',
+                            'NAME': 'John Doe',
+                            'BIRT': '24 JUN 1868',
+                            'DEAT': '24 JUN 2018'}}
+        
+        test1 = GEDCOM_Project.checkLessThan150YearsOld(test1Dict) #Empty dic
+        test2 = GEDCOM_Project.checkLessThan150YearsOld(test2Dict) #Death more than 150 years after birth
+        test3 = GEDCOM_Project.checkLessThan150YearsOld(test3Dict) #Death less than 150 years after birth
+        test4 = GEDCOM_Project.checkLessThan150YearsOld(test4Dict) #Person is alive and birth more than 150 years ago
+        test5 = GEDCOM_Project.checkLessThan150YearsOld(test5Dict) #Person is alive and birth less than 150 years ago
+        test6 = GEDCOM_Project.checkLessThan150YearsOld(test6Dict) #Person died at 150 years old
+        test7 = GEDCOM_Project.checkLessThan150YearsOld(test7Dict) #Person is exactly 150 years old
+        
+        self.assertTrue(test1) #True
+        self.assertFalse(test2) #False
+        self.assertTrue(test3) #True
+        self.assertFalse(test4) #False
+        self.assertTrue(test5) #True
+        self.assertFalse(test6) #False
+        self.assertFalse(test7) #False
 
     #US08 - test the checkBirthBeforeMarriageOfParents function
     def test_checkBirthBeforeMarriageOfParents(self):

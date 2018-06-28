@@ -3,7 +3,7 @@ Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
 6/24/2018
 Description: 
-    Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
+Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
 """
 
 #imports
@@ -351,7 +351,7 @@ def additionalChecking():
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
     checkMarriageBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 05
     checkDivorceBeforeDeath() #User Story 06
-    checkLessThan150YearsOld() #User Story 07
+    checkLessThan150YearsOld(INDIVIDUALS) #User Story 07
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
     checkMarriageAfter14() #User Story 10
@@ -521,8 +521,28 @@ def checkDivorceBeforeDeath():
 #Death should be less than 150 years after birth for dead people, and current date should be less than 150 years after birth for all living people
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkLessThan150YearsOld():
+def checkLessThan150YearsOld(indi):
     passesCheck = True
+
+    for k, v in indi.iteritems():
+        indi_id = v['ID']
+        indi_name = v['NAME']
+
+        #check if they are still living
+        alive = True
+        if (v.get('DEAT', 'NA') != 'NA'):
+            alive = False
+        #get age
+        if(alive):
+            age = getAgeAlive([v['BIRT']])
+        else:
+            age = getAgeDead([v['BIRT']], [v['DEAT']])
+
+        if (age >= 150):
+            #there was a match, so we must print out the info
+            F.write('Error US07: ' + indi_name + ' (' + indi_id + ') is at least 150 years old.\n')
+            passesCheck = False
+
     return passesCheck
 
 #Checks User Story 08:
