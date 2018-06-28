@@ -468,5 +468,33 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
     return passesCheck
 
 
+""" Checks User Story 15:
+In one family there must be fewer than 15 siblings
+This is considered an anomoly
+Returns true if the check is passed, and false if the check is failed """
+def checkFewerThan15Siblings(fam):
+    passesCheck = True
+
+    if(fam):
+        for k, v in fam.iteritems():
+            if(len(v['CHIL']) >= 15):
+                F.write('Anomoly US15: Family (' + k + ') has more than 15 siblings. \n')
+                passesCheck = False
+
+    return passesCheck
+
+
+""" Checks User Story 12: Parents not too old 
+The mother and father in the family should be checked.
+Mothers age should be less than 60 years older than her children
+The fathers age should be less than 80 years older than his children """
+def checkParentsNotTooOld(indi, fam):
+    passesCheck = True
+
+
+
+    return passesCheck
+
+
 if __name__ == '__main__':
     main() #call to main function

@@ -385,6 +385,26 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertTrue(test4) #True
         self.assertTrue(test5) #True
 
+# Michael Macari
+    # US15 test check for greater than 15 siblings
+    def test_checkFewerThan15Siblings(self):
+        test1dic = {}                                       # Empty dictionary
+        test2dic = {'F01': {'CHIL': ['I01', 'I02', 'I03', 'I04']}}  # Tests family with 4 children
+        test3dic = {'F01': {'CHIL': ['I01', 'I02', 'I03', 'I04', 'I05', 'I06', 'I07', 'I08', 'I09', 'I10', 'I11', 'I12', 'I14', 'I15']}}     # Tests family with 14 children
+        test4dic = {'F01': {'CHIL': ['I01', 'I02', 'I03', 'I04', 'I05', 'I06', 'I07', 'I08', 'I09', 'I10', 'I11', 'I12', 'I14', 'I15', 'I16']}}      # Tests family with 15 children
+        test5dic = {'F01': {'CHIL': ['I01', 'I02', 'I03', 'I04', 'I05', 'I06', 'I07', 'I08', 'I09', 'I10', 'I11', 'I12', 'I14', 'I15', 'I16', 'I17']}}  # Tests family with 16 children
+
+        test1 = GEDCOM_Project.checkFewerThan15Siblings(test1dic)       # Empty dict
+        test2 = GEDCOM_Project.checkFewerThan15Siblings(test2dic)       # 4 siblings
+        test3 = GEDCOM_Project.checkFewerThan15Siblings(test3dic)       # 14 siblings
+        test4 = GEDCOM_Project.checkFewerThan15Siblings(test4dic)       # 15 siblings
+        test5 = GEDCOM_Project.checkFewerThan15Siblings(test5dic)       # 16 siblings
+
+        self.assertTrue(test1) # True
+        self.assertTrue(test2) # True
+        self.assertTrue(test3) # True
+        self.assertFalse(test4) # False
+        self.assertFalse(test5)  # False
 
 
 if __name__ == '__main__':
