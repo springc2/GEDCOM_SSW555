@@ -237,6 +237,56 @@ def getAgeDead(birthDate, deathDate):
     birthYear = int(bDate[2])
     return deathYear - birthYear - ((deathMonth, deathDay) < (birthMonth, birthDay))
 
+# US12 -> Check if the dad is too old and returns false or true if he is or is not
+def checkDadTooOld(dadBirth, childBirth):
+    months = {'JAN': 1,
+              'FEB': 2,
+              'MAR': 3,
+              'APR': 4,
+              'MAY': 5,
+              'JUN': 6,
+              'JUL': 7,
+              'AUG': 8,
+              'SEP': 9,
+              'OCT': 10,
+              'NOV': 11,
+              'DEC': 12
+              }
+    dadDiffInDays = (date(int(childBirth[2]),
+                          months[childBirth[1]],
+                          int(childBirth[0])) - date(int(dadBirth[2]),
+                                                     months[dadBirth[1]],
+                                                     int(dadBirth[0]))).days
+    if(dadDiffInDays / 365.00 >= 80.00):
+        return(True)
+    else:
+        return(False)
+
+# US12 -> Checks if the mom is too old returns false or true if she is or is not
+def checkMomTooOld(momBirth, childBirth):
+    months = {'JAN': 1,
+              'FEB': 2,
+              'MAR': 3,
+              'APR': 4,
+              'MAY': 5,
+              'JUN': 6,
+              'JUL': 7,
+              'AUG': 8,
+              'SEP': 9,
+              'OCT': 10,
+              'NOV': 11,
+              'DEC': 12
+              }
+    momDiffInDays = (date(int(childBirth[2]),
+                          months[childBirth[1]],
+                          int(childBirth[0])) - date(int(momBirth[2]),
+                                                     months[momBirth[1]],
+                                                     int(momBirth[0]))).days
+    if(momDiffInDays / 365.00 >= 60.00):
+        return(True)
+    else:
+        return(False)
+
 #returns the a formatted string representation of a date
 #input dates are in the format <day month year>
 def getFormattedDateString(date):
@@ -706,11 +756,10 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
                         childrenArr.append(s)
     return passesCheck
 
-
-""" Checks User Story 15:
-In one family there must be fewer than 15 siblings
-This is considered an anomoly
-Returns true if the check is passed, and false if the check is failed """
+# Checks User Story 15:
+# In one family there must be fewer than 15 siblings
+# This is considered an anomoly
+# Returns true if the check is passed, and false if the check is failed
 def checkFewerThan15Siblings(fam):
     passesCheck = True
     if(fam):
@@ -721,60 +770,10 @@ def checkFewerThan15Siblings(fam):
 
     return passesCheck
 
-
-"""Functions for bad smells of US12"""
-def checkDadTooOld(dadBirth, childBirth):
-    months = {'JAN': 1,
-              'FEB': 2,
-              'MAR': 3,
-              'APR': 4,
-              'MAY': 5,
-              'JUN': 6,
-              'JUL': 7,
-              'AUG': 8,
-              'SEP': 9,
-              'OCT': 10,
-              'NOV': 11,
-              'DEC': 12
-              }
-    dadDiffInDays = (date(int(childBirth[2]),
-                          months[childBirth[1]],
-                          int(childBirth[0])) - date(int(dadBirth[2]),
-                                                     months[dadBirth[1]],
-                                                     int(dadBirth[0]))).days
-    if(dadDiffInDays / 365.00 >= 80.00):
-        return(True)
-    else:
-        return(False)
-
-def checkMomTooOld(momBirth, childBirth):
-    months = {'JAN': 1,
-              'FEB': 2,
-              'MAR': 3,
-              'APR': 4,
-              'MAY': 5,
-              'JUN': 6,
-              'JUL': 7,
-              'AUG': 8,
-              'SEP': 9,
-              'OCT': 10,
-              'NOV': 11,
-              'DEC': 12
-              }
-    momDiffInDays = (date(int(childBirth[2]),
-                          months[childBirth[1]],
-                          int(childBirth[0])) - date(int(momBirth[2]),
-                                                     months[momBirth[1]],
-                                                     int(momBirth[0]))).days
-    if(momDiffInDays / 365.00 >= 60.00):
-        return(True)
-    else:
-        return(False)
-
-""" Checks User Story 12: Parents not too old 
-The mother and father in the family should be checked.
-Mothers age should be less than 60 years older than her children
-The fathers age should be less than 80 years older than his children """
+# Checks User Story 12:
+# The mother and father in the family should be checked.
+# Mothers age should be less than 60 years older than her children
+# The fathers age should be less than 80 years older than his children
 def checkParentsNotTooOld(fam, indi):
     passesCheck = True
 
