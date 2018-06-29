@@ -406,7 +406,6 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test4) # False
         self.assertFalse(test5)  # False
 
-
 # Michael Macari
     # US12 test to check that mother and father aren't too old
     def test_checkParentsNotTooOld(self):
