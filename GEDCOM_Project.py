@@ -10,7 +10,6 @@ Reads a GEDCOM file, prints the Families and Individuals data in a easy to read 
 import collections
 import time
 from prettytable import PrettyTable
-import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import datetime
@@ -355,8 +354,8 @@ def additionalChecking():
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
     checkMarriageAfter14() #User Story 10
-    checkParentsNotTooOld() #User Story 12
-    checkFewerThan15Siblings() #User Story 15
+    checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
+    checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
     checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
     checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
@@ -716,7 +715,7 @@ def checkFewerThan15Siblings(fam):
     passesCheck = True
     if(fam):
         for k, v in fam.iteritems():
-            if(len(v['CHIL']) >= 15):
+            if('CHIL' in v and len(v['CHIL']) >= 15):
                 F.write('Anomoly US15: Family (' + k + ') has more than 15 siblings. \n')
                 passesCheck = False
 
