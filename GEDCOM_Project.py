@@ -617,22 +617,6 @@ def checkMarriageAfter14():
     passesCheck = True
     return passesCheck
 
-#Checks User Story 12:
-#Mother should be less than 60 years older than her children and father should be less than 80 years older than his children
-#This is considered an Anomaly
-#Returns True if the check is passed, and False if the check is failed
-def checkParentsNotTooOld():
-    passesCheck = True
-    return passesCheck
-
-#Checks User Story 15:
-#There should be fewer than 15 siblings in a family
-#This is considered an Anomaly
-#Returns True if the check is passed, and False if the check is failed
-def checkFewerThan15Siblings():
-    passesCheck = True
-    return passesCheck
-
 #Checks User Story 22:
 #All individual IDs should be unique and all family IDs should be unique
 #This is considered an Error
@@ -721,6 +705,100 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
                         passesCheck = False
                     else:
                         childrenArr.append(s)
+    return passesCheck
+
+
+""" Checks User Story 15:
+In one family there must be fewer than 15 siblings
+This is considered an anomoly
+Returns true if the check is passed, and false if the check is failed """
+def checkFewerThan15Siblings(fam):
+    passesCheck = True
+    if(fam):
+        for k, v in fam.iteritems():
+            if(len(v['CHIL']) >= 15):
+                F.write('Anomoly US15: Family (' + k + ') has more than 15 siblings. \n')
+                passesCheck = False
+
+    return passesCheck
+
+
+"""Functions for bad smells of US12"""
+def checkDadTooOld(dadBirth, childBirth):
+    months = {'JAN': 1,
+              'FEB': 2,
+              'MAR': 3,
+              'APR': 4,
+              'MAY': 5,
+              'JUN': 6,
+              'JUL': 7,
+              'AUG': 8,
+              'SEP': 9,
+              'OCT': 10,
+              'NOV': 11,
+              'DEC': 12
+              }
+    dadDiffInDays = (date(int(childBirth[2]),
+                          months[childBirth[1]],
+                          int(childBirth[0])) - date(int(dadBirth[2]),
+                                                     months[dadBirth[1]],
+                                                     int(dadBirth[0]))).days
+    if(dadDiffInDays / 365.00 >= 80.00):
+        return(True)
+    else:
+        return(False)
+
+def checkMomTooOld(momBirth, childBirth):
+    months = {'JAN': 1,
+              'FEB': 2,
+              'MAR': 3,
+              'APR': 4,
+              'MAY': 5,
+              'JUN': 6,
+              'JUL': 7,
+              'AUG': 8,
+              'SEP': 9,
+              'OCT': 10,
+              'NOV': 11,
+              'DEC': 12
+              }
+    momDiffInDays = (date(int(childBirth[2]),
+                          months[childBirth[1]],
+                          int(childBirth[0])) - date(int(momBirth[2]),
+                                                     months[momBirth[1]],
+                                                     int(momBirth[0]))).days
+    if(momDiffInDays / 365.00 >= 60.00):
+        return(True)
+    else:
+        return(False)
+
+""" Checks User Story 12: Parents not too old 
+The mother and father in the family should be checked.
+Mothers age should be less than 60 years older than her children
+The fathers age should be less than 80 years older than his children """
+def checkParentsNotTooOld(fam, indi):
+    passesCheck = True
+
+    if(fam and indi):
+        for k,v in fam.iteritems():                                 # Has to be husband and wife if its a family
+            dadBirth = (indi[v['HUSB']].get('BIRT')).split()
+            momBirth = (indi[v['WIFE']].get('BIRT')).split()
+            if('CHIL' in v):                                        # Checks if family even has children
+                for childID in v['CHIL']:
+                    childBirth = (indi[childID].get('BIRT')).split()
+
+                    if(checkMomTooOld(momBirth, childBirth) and checkDadTooOld(dadBirth, childBirth)):
+                        passesCheck = False
+                        F.write('Anomoly US12: Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '\n')
+                        break
+                    elif(checkMomTooOld(momBirth, childBirth)):
+                        passesCheck = False
+                        F.write('Anomoly US12: Family (' + k + ') mother is over 60 years older than child ' + childID + '\n')
+                        break
+                    elif(checkDadTooOld(dadBirth, childBirth)):
+                        passesCheck = False
+                        F.write('Anomoly US12: Family (' + k + ') father is over 80 years older than child ' + childID + '\n')
+                        break
     return passesCheck
 
 
