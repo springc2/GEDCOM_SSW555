@@ -1,46 +1,46 @@
-Error US03: Individual John Doe (I01) has death date before birth date.
-Error US03: Individual Jane Doe (I02) has death date before birth date.
-Error US03: Individual John Doe (I01) has death date before birth date.
-Error US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error US09: Individual Jane Doe (I04) was born after death of mother Karen Doe (I02) in Family (F01).
-Error US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error US09: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
-Error US09: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
-Error US02: Individual John Doe (I01) has marriage date before birth date.
-Error US02: Individual Jane Doe (I01) has marriage date before birth date.
-Error US02: Individual Jane Doe (I02) has marriage date before birth date.
-Error US02: Individual John Doe (I01) has marriage date before birth date.
-Error US02: Individual John Doe (I01) has marriage date before birth date.
-Error US02: Individual Jane Doe (I02) has marriage date before birth date.
-Anomaly US08: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly US08: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly US08: Individual Jane Doe (I04) was born before marriage in Family (F01).
-Anomaly US08: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly US08: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
-Anomaly US08: Individual John Doe (I03) was born more than 9 months after divorce in Family (F01).
-Anomaly US08: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
-Error US01: Individual John Doe (I01) has a birth date after the current date.
-Error US01: Individual John Doe (I01) has a death date after the current date.
-Error US01: Family F01 has a marriage date after the current date.
-Error US01: Family F01 has a divorce date after the current date.
-Anomoly US15: Family (F01) has more than 15 siblings. 
-Anomoly US15: Family (F01) has more than 15 siblings. 
-Error US07: John Doe (I01) is at least 150 years old.
-Error US07: John Doe (I01) is at least 150 years old.
-Error US07: John Doe (I01) is at least 150 years old.
-Error US07: John Doe (I01) is at least 150 years old.
-Error US05: Family (F01) has death before marriage date for husband (I01).
-Error US05: Family (F01) has death before marriage date for wife (I02).
-Error US05: Family (F01) has death before marriage date for husband (I01).
-Error US05: Family (F01) has death before marriage date for wife (I02).
-Error US04: Family (F01) has divorce before marriage.
-Error US04: Family (F02) has divorce before marriage.
-Anomoly US12: Family (F01) mother is over 60 years older than child I03
-Anomoly US12: Family (F02) father is over 80 years older than child I03
-Anomoly US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04
-Error US24: Family (F02) has same spouses and marriage date as family (F01).
-Error US24: Family (F01) has same spouses and marriage date as family (F05).
-Error US25: Family (F01) child Michael /Flin/ shares a name and birthday. 
-Error US22: ID I03 is not a uniquie ID. (Not including it or it's information!)
-Error US23: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
+Error: US03: Individual John Doe (I01) has death date before birth date.
+Error: US03: Individual Jane Doe (I02) has death date before birth date.
+Error: US03: Individual John Doe (I01) has death date before birth date.
+Error: US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
+Error: US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
+Error: US09: Individual Jane Doe (I04) was born after death of mother Karen Doe (I02) in Family (F01).
+Error: US09: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
+Error: US09: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
+Error: US09: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
+Error: US02: Individual John Doe (I01) has marriage date before birth date.
+Error: US02: Individual Jane Doe (I01) has marriage date before birth date.
+Error: US02: Individual Jane Doe (I02) has marriage date before birth date.
+Error: US02: Individual John Doe (I01) has marriage date before birth date.
+Error: US02: Individual John Doe (I01) has marriage date before birth date.
+Error: US02: Individual Jane Doe (I02) has marriage date before birth date.
+Anomaly: US08: Individual John Doe (I03) was born before marriage in Family (F01).
+Anomaly: US08: Individual John Doe (I03) was born before marriage in Family (F01).
+Anomaly: US08: Individual Jane Doe (I04) was born before marriage in Family (F01).
+Anomaly: US08: Individual John Doe (I03) was born before marriage in Family (F01).
+Anomaly: US08: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
+Anomaly: US08: Individual John Doe (I03) was born more than 9 months after divorce in Family (F01).
+Anomaly: US08: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
+Error: US01: Individual John Doe (I01) has a birth date after the current date.
+Error: US01: Individual John Doe (I01) has a death date after the current date.
+Error: US01: Family F01 has a marriage date after the current date.
+Error: US01: Family F01 has a divorce date after the current date.
+Anomoly: US15: Family (F01) has more than 15 siblings.
+Anomoly: US15: Family (F01) has more than 15 siblings.
+Error: US07: IndividualJohn Doe (I01) is at least 150 years old.
+Error: US07: IndividualJohn Doe (I01) is at least 150 years old.
+Error: US07: IndividualJohn Doe (I01) is at least 150 years old.
+Error: US07: IndividualJohn Doe (I01) is at least 150 years old.
+Error: US05: Family (F01) has death before marriage date for husband (I01).
+Error: US05: Family (F01) has death before marriage date for wife (I02).
+Error: US05: Family (F01) has death before marriage date for husband (I01).
+Error: US05: Family (F01) has death before marriage date for wife (I02).
+Error: US04: Family (F01) has divorce before marriage.
+Error: US04: Family (F02) has divorce before marriage.
+Anomoly: US12: Family (F01) mother is over 60 years older than child I03.
+Anomoly: US12: Family (F02) father is over 80 years older than child I03.
+Anomoly: US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
+Error: US24: Family (F02) has same spouses and marriage date as family (F01).
+Error: US24: Family (F01) has same spouses and marriage date as family (F05).
+Error: US25: Family (F01) child Michael /Flin/ shares a name and birthday.
+Error: US22: ID I03 is not a uniquie ID. Not including it or it's information!
+Error: US23: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
