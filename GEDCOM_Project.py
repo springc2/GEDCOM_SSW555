@@ -287,34 +287,6 @@ def checkMomTooOld(momBirth, childBirth):
     else:
         return(False)
 
-#returns the a formatted string representation of a date
-#input dates are in the format <day month year>
-def getFormattedDateString(date):
-    _date = date[0].split() #parse the date
-    day = int(_date[0])
-    months = {
-            'JAN': 1,
-            'FEB': 2,
-            'MAR': 3,
-            'APR': 4,
-            'MAY': 5,
-            'JUN': 6,
-            'JUL': 7,
-            'AUG': 8,
-            'SEP': 9,
-            'OCT': 10,
-            'NOV': 11,
-            'DEC': 12,
-            }
-    if (_date[1] in months):
-        month = months[_date[1]]
-    else:
-        F.write('Unexpected error with date!\n')
-    year = int(_date[2])
-    dateString = str(month) + "/" + str(day) + "/" + str(year)
-
-    return dateString
-
 #returns a date to compare to the current date
 #input dates are in the format <day month year>
 def getFormattedDateForCompare(date):
@@ -479,11 +451,8 @@ def checkBirthBeforeMarriage(indi, fam):
                 wife_id = v1['WIFE']
 
             if indi_id == husb_id or indi_id == wife_id:
-                mDateString = getFormattedDateString([v1['MARR']])
-                bDateString = getFormattedDateString([v['BIRT']])
-
-                mDate = time.strptime(mDateString, '%m/%d/%Y')
-                bDate = time.strptime(bDateString, '%m/%d/%Y')
+                mDate = getFormattedDateForCompare(v1['MARR'])
+                bDate = getFormattedDateForCompare(v['BIRT'])
 
                 if bDate > mDate:
                     #there was a match, so we must print out the info
@@ -504,11 +473,8 @@ def checkBirthBeforeDeath(indi):
         indi_id = v['ID']
         indi_name = v['NAME']
         if 'DEAT' in v:
-            dDateString = getFormattedDateString([v['DEAT']])
-            bDateString = getFormattedDateString([v['BIRT']])
-
-            dDate = time.strptime(dDateString, '%m/%d/%Y')
-            bDate = time.strptime(bDateString, '%m/%d/%Y')
+            dDate = getFormattedDateForCompare(v['DEAT'])
+            bDate = getFormattedDateForCompare(v['BIRT'])
 
             if bDate > dDate:
                 #there was a match, so we must print out the info
