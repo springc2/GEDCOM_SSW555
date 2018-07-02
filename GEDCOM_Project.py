@@ -493,8 +493,9 @@ def checkMarriageBeforeDivorce(fam):
     for k, v in fam.iteritems():
         if v.get('DIV') is None:
             continue
-        coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
-        coupleDivorceDate = time.strptime(v['DIV'], '%d %b %Y')
+            
+        coupleMarriageDate = getFormattedDateForCompare(v['MARR'])
+        coupleDivorceDate = getFormattedDateForCompare(v['DIV'])
 
         if coupleDivorceDate < coupleMarriageDate:
             passesCheck = False
@@ -510,15 +511,15 @@ def checkMarriageBeforeDeath(ind, fam):
     passesCheck = True
 
     for k, v in fam.iteritems():
-        coupleMarriageDate = time.strptime(v['MARR'], '%d %b %Y')
+        coupleMarriageDate = getFormattedDateForCompare(v['MARR'])
         if(ind):
             if ind[v['HUSB']].get('DEAT') is not None:
-                husbandDeathDate = time.strptime(ind[v['HUSB']]['DEAT'], '%d %b %Y')
+                husbandDeathDate = getFormattedDateForCompare(ind[v['HUSB']]['DEAT'])
                 if coupleMarriageDate > husbandDeathDate:
                     passesCheck = False
                     F.write('Error US05: Family (' + k +') has death before marriage date for husband ('+v['HUSB']+ ').\n')
             if ind[v['WIFE']].get('DEAT') is not None:
-                wifeDeathDate = time.strptime(ind[v['WIFE']]['DEAT'], '%d %b %Y')
+                wifeDeathDate = getFormattedDateForCompare(ind[v['WIFE']]['DEAT'])
                 if coupleMarriageDate > wifeDeathDate:
                     passesCheck = False
                     F.write('Error US05: Family (' + k +') has death before marriage date for wife ('+v['WIFE']+ ').\n')
@@ -573,19 +574,19 @@ def checkBirthBeforeMarriageOfParents(indi, fam):
             coupleMarriageDate = datetime.datetime.strptime(v['MARR'], '%d %b %Y').date()
             #loop over all children
             for i in range(0, len(v['CHIL'])):
-                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if coupleMarriageDate >= childAge:
                     F.write('Anomaly US08: Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born before marriage in Family (' + k +').\n')
                     passesCheck = False
 
         #check against div date if there is one
         if (v.get('DIV') is not None and v.get('CHIL') is not None):
-            coupleDivorceDate = datetime.datetime.strptime(v['DIV'], '%d %b %Y').date()
+            coupleDivorceDate = getFormattedDateForCompare(v['DIV'])
             #get the +9 months date for compairson
             plus9MonthDivDate = coupleDivorceDate + relativedelta(months=9)
             #loop over all children
             for i in range(0, len(v['CHIL'])):
-                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if plus9MonthDivDate < childAge:
                     F.write('Anomaly US08: Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after divorce in Family (' + k +').\n')
                     passesCheck = False
@@ -602,22 +603,22 @@ def checkBirthBeforeDeathOfParents(indi, fam):
     for k, v in fam.iteritems():
         #check against mother's death date if there is one
         if (indi[v['WIFE']].get('DEAT') is not None and v.get('CHIL') is not None):
-            motherDeathDate = datetime.datetime.strptime(indi[v['WIFE']].get('DEAT'), '%d %b %Y').date()
+            motherDeathDate = getFormattedDateForCompare(indi[v['WIFE']].get('DEAT'))
             #loop over all children
             for i in range(0, len(v['CHIL'])):
-                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if motherDeathDate <= childAge:
                     F.write('Error US09: Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born after death of mother ' + indi[v['WIFE']].get('NAME') + ' (' + indi[v['WIFE']].get('ID') + ') in Family (' + k +').\n')
                     passesCheck = False
 
         #check against father's death date if there is one
         if (indi[v['HUSB']].get('DEAT') is not None and v.get('CHIL') is not None):
-            fatherDeathDate = datetime.datetime.strptime(indi[v['HUSB']].get('DEAT'), '%d %b %Y').date()
+            fatherDeathDate = getFormattedDateForCompare(indi[v['HUSB']].get('DEAT'))
             #get the +9 months date for compairson
             plus9MonthDeathDate = fatherDeathDate + relativedelta(months=9)
             #loop over all children
             for i in range(0, len(v['CHIL'])):
-                childAge = datetime.datetime.strptime(indi[v['CHIL'][i]].get('BIRT'), '%d %b %Y').date()
+                childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if plus9MonthDeathDate <= childAge:
                     F.write('Error US09: Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after death of father ' + indi[v['HUSB']].get('NAME') + ' (' + indi[v['HUSB']].get('ID') + ') in Family (' + k +').\n')
                     passesCheck = False
