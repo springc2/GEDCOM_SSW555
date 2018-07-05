@@ -514,8 +514,24 @@ def checkMarriageBeforeDeath(ind, fam):
 #Divorce can only occur before death of both spouses
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkDivorceBeforeDeath():
+def checkDivorceBeforeDeath(indi, fam):
     passesCheck = True
+    for k, v in fam.iteritems():
+        if v.get('DIV') is None:
+		    continue
+        coupleDivorceDate = getFormattedDateForCompare(v['DIV'])
+        if(indi):
+            if indi[v['HUSB']].get('DEAT') is not None:
+                husbandDeathDate = getFormattedDateForCompare(indi[v['HUSB']]['DEAT'])
+                if coupleDivorceDate > husbandDeathDate:
+                    print husbandDeathDate
+                    passesCheck = False
+                    log('Error','US06','Family (' + k +') has divorce after death date for husband ('+v['HUSB']+ ').')
+            if indi[v['WIFE']].get('DEAT') is not None:
+                wifeDeathDate = getFormattedDateForCompare(indi[v['WIFE']]['DEAT'])
+                if coupleDivorceDate > wifeDeathDate:
+                    passesCheck = False
+                    log('Error','US06','Family (' + k +') has divorce after death date for wife ('+v['WIFE']+ ').')
     return passesCheck
 
 #Checks User Story 07:
@@ -616,6 +632,9 @@ def checkBirthBeforeDeathOfParents(indi, fam):
 #Returns True if the check is passed, and False if the check is failed
 def checkMarriageAfter14():
     passesCheck = True
+	
+	
+	
     return passesCheck
 
 # Checks User Story 12:

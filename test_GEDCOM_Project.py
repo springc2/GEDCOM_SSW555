@@ -306,8 +306,35 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     #US06 - test the checkDivorceBeforeDeath function
     def test_checkDivorceBeforeDeath(self):
-        test1 = True
-        self.assertTrue(test1)
+        
+        testDictFam = {'F01' : {'DIV': '13 MAY 1986', 'HUSB': 'I01', 'WIFE': 'I02'}}
+        test1DictInd = {'I01': {'ID': 'I01','DEAT': '1 JUN 1993'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1993'}}
+        test2DictInd = {'I01': {'ID': 'I01','DEAT': '2 JUN 1900'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1993'}}
+        test3DictInd = {'I01': {'ID': 'I01','DEAT': '3 JUN 1993'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1900'}}
+        test4DictInd = {}
+        test5DictInd = {'I01': {'ID': 'I01','DEAT': '5 JUN 1900'},
+                        'I02': {'ID': 'I02','DEAT': '16 JUN 1900'}}
+        test6DictInd = {'I01': {'ID': 'I01'},
+                        'I02': {'ID': 'I02'}}
+        
+
+        test1 = GEDCOM_Project.checkDivorceBeforeDeath(test1DictInd, testDictFam) #deaths after divorce
+        test2 = GEDCOM_Project.checkDivorceBeforeDeath(test2DictInd, testDictFam) #husb death before, wife after divorce
+        test3 = GEDCOM_Project.checkDivorceBeforeDeath(test3DictInd, testDictFam) #husb death after, wife before divorce
+        test4 = GEDCOM_Project.checkDivorceBeforeDeath(test4DictInd, testDictFam) #empty dict
+        test5 = GEDCOM_Project.checkDivorceBeforeDeath(test5DictInd, testDictFam) #both husb and wife died before divorce
+        test6 = GEDCOM_Project.checkDivorceBeforeDeath(test6DictInd, testDictFam) #both husb and wife still alive
+
+        self.assertTrue(test1) #True
+        self.assertFalse(test2) #False
+        self.assertFalse(test3) #False
+        self.assertTrue(test4) #True
+        self.assertFalse(test5) #False
+        self.assertTrue(test6) #True
+
 
     #US07 - test the checkLessThan150YearsOld function
     def test_checkLessThan150YearsOld(self):
