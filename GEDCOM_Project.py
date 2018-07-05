@@ -358,11 +358,11 @@ def additionalChecking():
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
     checkMarriageBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 05
-    checkDivorceBeforeDeath() #User Story 06
+    checkDivorceBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 06
     checkLessThan150YearsOld(INDIVIDUALS) #User Story 07
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
-    checkMarriageAfter14() #User Story 10
+    checkMarriageAfter14(INDIVIDUALS, FAMILIES) #User Story 10
     checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
@@ -518,13 +518,12 @@ def checkDivorceBeforeDeath(indi, fam):
     passesCheck = True
     for k, v in fam.iteritems():
         if v.get('DIV') is None:
-		    continue
+            continue
         coupleDivorceDate = getFormattedDateForCompare(v['DIV'])
         if(indi):
             if indi[v['HUSB']].get('DEAT') is not None:
                 husbandDeathDate = getFormattedDateForCompare(indi[v['HUSB']]['DEAT'])
                 if coupleDivorceDate > husbandDeathDate:
-                    print husbandDeathDate
                     passesCheck = False
                     log('Error','US06','Family (' + k +') has divorce after death date for husband ('+v['HUSB']+ ').')
             if indi[v['WIFE']].get('DEAT') is not None:
@@ -630,11 +629,24 @@ def checkBirthBeforeDeathOfParents(indi, fam):
 #Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
 #This is considered an Anomaly
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageAfter14():
+def checkMarriageAfter14(indi, fam):
     passesCheck = True
-	
-	
-	
+   
+    for k, v in fam.iteritems():
+        
+        marriageDate = getFormattedDateForCompare(v['MARR'])
+
+        if(indi):
+
+            husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
+            wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
+            if ((marriageDate - husbandBirthDate).days / 365) < 14:
+                passesCheck = False
+                log('Anomaly', 'US10', 'Individual (' + v['HUSB'] + ') was younger than 14 when married')
+            if ((marriageDate - wifeBirthDate).days / 365) < 14:
+                passesCheck = False
+                log('Anomaly', 'US10', 'Individual (' + v['WIFE'] + ') was younger than 14 when married')
+
     return passesCheck
 
 # Checks User Story 12:
