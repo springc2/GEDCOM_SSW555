@@ -666,15 +666,15 @@ def checkParentsNotTooOld(fam, indi):
 
                     if(checkMomTooOld(momBirth, childBirth) and checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
                         break
                     elif(checkMomTooOld(momBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
                         break
                     elif(checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') father is over 80 years older than child ' + childID + '.')
                         break
     return passesCheck
 
@@ -687,7 +687,7 @@ def checkFewerThan15Siblings(fam):
     if(fam):
         for k, v in fam.iteritems():
             if('CHIL' in v and len(v['CHIL']) >= 15):
-                log('Anomoly','US15','Family (' + k + ') has more than 15 siblings.')
+                log('Anomaly','US15','Family (' + k + ') has more than 15 siblings.')
                 passesCheck = False
 
     return passesCheck
