@@ -358,11 +358,11 @@ def additionalChecking():
     checkBirthBeforeDeath(INDIVIDUALS) #User Story 03
     checkMarriageBeforeDivorce(FAMILIES) #User Story 04
     checkMarriageBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 05
-    checkDivorceBeforeDeath() #User Story 06
+    checkDivorceBeforeDeath(INDIVIDUALS, FAMILIES) #User Story 06
     checkLessThan150YearsOld(INDIVIDUALS) #User Story 07
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
-    checkMarriageAfter14() #User Story 10
+    checkMarriageAfter14(INDIVIDUALS, FAMILIES) #User Story 10
     checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
@@ -514,8 +514,23 @@ def checkMarriageBeforeDeath(ind, fam):
 #Divorce can only occur before death of both spouses
 #This is considered an Error
 #Returns True if the check is passed, and False if the check is failed
-def checkDivorceBeforeDeath():
+def checkDivorceBeforeDeath(indi, fam):
     passesCheck = True
+    for k, v in fam.iteritems():
+        if v.get('DIV') is None:
+            continue
+        coupleDivorceDate = getFormattedDateForCompare(v['DIV'])
+        if(indi):
+            if indi[v['HUSB']].get('DEAT') is not None:
+                husbandDeathDate = getFormattedDateForCompare(indi[v['HUSB']]['DEAT'])
+                if coupleDivorceDate > husbandDeathDate:
+                    passesCheck = False
+                    log('Error','US06','Family (' + k +') has divorce after death date for husband ('+v['HUSB']+ ').')
+            if indi[v['WIFE']].get('DEAT') is not None:
+                wifeDeathDate = getFormattedDateForCompare(indi[v['WIFE']]['DEAT'])
+                if coupleDivorceDate > wifeDeathDate:
+                    passesCheck = False
+                    log('Error','US06','Family (' + k +') has divorce after death date for wife ('+v['WIFE']+ ').')
     return passesCheck
 
 #Checks User Story 07:
@@ -614,8 +629,24 @@ def checkBirthBeforeDeathOfParents(indi, fam):
 #Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
 #This is considered an Anomaly
 #Returns True if the check is passed, and False if the check is failed
-def checkMarriageAfter14():
+def checkMarriageAfter14(indi, fam):
     passesCheck = True
+   
+    for k, v in fam.iteritems():
+        
+        marriageDate = getFormattedDateForCompare(v['MARR'])
+
+        if(indi):
+
+            husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
+            wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
+            if ((marriageDate - husbandBirthDate).days / 365) < 14:
+                passesCheck = False
+                log('Anomaly', 'US10', 'Individual (' + v['HUSB'] + ') was younger than 14 when married')
+            if ((marriageDate - wifeBirthDate).days / 365) < 14:
+                passesCheck = False
+                log('Anomaly', 'US10', 'Individual (' + v['WIFE'] + ') was younger than 14 when married')
+
     return passesCheck
 
 # Checks User Story 12:
@@ -635,15 +666,15 @@ def checkParentsNotTooOld(fam, indi):
 
                     if(checkMomTooOld(momBirth, childBirth) and checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
                         break
                     elif(checkMomTooOld(momBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
                         break
                     elif(checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomoly','US12','Family (' + k + ') father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12','Family (' + k + ') father is over 80 years older than child ' + childID + '.')
                         break
     return passesCheck
 
@@ -656,7 +687,7 @@ def checkFewerThan15Siblings(fam):
     if(fam):
         for k, v in fam.iteritems():
             if('CHIL' in v and len(v['CHIL']) >= 15):
-                log('Anomoly','US15','Family (' + k + ') has more than 15 siblings.')
+                log('Anomaly','US15','Family (' + k + ') has more than 15 siblings.')
                 passesCheck = False
 
     return passesCheck
