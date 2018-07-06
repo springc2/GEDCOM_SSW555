@@ -93,6 +93,56 @@
 1 WIFE I09
 1 HUSB I13
 0 NOTE end of the family Raunchy
+0 NOTE start of the Ninja family tree
+0 NOTE start of the family Ninja
+0 F11 FAM
+1 MARR
+2 DATE 23 JUL 1999
+1 WIFE I02
+1 HUSB I01
+1 CHIL I03
+1 CHIL I04
+1 CHIL I05
+1 CHIL I06
+1 CHIL I07
+1 CHIL I08
+1 CHIL I09
+1 CHIL I10
+1 CHIL I11
+1 CHIL I12
+1 CHIL I13
+1 CHIL I14
+1 CHIL I15
+1 CHIL I16
+1 CHIL I17
+0 NOTE end of the family Ninja
+0 NOTE start of the McSwiggen family tree
+0 NOTE start of the family McSwiggen
+0 F12 FAM
+1 MARR
+2 DATE 01 JAN 1932
+1 WIFE I22
+1 HUSB I21
+1 CHIL I23
+0 NOTE end of the family McSwiggen
+0 NOTE start of the Carrymehome family tree
+0 NOTE start of the family Carrymehome
+0 F13 FAM
+1 MARR
+2 DATE 01 JAN 1951
+1 WIFE I25
+1 HUSB I24
+1 CHIL I26
+0 NOTE end of family Carrymehome
+0 NOTE start of the Telepathy family tree
+0 NOTE start of the family Telepathy
+0 F14 FAM
+1 MARR
+2 DATE 01 JAN 1931
+1 WIFE I28
+1 HUSB I27
+1 CHIL I29
+0 NOTE end of family Telepathy
 0 NOTE start of the individual Dan Smith
 0 I01 INDI
 1 NAME Dan /Smith/
@@ -279,3 +329,66 @@
 1 DEAT
 2 DATE 15 JUN 2001
 0 NOTE end of individual Brian Dinosuar
+0 I21 INDI
+1 NAME Daron /McSwiggen/
+1 BIRT
+2 DATE 01 JAN 1920
+1 SEX M
+1 FAMS F12
+0 NOTE end of individual Daron McSwiggen
+0 I22 INDI
+1 NAME Donna /McSwiggen/
+1 BIRT
+2 DATE 01 JAN 1930
+1 SEX F
+1 FAMS F12
+0 NOTE end of individual Donna McSwiggen
+0 I23 INDI
+1 NAME Billy /McSwiggen/
+1 BIRT
+2 DATE 02 FEB 1990
+1 SEX M
+1 FAMC F12
+0 NOTE end of individual Billy McSwiggen
+0 I24 INDI
+1 NAME Donald /Carrymehome/
+1 BIRT
+2 DATE 01 JAN 1910
+1 SEX M
+1 FAMS F13
+0 NOTE end of individual Donald Carrymehome
+0 I25 INDI
+1 NAME Destiny /Carrymehome/
+1 BIRT
+2 DATE 01 JAN 1950
+1 SEX F
+1 FAMS F13
+0 NOTE end of individual Destiny Carrymehome
+0 I26 INDI
+1 NAME Fabio /Carrymehome/
+1 BIRT
+2 DATE 02 FEB 2000
+1 SEX M
+1 FAMC F13
+0 NOTE end of individual Fabio /Carrymehome/
+0 I27 INDI
+1 NAME Paul /Telepathy/
+1 BIRT
+2 DATE 01 JAN 1920
+1 SEX M
+1 FAMS F14
+0 NOTE end of individual Paul Telepathy
+0 I28 INDI
+1 NAME Tiffany /Telepathy/
+1 BIRT
+2 DATE 01 JAN 1930
+1 SEX F
+1 FAMS F14
+0 NOTE end of individual Tiffany Telepathy
+0 I29 INDI
+1 NAME Hannah /Telepathy/
+1 BIRT
+2 DATE 02 FEB 2014
+1 SEX F
+1 FAMC F14
+0 NOTE end of individual Hannah Telepathy
