@@ -633,11 +633,8 @@ def checkMarriageAfter14(indi, fam):
     passesCheck = True
    
     for k, v in fam.iteritems():
-        
         marriageDate = getFormattedDateForCompare(v['MARR'])
-
         if(indi):
-
             husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
             wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
             if ((marriageDate - husbandBirthDate).days / 365) < 14:
