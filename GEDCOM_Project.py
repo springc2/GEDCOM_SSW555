@@ -556,7 +556,7 @@ def checkLessThan150YearsOld(indi):
 
         if (age >= 150):
             #there was a match, so we must print out the info
-            log('Error','US07', 'Individual' + indi_name + ' (' + indi_id + ') is at least 150 years old.')
+            log('Error','US07', 'Individual' + indi_name + ' (' + indi_id + ') is not less than 150 years old.')
             passesCheck = False
 
     return passesCheck
