@@ -1002,25 +1002,25 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US29 - Tests listDeceased function
     def test_listDeceased(self):
-        expected = [['Headder1', 'Headder2', 'Headder3'],
+        expected = [['Header1', 'Header2', 'Header3'],
                     ['Data1', 'Data2', 'Data3']]
         self.assertEqual(expected, GEDCOM_Project.listDeceased())
 
     # US30 - Tests listLivingMarried function
     def test_listLivingMarried(self):
-        expected = [['Headder1', 'Headder2', 'Headder3'],
+        expected = [['Header1', 'Header2', 'Header3'],
                     ['Data1', 'Data2', 'Data3']]
         self.assertEqual(expected, GEDCOM_Project.listLivingMarried())
 
     # US35 - Tests listRecentBirths function
     def test_listRecentBirths(self):
-        expected = [['Headder1', 'Headder2', 'Headder3'],
+        expected = [['Header1', 'Header2', 'Header3'],
                     ['Data1', 'Data2', 'Data3']]
         self.assertEqual(expected, GEDCOM_Project.listRecentBirths())
 
     # US36 - Tests listRecentDeaths function
     def test_listRecentDeaths(self):
-        expected = [['Headder1', 'Headder2', 'Headder3'],
+        expected = [['Header1', 'Header2', 'Header3'],
                     ['Data1', 'Data2', 'Data3']]
         self.assertEqual(expected, GEDCOM_Project.listRecentDeaths())
 

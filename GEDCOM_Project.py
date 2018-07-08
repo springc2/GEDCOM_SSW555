@@ -147,7 +147,7 @@ def updateEntity(pLine, entID, entType, curDatePred):
 #prints all the individuals and their info in the GEDCOM file by alphabetical order of their IDs
 def printIndividuals(indi):
     rows = [] #initilize the row list
-    rows.append(['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']) #add in headder row
+    rows.append(['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse']) #add in header row
     for k, v in indi.iteritems():
         #check if they are still living
         alive = True
@@ -164,7 +164,7 @@ def printIndividuals(indi):
 #prints all the families and their info in the GEDCOM file by alphabetical order of their IDs
 def printFamilies(fam):
     rows = [] #initilize the row list
-    rows.append(['ID', 'Married', 'Divorced', 'Husband ID', 'Husband Name', 'Wife ID', 'Wife Name', 'Children']) #add in headder row
+    rows.append(['ID', 'Married', 'Divorced', 'Husband ID', 'Husband Name', 'Wife ID', 'Wife Name', 'Children']) #add in header row
     for k, v in fam.iteritems():
         rows.append([v['ID'], v['MARR'], v.get('DIV', 'NA'), v['HUSB'], INDIVIDUALS[v['HUSB']]['NAME'], v['WIFE'], INDIVIDUALS[v['WIFE']]['NAME'], v.get('CHIL', 'NA')])
     prettyPrint('Families', rows)
@@ -807,7 +807,7 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
 # Returns a row of values to print as a pretty table (first row is the header)
 def listIndividualAges(indi):
     rows = [] #initilize the row list
-    rows.append(['Individual', 'Age']) #add in the headder row
+    rows.append(['Individual', 'Age']) #add in the header row
     #loop over all stored individuals
     for k, v in indi.iteritems():
         if (v.get('DEAT') is not None):
@@ -824,7 +824,7 @@ def listIndividualAges(indi):
 # Returns a row of values to print as a pretty table (first row is the header)
 def listDeceased():
     rows = [] #initilize the row list
-    rows.append(['Headder1', 'Headder2', 'Headder3']) #add in the headder row
+    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
     rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
     return rows
     
@@ -833,7 +833,7 @@ def listDeceased():
 # Returns a row of values to print as a pretty table (first row is the header)
 def listLivingMarried():
     rows = [] #initilize the row list
-    rows.append(['Headder1', 'Headder2', 'Headder3']) #add in the headder row
+    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
     rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
     return rows
 
@@ -842,7 +842,7 @@ def listLivingMarried():
 # Returns a row of values to print as a pretty table (first row is the header)
 def listRecentBirths():
     rows = [] #initilize the row list
-    rows.append(['Headder1', 'Headder2', 'Headder3']) #add in the headder row
+    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
     rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
     return rows
 
@@ -851,7 +851,7 @@ def listRecentBirths():
 # Returns a row of values to print as a pretty table (first row is the header)
 def listRecentDeaths():
     rows = [] #initilize the row list
-    rows.append(['Headder1', 'Headder2', 'Headder3']) #add in the headder row
+    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
     rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
     return rows
 
