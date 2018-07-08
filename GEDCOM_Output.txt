@@ -101,3 +101,67 @@ Families:
 | F13 | 01 JAN 1951 |      NA     |    I24     | Donald /Carrymehome/ |   I25   | Destiny /Carrymehome/ |                                                  ['I26']                                                  |
 | F14 | 01 JAN 1931 |      NA     |    I27     |   Paul /Telepathy/   |   I28   |  Tiffany /Telepathy/  |                                               ['I29', 'I30']                                              |
 +-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
+
+Individual's Age:
++-----------------------+-----+
+|       Individual      | Age |
++-----------------------+-----+
+|      Dan /Smith/      |  24 |
+|     Laura /Smith/     |  29 |
+|    William /Smith/    |  27 |
+|    Madeline /Smith/   |  23 |
+|     Renee /Smith/     |  56 |
+|      Mark /Smith/     |  58 |
+|      Jean /Smith/     |  84 |
+|    Matthew /Smith/    |  59 |
+|    Jane /Anderson/    |  81 |
+|   William /Anderson/  |  60 |
+|  Madeline /Wheeldon/  |  76 |
+|    Isaac /Wheeldon/   |  62 |
+|     Vince /Smith/     |  53 |
+|     Brenda /Smith/    |  34 |
+|      Paul /Smith/     |  27 |
+|     Jason /Smith/     |  25 |
+|      Jenn /Smith/     |  51 |
+|      Luke /Smith/     |  14 |
+|      Luke /Smith/     |  14 |
+|    Brian /Dinosuar/   |  -5 |
+|   Daron /McSwiggen/   |  98 |
+|   Donna /McSwiggen/   |  88 |
+|   Billy /McSwiggen/   |  28 |
+|  Donald /Carrymehome/ | 108 |
+| Destiny /Carrymehome/ |  68 |
+|  Fabio /Carrymehome/  |  18 |
+|    Paul /Telepathy/   |  96 |
+|  Tiffany /Telepathy/  |  87 |
+|   Hannah /Telepathy/  |  4  |
+|     Bo /Telepathy/    | 151 |
++-----------------------+-----+
+
+Deceased Individuals:
++----------+----------+----------+
+| Headder1 | Headder2 | Headder3 |
++----------+----------+----------+
+|  Data1   |  Data2   |  Data3   |
++----------+----------+----------+
+
+Living Married Individuals:
++----------+----------+----------+
+| Headder1 | Headder2 | Headder3 |
++----------+----------+----------+
+|  Data1   |  Data2   |  Data3   |
++----------+----------+----------+
+
+Recent Births:
++----------+----------+----------+
+| Headder1 | Headder2 | Headder3 |
++----------+----------+----------+
+|  Data1   |  Data2   |  Data3   |
++----------+----------+----------+
+
+Recent Deaths:
++----------+----------+----------+
+| Headder1 | Headder2 | Headder3 |
++----------+----------+----------+
+|  Data1   |  Data2   |  Data3   |
++----------+----------+----------+

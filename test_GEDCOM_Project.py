@@ -5,7 +5,7 @@ SSW-555
 Description: 
 Tests for the GEDCOM_Project.py file
 """
-
+import collections
 import unittest
 import GEDCOM_Project
 from datetime import date
@@ -761,6 +761,14 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test4)  # False
         self.assertFalse(test5)  # False
 
+    # US18 - test the checkSiblingsShouldNotMarry function
+    def test_checkSiblingsShouldNotMarry(self):
+        self.assertTrue(True)  # True
+
+    # US21 - test the checkCorrectGenderForRole function
+    def test_checkCorrectGenderForRole(self):
+        self.assertTrue(True)  # True
+
     # US22 - test the checkUniqueIDs funciton
     def test_checkUniqueIDs(self):
         test1Dict = {}
@@ -960,6 +968,65 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test4)  # False
         self.assertTrue(test5)  # True
 
+    # US27 - Tests listIndividualAges function
+    def test_listIndividualAges(self):
+        test1indidic = {}
+        expected1 = [['Individual', 'Age']]
+        
+        test2indidic = {'I01': {'NAME': 'John /Doe/',
+                                'BIRT': '08 OCT 1993'},
+                        'I02': {'NAME': 'Jane /Doe/',
+                                'BIRT': '16 JUN 1993'}}
+        expected2 = [['Individual', 'Age'],
+                    ['John /Doe/', 24],
+                    ['Jane /Doe/', 25]]
+        
+        test3indidic = {'I01': {'NAME': 'John /Doe/',
+                                'BIRT': '08 OCT 1993'},
+                        'I02': {'NAME': 'Jane /Doe/',
+                                'BIRT': '16 JUN 1993'},
+                        'I04': {'NAME': 'Bob /Smith/',
+                                'BIRT': '16 JUN 1993',
+                                'DEAT': '20 JUN 2003'},
+                        'I03': {'NAME': 'Sam /Doe/',
+                                'BIRT': '16 JUN 2000'}}
+        expected3 = [['Individual', 'Age'],
+                    ['John /Doe/', 24],
+                    ['Jane /Doe/', 25],
+                    ['Sam /Doe/', 18],
+                    ['Bob /Smith/', 10]]
+
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test1indidic.items()))), expected1) #empty dict
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test2indidic.items()))), expected2) #in order, all alive
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))), expected3) #not in order, not all alive
+
+    # US29 - Tests listDeceased function
+    def test_listDeceased(self):
+        expected = [['Headder1', 'Headder2', 'Headder3'],
+                    ['Data1', 'Data2', 'Data3']]
+        self.assertEqual(expected, GEDCOM_Project.listDeceased())
+
+    # US30 - Tests listLivingMarried function
+    def test_listLivingMarried(self):
+        expected = [['Headder1', 'Headder2', 'Headder3'],
+                    ['Data1', 'Data2', 'Data3']]
+        self.assertEqual(expected, GEDCOM_Project.listLivingMarried())
+
+    # US35 - Tests listRecentBirths function
+    def test_listRecentBirths(self):
+        expected = [['Headder1', 'Headder2', 'Headder3'],
+                    ['Data1', 'Data2', 'Data3']]
+        self.assertEqual(expected, GEDCOM_Project.listRecentBirths())
+
+    # US36 - Tests listRecentDeaths function
+    def test_listRecentDeaths(self):
+        expected = [['Headder1', 'Headder2', 'Headder3'],
+                    ['Data1', 'Data2', 'Data3']]
+        self.assertEqual(expected, GEDCOM_Project.listRecentDeaths())
+
+    # US42 - test the checkIllegitimateDate function
+    def test_checkIllegitimateDate(self):
+        self.assertTrue(True)  # True
 
 if __name__ == '__main__':
     resultFile = 'Test_Results.txt'
