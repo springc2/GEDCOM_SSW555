@@ -8,7 +8,6 @@ Reads a GEDCOM file, prints the Families and Individuals data in a easy to read 
 
 #imports
 import collections
-import time
 from prettytable import PrettyTable
 from datetime import date
 from dateutil.relativedelta import relativedelta
