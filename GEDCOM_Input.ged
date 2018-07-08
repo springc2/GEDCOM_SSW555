@@ -142,6 +142,7 @@
 1 WIFE I28
 1 HUSB I27
 1 CHIL I29
+1 CHIL I30
 0 NOTE end of family Telepathy
 0 NOTE start of the individual Dan Smith
 0 I01 INDI
@@ -375,6 +376,8 @@
 1 NAME Paul /Telepathy/
 1 BIRT
 2 DATE 01 JAN 1920
+1 DEAT
+2 DATE 02 FEB 2016
 1 SEX M
 1 FAMS F14
 0 NOTE end of individual Paul Telepathy
@@ -382,6 +385,8 @@
 1 NAME Tiffany /Telepathy/
 1 BIRT
 2 DATE 01 JAN 1930
+1 DEAT
+2 DATE 01 FEB 2017
 1 SEX F
 1 FAMS F14
 0 NOTE end of individual Tiffany Telepathy
@@ -392,3 +397,12 @@
 1 SEX F
 1 FAMC F14
 0 NOTE end of individual Hannah Telepathy
+0 I30 INDI
+1 NAME Bo /Telepathy/
+1 BIRT
+2 DATE 02 FEB 2019
+1 DEAT
+2 DATE 02 FEB 2170
+1 SEX M
+1 FAMC F14
+0 NOTE end of individual Bo Telepathy
