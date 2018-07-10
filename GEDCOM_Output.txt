@@ -48,16 +48,13 @@ Error: US25: Family (F08) child Luke /Smith/ shares a name and birthday.
 
 Individuals:
 +-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
-|  ID |     ears older than child I03.
-Anomaly: US12: Family (F01) father is over 80 years older than child I03.
-Anomaly: US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Anomaly: US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Error: US24: Family (F02) has same spouses and marriage date as family (F01).
-Error: US24: Family (F01) has same spouses and marriage date as family (F05).
-Error: US25: Family (F01) child Michael /Flin/ shares a name and birthday.
-Error: US22: ID I03 is not a uniquie ID. Not including it or it's information!
-Error: US23: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
-   |
+|  ID |          Name         | Gender |   Birthday  | Age | Alive |    Death    |  Child  |     Spouse     |
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+| I01 |      Dan /Smith/      |   M    |  8 OCT 1993 |  24 |  True |      NA     | ['F01'] |       NA       |
+| I02 |     Laura /Smith/     |   F    | 15 SEP 1988 |  29 |  True |      NA     | ['F01'] |       NA       |
+| I03 |    William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
+| I04 |    Madeline /Smith/   |   F    | 18 MAR 1995 |  23 |  True |      NA     | ['F01'] |       NA       |
+| I05 |     Renee /Smith/     |   F    | 11 FEB 1962 |  56 |  True |      NA     | ['F03'] |    ['F01']     |
 | I06 |      Mark /Smith/     |   M    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
 | I07 |      Jean /Smith/     |   F    |  6 OCT 1933 |  84 |  True |      NA     |    NA   |    ['F02']     |
 | I08 |    Matthew /Smith/    |   M    | 16 FEB 1935 |  59 | False | 10 FEB 1995 |    NA   |    ['F02']     |
