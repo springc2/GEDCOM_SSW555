@@ -1,7 +1,7 @@
 """
 Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
-6/24/2018
+7/22/2018
 Description: 
 Tests for the GEDCOM_Project.py file
 """
@@ -1026,7 +1026,35 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US42 - test the checkIllegitimateDate function
     def test_checkIllegitimateDate(self):
-        self.assertTrue(True)  # True
+        test1date = []
+        test2date = ['30','JUN','2015']
+        test3date = ['35','JUN','2015']
+        test4date = ['-1','JUN','2015']
+        test5date = ['29','FEB','2015']
+        test6date = ['29','FEB','2012']
+        test7date = ['30','JUN','0']
+        test8date = ['30','JUN','-1']
+        test9date = ['30','JUNE','2015']
+        
+        test1 = GEDCOM_Project.checkIllegitimateDate(test1date, 1)  # empty date
+        test2 = GEDCOM_Project.checkIllegitimateDate(test2date, 1)  # valid date
+        test3 = GEDCOM_Project.checkIllegitimateDate(test3date, 1)  # invalid day - over limit
+        test4 = GEDCOM_Project.checkIllegitimateDate(test4date, 1)  # invalid day - neg
+        test5 = GEDCOM_Project.checkIllegitimateDate(test5date, 1)  # invalid day - not a leap year
+        test6 = GEDCOM_Project.checkIllegitimateDate(test6date, 1)  # valid day - leap year
+        test7 = GEDCOM_Project.checkIllegitimateDate(test7date, 1)  # invalid year - 0
+        test8 = GEDCOM_Project.checkIllegitimateDate(test8date, 1)  # invalid year - neg
+        test9 = GEDCOM_Project.checkIllegitimateDate(test9date, 1)  # invalid month
+
+        self.assertFalse(test1)  # False
+        self.assertTrue(test2)  # True
+        self.assertFalse(test3)  # False
+        self.assertFalse(test4)  # False
+        self.assertFalse(test5)  # False
+        self.assertTrue(test6)  # True
+        self.assertFalse(test7)  # False
+        self.assertFalse(test8)  # False
+        self.assertFalse(test9)  # False
 
 if __name__ == '__main__':
     resultFile = 'Test_Results.txt'

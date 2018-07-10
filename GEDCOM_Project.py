@@ -1,7 +1,7 @@
 """
 Chris Springer, Dan Bekier, Dan Pecoraro, Mike Macari
 SSW-555
-6/24/2018
+7/22/2018
 Description: 
 Reads a GEDCOM file, prints the Families and Individuals data in a easy to read format, and prints errors and anomalies found in the GEDCOM file
 """
@@ -45,7 +45,7 @@ def main():
                     curEntityID = createEntity(parsedLine, curEntityType)
                 elif (isValid(parsedLine)):
                     #either adding info to an existing family/individual or it is a comment
-                    datePredecessor = updateEntity(parsedLine, curEntityID, curEntityType, datePredecessor)
+                    datePredecessor = updateEntity(parsedLine, curEntityID, curEntityType, datePredecessor, numLine)
                 else:
                     #add error reporting to help user
                     invalidLines.append(numLine)
@@ -94,7 +94,7 @@ def createEntity(pLine, entType):
     return entID
 
 #this fuction will update an entities information based on the given line info
-def updateEntity(pLine, entID, entType, curDatePred):
+def updateEntity(pLine, entID, entType, curDatePred, lineNumber):
     #if the level is 0, we will skip over everything becuase this function is only for level 1 or 2 items
     #also skipping over this function if there is no value for the entity ID
     validDatePredecessor = ['BIRT', 'DEAT', 'DIV', 'MARR'] #these are the only types that can come before the date tag
@@ -106,19 +106,24 @@ def updateEntity(pLine, entID, entType, curDatePred):
                 #need to store this tag because it will be followed by a date
                 nextDatePred = pLine[1]
             elif (pLine[1] == 'DATE' and curDatePred in validDatePredecessor):
-                #this date gets written for the previous tag
-                FAMILIES[entID].update({curDatePred: ' '.join(pLine[2:len(pLine)])})
+                #only add the date if it is a legitimate one
+                if (checkIllegitimateDate(pLine[2:], lineNumber)):
+                    #this date gets written for the previous tag
+                    FAMILIES[entID].update({curDatePred: ' '.join(pLine[2:])})
+                else:
+                    #adding a basic date so the program doesn't crash
+                    FAMILIES[entID].update({curDatePred: ' '.join(['01','JAN','2000'])})
             else:
                 if (pLine[1] == 'CHIL' and 'CHIL' in FAMILIES[entID]):
                     #a family can have multiple children
-                    FAMILIES[entID][pLine[1]].append(' '.join(pLine[2:len(pLine)]))
+                    FAMILIES[entID][pLine[1]].append(' '.join(pLine[2:]))
                 else:
                     if (pLine[1] == 'CHIL'):
                         #CHIL must be stored differently since it can have multiple entries
-                        FAMILIES[entID].update({pLine[1]: [' '.join(pLine[2:len(pLine)])]})
+                        FAMILIES[entID].update({pLine[1]: [' '.join(pLine[2:])]})
                     else:
                         #otherwise just write normally
-                        FAMILIES[entID].update({pLine[1]: ' '.join(pLine[2:len(pLine)])})
+                        FAMILIES[entID].update({pLine[1]: ' '.join(pLine[2:])})
         elif (entType == 'INDI'):
             #working within the indi dict
             #working within the family dict
@@ -126,20 +131,25 @@ def updateEntity(pLine, entID, entType, curDatePred):
                 #need to store this tag because it will be followed by a date
                 nextDatePred = pLine[1]
             elif (pLine[1] == 'DATE' and curDatePred in validDatePredecessor):
-                #this date gets written for the previous tag
-                INDIVIDUALS[entID].update({curDatePred: ' '.join(pLine[2:len(pLine)])})
+                #only add the date if it is a legitimate one
+                if (checkIllegitimateDate(pLine[2:], lineNumber)):
+                    #this date gets written for the previous tag
+                    INDIVIDUALS[entID].update({curDatePred: ' '.join(pLine[2:])})
+                else:
+                    #adding a basic date so the program doesn't crash
+                    INDIVIDUALS[entID].update({curDatePred: ' '.join(['01','JAN','2000'])})
             else:
                 
                 if ((pLine[1] == 'FAMS' or pLine[1] == 'FAMC') and (pLine[1] in INDIVIDUALS[entID])):
                     #an individual can be in multiple families (as a child or spouse)
-                    INDIVIDUALS[entID][pLine[1]].append(' '.join(pLine[2:len(pLine)]))
+                    INDIVIDUALS[entID][pLine[1]].append(' '.join(pLine[2:]))
                 else:
                     if (pLine[1] == 'FAMS' or pLine[1] == 'FAMC'):
                         #FAMS and FAMC must be stored differently since they can have multiple entiries
-                        INDIVIDUALS[entID].update({pLine[1]: [' '.join(pLine[2:len(pLine)])]})
+                        INDIVIDUALS[entID].update({pLine[1]: [' '.join(pLine[2:])]})
                     else:
                         #otherwise just write normally
-                        INDIVIDUALS[entID].update({pLine[1]: ' '.join(pLine[2:len(pLine)])})
+                        INDIVIDUALS[entID].update({pLine[1]: ' '.join(pLine[2:])})
         else:
             F.write('Unexpected error while updating an entity! Entity type ' + entType + ' is unknown.\n')
     return nextDatePred
@@ -860,8 +870,33 @@ def listRecentDeaths():
 # All dates should be legitimate dates for the months specified (e.g., 2/30/2015 is not legitimate)
 # This is considered an Error
 # Returns True if the check is passed, and False if the check is failed
-def checkIllegitimateDate():
+def checkIllegitimateDate(date, line):
     passesCheck = True
+    if len(date) != 3:
+        log('Error','US42',str(line)+': The date entered is not in the correct format.')
+        passesCheck = False
+    else:
+        try:
+            months = {'JAN': 1,
+                    'FEB': 2,
+                    'MAR': 3,
+                    'APR': 4,
+                    'MAY': 5,
+                    'JUN': 6,
+                    'JUL': 7,
+                    'AUG': 8,
+                    'SEP': 9,
+                    'OCT': 10,
+                    'NOV': 11,
+                    'DEC': 12}
+            if (date[1] in months):
+                datetime.datetime(year=int(date[2]),month=months[date[1]],day=int(date[0]))
+            else:
+                log('Error','US42',str(line)+': The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
+                passesCheck = False
+        except ValueError:
+            log('Error','US42',str(line)+': The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
+            passesCheck = False
     return passesCheck
 
 # this function prints the error or anomaly message to the output file
