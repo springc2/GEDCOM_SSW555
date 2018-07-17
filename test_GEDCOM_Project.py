@@ -726,7 +726,8 @@ class TestGEDCOM_Project(unittest.TestCase):
         test3 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test3ind)  # Just the mom is too old
         test4 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test4ind)  # Just the dad is too old
         test5 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test5ind)  # Both parents are too old
-        test6 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test6ind)  # mom is exactly 60 years older, dad is exactly 80 years older
+        test6 = GEDCOM_Project.checkParentsNotTooOld(test2fam,
+                                                     test6ind)  # mom is exactly 60 years older, dad is exactly 80 years older
 
         self.assertTrue(test1)  # True
         self.assertTrue(test2)  # True
@@ -763,7 +764,34 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US18 - test the checkSiblingsShouldNotMarry function
     def test_checkSiblingsShouldNotMarry(self):
-        self.assertTrue(True)  # True
+        test1Dict = {}
+        test2Dict = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'}}
+        test3Dict = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'},
+                     'F02': {'HUSB': 'I03', 'WIFE': 'I04', 'CHIL': ['I01', 'I02']}}
+        test4Dict = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'},
+                     'F02': {'HUSB': 'I03', 'WIFE': 'I04', 'CHIL': ['I01', 'I03']},
+                     'F03': {'HUSB': 'I05', 'WIFE': 'I06', 'CHIL': ['I02', 'I04']}}
+        test5Dict = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'},
+                     'F02': {'HUSB': 'I03', 'WIFE': 'I04', 'CHIL': ['I01', 'I03']},
+                     'F03': {'HUSB': 'I05', 'WIFE': 'I06', 'CHIL': ['I02', 'I04']},
+                     'F04': {'HUSB': 'I07', 'WIFE': 'I08', 'CHIL': ['I02', 'I04', 'I06', 'I11', 'I92', 'I05']}}
+        test6Dict = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'},
+                     'F02': {'HUSB': 'I03', 'WIFE': 'I04', 'CHIL': ['I05', 'I06']},
+                     'F03': {'HUSB': 'I05', 'WIFE': 'I06', 'CHIL': ['I02', 'I04']}}
+
+        test1 = GEDCOM_Project.checkSiblingsShouldNotMarry(test1Dict) # empty dict
+        test2 = GEDCOM_Project.checkSiblingsShouldNotMarry(test2Dict) # married no familes with children
+        test3 = GEDCOM_Project.checkSiblingsShouldNotMarry(test3Dict) # married and one sibling relationship
+        test4 = GEDCOM_Project.checkSiblingsShouldNotMarry(test4Dict) # married and multiple siblings in other families, no incest
+        test5 = GEDCOM_Project.checkSiblingsShouldNotMarry(test5Dict)
+        test6 = GEDCOM_Project.checkSiblingsShouldNotMarry(test6Dict)
+
+        self.assertTrue(test1)
+        self.assertTrue(test2)
+        self.assertFalse(test3)
+        self.assertTrue(test4)
+        self.assertFalse(test5)
+        self.assertFalse(test6)
 
     # US21 - test the checkCorrectGenderForRole function
     def test_checkCorrectGenderForRole(self):
@@ -972,15 +1000,15 @@ class TestGEDCOM_Project(unittest.TestCase):
     def test_listIndividualAges(self):
         test1indidic = {}
         expected1 = [['Individual', 'Age']]
-        
+
         test2indidic = {'I01': {'NAME': 'John /Doe/',
                                 'BIRT': '08 OCT 1993'},
                         'I02': {'NAME': 'Jane /Doe/',
                                 'BIRT': '16 JUN 1993'}}
         expected2 = [['Individual', 'Age'],
-                    ['John /Doe/', 24],
-                    ['Jane /Doe/', 25]]
-        
+                     ['John /Doe/', 24],
+                     ['Jane /Doe/', 25]]
+
         test3indidic = {'I01': {'NAME': 'John /Doe/',
                                 'BIRT': '08 OCT 1993'},
                         'I02': {'NAME': 'Jane /Doe/',
@@ -991,14 +1019,17 @@ class TestGEDCOM_Project(unittest.TestCase):
                         'I03': {'NAME': 'Sam /Doe/',
                                 'BIRT': '16 JUN 2000'}}
         expected3 = [['Individual', 'Age'],
-                    ['John /Doe/', 24],
-                    ['Jane /Doe/', 25],
-                    ['Sam /Doe/', 18],
-                    ['Bob /Smith/', 10]]
+                     ['John /Doe/', 24],
+                     ['Jane /Doe/', 25],
+                     ['Sam /Doe/', 18],
+                     ['Bob /Smith/', 10]]
 
-        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test1indidic.items()))), expected1) #empty dict
-        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test2indidic.items()))), expected2) #in order, all alive
-        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))), expected3) #not in order, not all alive
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test1indidic.items()))),
+                         expected1)  # empty dict
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test2indidic.items()))),
+                         expected2)  # in order, all alive
+        self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))),
+                         expected3)  # not in order, not all alive
 
     # US29 - Tests listDeceased function
     def test_listDeceased(self):
@@ -1027,15 +1058,15 @@ class TestGEDCOM_Project(unittest.TestCase):
     # US42 - test the checkIllegitimateDate function
     def test_checkIllegitimateDate(self):
         test1date = []
-        test2date = ['30','JUN','2015']
-        test3date = ['35','JUN','2015']
-        test4date = ['-1','JUN','2015']
-        test5date = ['29','FEB','2015']
-        test6date = ['29','FEB','2012']
-        test7date = ['30','JUN','0']
-        test8date = ['30','JUN','-1']
-        test9date = ['30','JUNE','2015']
-        
+        test2date = ['30', 'JUN', '2015']
+        test3date = ['35', 'JUN', '2015']
+        test4date = ['-1', 'JUN', '2015']
+        test5date = ['29', 'FEB', '2015']
+        test6date = ['29', 'FEB', '2012']
+        test7date = ['30', 'JUN', '0']
+        test8date = ['30', 'JUN', '-1']
+        test9date = ['30', 'JUNE', '2015']
+
         test1 = GEDCOM_Project.checkIllegitimateDate(test1date, 1)  # empty date
         test2 = GEDCOM_Project.checkIllegitimateDate(test2date, 1)  # valid date
         test3 = GEDCOM_Project.checkIllegitimateDate(test3date, 1)  # invalid day - over limit
@@ -1055,6 +1086,7 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test7)  # False
         self.assertFalse(test8)  # False
         self.assertFalse(test9)  # False
+
 
 if __name__ == '__main__':
     resultFile = 'Test_Results.txt'
