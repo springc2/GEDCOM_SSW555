@@ -370,7 +370,7 @@ def additionalChecking():
     checkMarriageAfter14(INDIVIDUALS, FAMILIES) #User Story 10
     checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
-    checkSiblingsShouldNotMarry() #User Story 18
+    checkSiblingsShouldNotMarry(FAMILIES) #User Story 18
     checkCorrectGenderForRole() #User Story 21
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
     checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
