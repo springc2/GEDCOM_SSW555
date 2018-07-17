@@ -712,16 +712,17 @@ def checkFewerThan15Siblings(fam):
 # Returns true if the check is passed, and false if the check is failed
 def checkSiblingsShouldNotMarry(fam):
     passesCheck = True
-    for k, v in fam.iteritems():
-        currentHusband = v.get('HUSB')
-        currentWife = v.get('WIFE')
-        for l, w in fam.iteritems():
-            currentChildren = w.get('CHIL')
-            if currentChildren and len(currentChildren) > 1 and currentHusband in currentChildren and \
-                    currentWife in currentChildren:
-                log('Anomaly', 'US18', 'Family (' + k + ') has husband and wife as siblings.')
-                passesCheck = False
-                break
+    if(fam):
+        for k, v in fam.iteritems():
+            currentHusband = v.get('HUSB')
+            currentWife = v.get('WIFE')
+            for l, w in fam.iteritems():
+                currentChildren = w.get('CHIL')
+                if currentChildren and len(currentChildren) > 1 and currentHusband in currentChildren and \
+                        currentWife in currentChildren:
+                    log('Anomaly', 'US18', 'Family (' + k + ') has husband and wife as siblings.')
+                    passesCheck = False
+                    break
     return passesCheck
 
 # Checks User Story 21:
