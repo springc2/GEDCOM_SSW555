@@ -735,10 +735,10 @@ def checkCorrectGenderForRole(fam, indi):
         currentWife = v.get('WIFE')
         currentHusband = v.get('HUSB')
         if(indi):
-            if indi[currentWife]['SEX'] != 'F':
+            if currentWife != None and indi[currentWife]['SEX'] != 'F':
                 log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentWife + ' is the wrong gender for wife.')
                 passesCheck = False
-            if indi[currentHusband]['SEX'] != 'M':
+            if currentHusband != None and indi[currentHusband]['SEX'] != 'M':
                 log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentHusband + ' is the wrong gender for husband.')
                 passesCheck = False
 
