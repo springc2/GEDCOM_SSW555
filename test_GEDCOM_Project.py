@@ -1048,12 +1048,66 @@ class TestGEDCOM_Project(unittest.TestCase):
                          expected2)  # in order, all alive
         self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))),
                          expected3)  # not in order, not all alive
-
+    # Michael Macari
     # US29 - Tests listDeceased function
     def test_listDeceased(self):
-        expected = [['Header1', 'Header2', 'Header3'],
-                    ['Data1', 'Data2', 'Data3']]
-        self.assertEqual(expected, GEDCOM_Project.listDeceased())
+        test1dic = {}
+        expected1 = [['Name', 'Date']]
+
+        test2dic = {'I01': {'NAME': 'Bob /Belcher/',
+                            'DEAT': '16 JUN 2013'},
+                    'I02': {'NAME': 'Baba /ORielly/',
+                            'DEAT': '02 JAN 1992'}}
+        expected2 = [['Name', 'Date'],
+                     ['Bob /Belcher/', '16 JUN 2013'],
+                     ['Baba /ORielly/', '02 JAN 1992']]
+        test3dic = {'I01': {'NAME': 'Bob /Belcher/',
+                            'DEAT': '16 JUN 2013'},
+                    'I02': {'NAME': 'Baba /ORielly/',
+                            'DEAT': '02 JAN 1992'},
+                    'I03': {'NAME': 'Jerome /Smith/'}}
+        expected3 = [['Name', 'Date'],
+                     ['Bob /Belcher/', '16 JUN 2013'],
+                     ['Baba /ORielly/', '02 JAN 1992']]
+
+        test4dic = {'I01': {'NAME': 'Bob /Belcher/',
+                            'DEAT': '16 JUN 2013'},
+                    'I02': {'NAME': 'Baba /ORielly/',
+                            'DEAT': '02 JAN 1992'},
+                    'I03': {'NAME': 'Jerome /Smith/'},
+                    'I04': {'NAME': 'Taco /Salad/'}}
+        expected4 = [['Name', 'Date'],
+                     ['Bob /Belcher/', '16 JUN 2013'],
+                     ['Baba /ORielly/', '02 JAN 1992']]
+
+        test5dic = {'I01': {'NAME': 'Bob /Belcher/',
+                            'DEAT': '16 JUN 2013'},
+                    'I02': {'NAME': 'Baba /ORielly/',
+                            'DEAT': '02 JAN 1992'},
+                    'I03': {'NAME': 'Jerome /Smith/'},
+                    'I04': {'NAME': 'Taco /Salad/'},
+                    'I05': {'NAME': 'Tiffany /PoachedEggs/',
+                            'DEAT': '04 NOV 2001'}}
+        expected5 = [['Name', 'Date'],
+                     ['Bob /Belcher/', '16 JUN 2013'],
+                     ['Baba /ORielly/', '02 JAN 1992'],
+                     ['Tiffany /PoachedEggs/', '04 NOV 2001']]
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listDeceased(
+                             collections.OrderedDict(sorted(test1dic.items())))) # Empty Dictionary
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listDeceased(
+                             collections.OrderedDict(sorted(test2dic.items()))))  # Dictionary with 2 of 2 deaths
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listDeceased(
+                             collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 3 of 2 deaths
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listDeceased(
+                             collections.OrderedDict(sorted(test4dic.items()))))  # Dictionary with 4 of 2 deaths
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listDeceased(
+                             collections.OrderedDict(sorted(test5dic.items()))))  # Dictionary with 5 of 3 deaths
 
     # US30 - Tests listLivingMarried function
     def test_listLivingMarried(self):

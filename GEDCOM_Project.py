@@ -381,7 +381,7 @@ def additionalChecking():
 # so this function will not recheck for errors that have already been covered earlier in the program
 def additionalLists():
     prettyPrint('Individual\'s Age', listIndividualAges(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 27
-    prettyPrint('Deceased Individuals', listDeceased()) #User Story 29
+    prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried()) #User Story 30
     prettyPrint('Recent Births', listRecentBirths()) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths()) #User Story 36
@@ -854,10 +854,14 @@ def listIndividualAges(indi):
 # User Story 29:
 # List all deceased individuals in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
-def listDeceased():
+def listDeceased(indi):
     rows = [] #initilize the row list
-    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
-    rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
+    rows.append(['Name', 'Date']) #add in the header row
+    for k,v in indi.iteritems():
+        if(v.get('DEAT') is not None):
+            # Means individual is dead
+            rows.append([v['NAME'], v['DEAT']])
+
     return rows
     
 # User Story 30:
