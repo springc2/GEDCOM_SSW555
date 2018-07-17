@@ -371,7 +371,7 @@ def additionalChecking():
     checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkSiblingsShouldNotMarry(FAMILIES) #User Story 18
-    checkCorrectGenderForRole() #User Story 21
+    checkCorrectGenderForRole(INDIVIDUALS, FAMILIES) #User Story 21
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
     checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
     checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
@@ -729,8 +729,19 @@ def checkSiblingsShouldNotMarry(fam):
 # Husband in family should be male and wife in family should be female
 # This is considered an anomoly
 # Returns true if the check is passed, and false if the check is failed
-def checkCorrectGenderForRole():
+def checkCorrectGenderForRole(fam, indi):
     passesCheck = True
+    for k, v in fam.iteritems():
+        currentWife = v.get('WIFE')
+        currentHusband = v.get('HUSB')
+        if(indi):
+            if indi[currentWife]['SEX'] != 'F':
+                log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentWife + ' is the wrong gender for wife.')
+                passesCheck = False
+            if indi[currentHusband]['SEX'] != 'M':
+                log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentHusband + ' is the wrong gender for husband.')
+                passesCheck = False
+
     return passesCheck
 
 # Checks User Story 22:

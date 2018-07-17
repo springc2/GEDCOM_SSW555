@@ -795,7 +795,25 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US21 - test the checkCorrectGenderForRole function
     def test_checkCorrectGenderForRole(self):
-        self.assertTrue(True)  # True
+        testDictFam = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'}}
+        test1Dict = {'I01':{'SEX': 'M'}, 'I02': {'SEX': 'F'}}
+        test2Dict = {'I01': {'SEX': 'M'}, 'I02': {'SEX': 'M'}}
+        test3Dict = {'I01': {'SEX': 'F'}, 'I02': {'SEX': 'M'}}
+        test4Dict = {'I01': {'SEX': 'F'}, 'I02': {'SEX': 'F'}}
+        test5Dict = {}
+
+        test1 = GEDCOM_Project.checkCorrectGenderForRole(testDictFam, test1Dict)
+        test2 = GEDCOM_Project.checkCorrectGenderForRole(testDictFam, test2Dict)
+        test3 = GEDCOM_Project.checkCorrectGenderForRole(testDictFam, test3Dict)
+        test4 = GEDCOM_Project.checkCorrectGenderForRole(testDictFam, test4Dict)
+        test5 = GEDCOM_Project.checkCorrectGenderForRole(testDictFam, test5Dict)
+
+        self.assertTrue(test1)  # True
+        self.assertFalse(test2)  # True
+        self.assertFalse(test3)  # True
+        self.assertFalse(test4)  # True
+        self.assertTrue(test5)  # True
+
 
     # US22 - test the checkUniqueIDs funciton
     def test_checkUniqueIDs(self):
