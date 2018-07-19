@@ -382,7 +382,8 @@ def additionalChecking():
 def additionalLists():
     prettyPrint('Individual\'s Age', listIndividualAges(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 27
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
-    prettyPrint('Living Married Individuals', listLivingMarried()) #User Story 30
+    prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
     prettyPrint('Recent Births', listRecentBirths()) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths()) #User Story 36
 
@@ -867,10 +868,15 @@ def listDeceased(indi):
 # User Story 30:
 # List all living married people in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
-def listLivingMarried():
+def listLivingMarried(indi, fam):
     rows = [] #initilize the row list
-    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
-    rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
+    rows.append(['Name', 'Family']) #add in the header row
+    for k, v in indi.iteritems():
+        if(v.get('DEAT') is None and v.get('FAMS') is not None):
+            for f in v.get('FAMS'):
+                if(fam[f].get('DIV') is None):
+                    rows.append([v['NAME'], f])
+
     return rows
 
 # User Story 35:

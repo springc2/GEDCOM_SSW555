@@ -1111,9 +1111,64 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US30 - Tests listLivingMarried function
     def test_listLivingMarried(self):
-        expected = [['Header1', 'Header2', 'Header3'],
-                    ['Data1', 'Data2', 'Data3']]
-        self.assertEqual(expected, GEDCOM_Project.listLivingMarried())
+        expected1 = [['Name', 'Family']]
+        test1indic = {}
+        test1famdic = {}
+
+        expected2 = [['Name', 'Family']]
+        test2indic = {'I01': {'NAME': 'Jerome /Buck/'}}
+        test2famdic = {}
+
+        expected3 = [['Name', 'Family'],
+                     ['Donald /Trump/', 'F01']]
+        test3indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01']}}
+        test3famdic = {'F01': {'MARR': '12 MAY 2010'}}
+
+        expected4 = [['Name', 'Family']]
+        test4indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01'],
+                              'DEAT': '06 JUN 1994'}}
+        test4famdic = {'F01': {'MARR': '12 MAY 1987'}}
+
+        expected5 = [['Name', 'Family'],
+                     ['Donald /Trump/', 'F02'],
+                     ['Jack /Frost/', 'F03']]
+        test5indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01', 'F02']},
+                      'I02': {'NAME': 'Jack /Frost/',
+                              'FAMS': ['F03']}}
+        test5famdic = {'F01': {'MARR': '12 MAY 1987',
+                               'DIV': '13 MAY 1988'},
+                       'F02': {'MARR': '13 MAY 1999'},
+                       'F03': {'MARR': '14 MAY 2014'}}
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listLivingMarried(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))  # Empty Dictionary
+
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listLivingMarried(
+                             collections.OrderedDict(sorted(test2indic.items())),
+                             collections.OrderedDict(sorted(test2famdic.items()))))  # One individual with no family and did not die
+
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listLivingMarried(
+                             collections.OrderedDict(sorted(test3indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test3famdic.items()))))  # One individual with family and didn't divorce
+
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listLivingMarried(
+                             collections.OrderedDict(sorted(test4indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test4famdic.items()))))  # One individual with family but is dead
+
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listLivingMarried(
+                             collections.OrderedDict(sorted(test5indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test5famdic.items()))))  # One individual with family but divorced the first family, another individual just in one family
 
     # US35 - Tests listRecentBirths function
     def test_listRecentBirths(self):
