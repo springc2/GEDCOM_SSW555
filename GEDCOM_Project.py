@@ -9,7 +9,7 @@ Reads a GEDCOM file, prints the Families and Individuals data in a easy to read 
 #imports
 import collections
 from prettytable import PrettyTable
-from datetime import date
+from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 import datetime
 
@@ -384,8 +384,8 @@ def additionalLists():
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
-    prettyPrint('Recent Births', listRecentBirths()) #User Story 35
-    prettyPrint('Recent Deaths', listRecentDeaths()) #User Story 36
+    prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
+    prettyPrint('Recent Deaths', listRecentDeaths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 36
 
 # Checks User Story 01:
 # Dates (birth, marriage, divorce, death) should not be after the current date
@@ -882,21 +882,39 @@ def listLivingMarried(indi, fam):
 # User Story 35:
 # List all people in a GEDCOM file who were born in the last 30 days
 # Returns a row of values to print as a pretty table (first row is the header)
-def listRecentBirths():
+def listRecentBirths(indi):
     rows = [] #initilize the row list
-    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
-    rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
+    rows.append(['Name', 'Date']) #add in the header row
+    for k,v in indi.iteritems():
+    	if(v.get('BIRT') is not None):
+	        birthDate = getFormattedDateForCompare(v['BIRT'])
+	        currentDate = date.today() #today's date
+	        pastDate = currentDate - timedelta(days=30); #30 days ago
+
+	        if(birthDate > pastDate and birthDate <= currentDate):
+	        	# Means individual was born in the last 30 days
+				rows.append([v['NAME'], v['BIRT']])
+
     return rows
 
 # User Story 36:
 # List all people in a GEDCOM file who died in the last 30 days
 # Returns a row of values to print as a pretty table (first row is the header)
-def listRecentDeaths():
+def listRecentDeaths(indi):
     rows = [] #initilize the row list
-    rows.append(['Header1', 'Header2', 'Header3']) #add in the header row
-    rows.append(['Data1', 'Data2', 'Data3']) #add in the data rows
-    return rows
+    rows.append(['Name', 'Date']) #add in the header row
+    for k,v in indi.iteritems():
+        if(v.get('DEAT') is not None):
+			# Means individual is dead
+			deathDate = getFormattedDateForCompare(v['DEAT'])
+			currentDate = date.today() #today's date
+			pastDate = currentDate - timedelta(days=30); #30 days ago
 
+			if(deathDate > pastDate and deathDate <= currentDate):
+				# Means individual has died in the last 30 days
+				rows.append([v['NAME'], v['DEAT']])
+
+    return rows
 
 # Checks User Story 42:
 # All dates should be legitimate dates for the months specified (e.g., 2/30/2015 is not legitimate)
