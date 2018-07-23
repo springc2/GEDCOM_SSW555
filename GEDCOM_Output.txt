@@ -1,4 +1,5 @@
 Error: US22: ID I19 is not a uniquie ID. Not including it or it's information!
+Error: US42: 412: The date '29 FEB 2013' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
 Error: US01: Individual Bo /Telepathy/ (I30) has a birth date after the current date.
 Error: US01: Individual Bo /Telepathy/ (I30) has a death date after the current date.
 Error: US02: Individual Jean /Smith/ (I07) has marriage date before birth date.
@@ -41,6 +42,20 @@ Anomaly: US12: Family (F12) mother is over 60 years older than child I23.
 Anomaly: US12: Family (F13) father is over 80 years older than child I26.
 Anomaly: US12: Family (F14) mother is over 60 years older than child I29 and father is over 80 years older than child I29.
 Anomaly: US15: Family (F11) has more than 15 siblings.
+Anomaly: US18: Family (F05) has husband and wife as siblings.
+Anomaly: US18: Family (F04) has husband and wife as siblings.
+Anomaly: US18: Family (F07) has husband and wife as siblings.
+Anomaly: US18: Family (F06) has husband and wife as siblings.
+Anomaly: US18: Family (F01) has husband and wife as siblings.
+Anomaly: US18: Family (F03) has husband and wife as siblings.
+Anomaly: US18: Family (F02) has husband and wife as siblings.
+Anomaly: US18: Family (F10) has husband and wife as siblings.
+Anomaly: US18: Family (F11) has husband and wife as siblings.
+Anomaly: US18: Family (F09) has husband and wife as siblings.
+Anomaly: US18: Family (F08) has husband and wife as siblings.
+Anomoly: US21: TRIGGER WARNING! I06 is the wrong gender for husband.
+Anomoly: US21: TRIGGER WARNING! I06 is the wrong gender for husband.
+Anomoly: US21: TRIGGER WARNING! I06 is the wrong gender for husband.
 Error: US23: Individual Luke /Smith/ (I18) and Luke /Smith/ (I19) have the same name and birth date.
 Error: US24: Family (F01) has same spouses and marriage date as family (F07).
 Error: US25: Family (F08) child Luke /Smith/ shares a name and birthday.
@@ -48,14 +63,13 @@ Error: US25: Family (F08) child Luke /Smith/ shares a name and birthday.
 Individuals:
 +-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
 |  ID |          Name         | Gender |   Birthday  | Age | Alive |    Death    |  Child  |     Spouse     |
-+-----+-----------------------+------) has same spouses and marriage date as family (F05).
-Error: US25: Family (F01) child Michael /Flin/ shares a name and birthday.
-Error: US22: ID I03 is not a uniquie ID. Not including it or it's information!
-Error: US23: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
-  William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+| I01 |      Dan /Smith/      |   M    |  8 OCT 1993 |  24 |  True |      NA     | ['F01'] |       NA       |
+| I02 |     Laura /Smith/     |   F    | 15 SEP 1988 |  29 |  True |      NA     | ['F01'] |       NA       |
+| I03 |    William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
 | I04 |    Madeline /Smith/   |   F    | 18 MAR 1995 |  23 |  True |      NA     | ['F01'] |       NA       |
 | I05 |     Renee /Smith/     |   F    | 11 FEB 1962 |  56 |  True |      NA     | ['F03'] |    ['F01']     |
-| I06 |      Mark /Smith/     |   M    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
+| I06 |      Mark /Smith/     |   F    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
 | I07 |      Jean /Smith/     |   F    |  6 OCT 1933 |  84 |  True |      NA     |    NA   |    ['F02']     |
 | I08 |    Matthew /Smith/    |   M    | 16 FEB 1935 |  59 | False | 10 FEB 1995 |    NA   |    ['F02']     |
 | I09 |    Jane /Anderson/    |   F    |  4 JAN 1933 |  81 | False | 26 APR 2014 | ['F04'] |    ['F03']     |
@@ -80,6 +94,9 @@ Error: US23: Individual John Doe (I01) and John Doe (I03) have the same name and
 | I28 |  Tiffany /Telepathy/  |   F    | 01 JAN 1930 |  87 | False | 01 FEB 2017 |    NA   |    ['F14']     |
 | I29 |   Hannah /Telepathy/  |   F    | 02 FEB 2014 |  4  |  True |      NA     | ['F14'] |       NA       |
 | I30 |     Bo /Telepathy/    |   M    | 02 FEB 2019 | 151 | False | 02 FEB 2170 | ['F14'] |       NA       |
+| I31 |    Joey /Telepathy/   |   M    | 01 JAN 2000 |  18 |  True |      NA     | ['F14'] |       NA       |
+| I32 |   Tommy /Telepathy/   |   M    | 21 JUL 2018 |  0  |  True |      NA     | ['F14'] |       NA       |
+| I33 |   Timmy /Telepathy/   |   M    | 04 APR 1999 |  19 | False | 20 JUL 2018 | ['F14'] |       NA       |
 +-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
 
 Families:
@@ -101,3 +118,88 @@ Families:
 | F13 | 01 JAN 1951 |      NA     |    I24     | Donald /Carrymehome/ |   I25   | Destiny /Carrymehome/ |                                                  ['I26']                                                  |
 | F14 | 01 JAN 1931 |      NA     |    I27     |   Paul /Telepathy/   |   I28   |  Tiffany /Telepathy/  |                                               ['I29', 'I30']                                              |
 +-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
+
+Individual's Age:
++-----------------------+-----+
+|       Individual      | Age |
++-----------------------+-----+
+|      Dan /Smith/      |  24 |
+|     Laura /Smith/     |  29 |
+|    William /Smith/    |  27 |
+|    Madeline /Smith/   |  23 |
+|     Renee /Smith/     |  56 |
+|      Mark /Smith/     |  58 |
+|      Jean /Smith/     |  84 |
+|    Matthew /Smith/    |  59 |
+|    Jane /Anderson/    |  81 |
+|   William /Anderson/  |  60 |
+|  Madeline /Wheeldon/  |  76 |
+|    Isaac /Wheeldon/   |  62 |
+|     Vince /Smith/     |  53 |
+|     Brenda /Smith/    |  34 |
+|      Paul /Smith/     |  27 |
+|     Jason /Smith/     |  25 |
+|      Jenn /Smith/     |  51 |
+|      Luke /Smith/     |  14 |
+|      Luke /Smith/     |  14 |
+|    Brian /Dinosuar/   |  -5 |
+|   Daron /McSwiggen/   |  98 |
+|   Donna /McSwiggen/   |  88 |
+|   Billy /McSwiggen/   |  28 |
+|  Donald /Carrymehome/ | 108 |
+| Destiny /Carrymehome/ |  68 |
+|  Fabio /Carrymehome/  |  18 |
+|    Paul /Telepathy/   |  96 |
+|  Tiffany /Telepathy/  |  87 |
+|   Hannah /Telepathy/  |  4  |
+|     Bo /Telepathy/    | 151 |
+|    Joey /Telepathy/   |  18 |
+|   Tommy /Telepathy/   |  0  |
+|   Timmy /Telepathy/   |  19 |
++-----------------------+-----+
+
+Deceased Individuals:
++---------------------+-------------+
+|         Name        |     Date    |
++---------------------+-------------+
+|   Matthew /Smith/   | 10 FEB 1995 |
+|   Jane /Anderson/   | 26 APR 2014 |
+|  William /Anderson/ |  9 JAN 1986 |
+| Madeline /Wheeldon/ | 17 MAY 1985 |
+|   Isaac /Wheeldon/  | 10 MAY 1970 |
+|    Brenda /Smith/   | 21 OCT 1999 |
+|   Brian /Dinosuar/  | 15 JUN 2001 |
+|   Paul /Telepathy/  | 02 FEB 2016 |
+| Tiffany /Telepathy/ | 01 FEB 2017 |
+|    Bo /Telepathy/   | 02 FEB 2170 |
+|  Timmy /Telepathy/  | 20 JUL 2018 |
++---------------------+-------------+
+
+Living Married Individuals:
++-----------------------+--------+
+|          Name         | Family |
++-----------------------+--------+
+|     Renee /Smith/     |  F01   |
+|      Mark /Smith/     |  F01   |
+|      Jean /Smith/     |  F02   |
+|     Vince /Smith/     |  F06   |
+|      Jenn /Smith/     |  F06   |
+|   Daron /McSwiggen/   |  F12   |
+|   Donna /McSwiggen/   |  F12   |
+|  Donald /Carrymehome/ |  F13   |
+| Destiny /Carrymehome/ |  F13   |
++-----------------------+--------+
+
+Recent Births:
++-------------------+-------------+
+|        Name       |     Date    |
++-------------------+-------------+
+| Tommy /Telepathy/ | 21 JUL 2018 |
++-------------------+-------------+
+
+Recent Deaths:
++-------------------+-------------+
+|        Name       |     Date    |
++-------------------+-------------+
+| Timmy /Telepathy/ | 20 JUL 2018 |
++-------------------+-------------+

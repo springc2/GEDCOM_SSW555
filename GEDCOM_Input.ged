@@ -190,7 +190,7 @@
 1 NAME Mark /Smith/
 1 BIRT
 2 DATE 4 APR 1960
-1 SEX M
+1 SEX F
 1 FAMS F01
 1 FAMC F02
 0 NOTE end of individual Mark Smith
@@ -406,3 +406,26 @@
 1 SEX M
 1 FAMC F14
 0 NOTE end of individual Bo Telepathy
+0 I31 INDI
+1 NAME Joey /Telepathy/
+1 BIRT
+2 DATE 29 FEB 2013
+1 SEX M
+1 FAMC F14
+0 NOTE end of individual Joey Telepathy
+0 I32 INDI
+1 NAME Tommy /Telepathy/
+1 BIRT
+2 DATE 21 JUL 2018
+1 SEX M
+1 FAMC F14
+0 NOTE end of individual Tommy Telepathy
+0 I33 INDI
+1 NAME Timmy /Telepathy/
+1 BIRT
+2 DATE 04 APR 1999
+1 SEX M
+1 FAMC F14
+1 DEAT
+2 DATE 20 JUL 2018
+0 NOTE end of individual Timmy Telepathy
