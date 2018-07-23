@@ -371,7 +371,7 @@ def additionalChecking():
     checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkSiblingsShouldNotMarry(FAMILIES) #User Story 18
-    checkCorrectGenderForRole(INDIVIDUALS, FAMILIES) #User Story 21
+    checkCorrectGenderForRole(FAMILIES, INDIVIDUALS) #User Story 21
     checkUniqueNameAndBirthDate(INDIVIDUALS) #User Story 23
     checkUniqueFamiliesBySpouses(FAMILIES) #User Story 24
     checkUniqueFirstNamesInFamilies(INDIVIDUALS, FAMILIES) #User Story 25
@@ -736,10 +736,10 @@ def checkCorrectGenderForRole(fam, indi):
         currentWife = v.get('WIFE')
         currentHusband = v.get('HUSB')
         if(indi):
-            if currentWife != None and indi[currentWife]['SEX'] != 'F':
+            if currentWife is not None and indi[currentWife]['SEX'] != 'F':
                 log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentWife + ' is the wrong gender for wife.')
                 passesCheck = False
-            if currentHusband != None and indi[currentHusband]['SEX'] != 'M':
+            if currentHusband is not None and indi[currentHusband]['SEX'] != 'M':
                 log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentHusband + ' is the wrong gender for husband.')
                 passesCheck = False
 
