@@ -368,7 +368,8 @@ def additionalChecking():
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
     checkMarriageAfter14(INDIVIDUALS, FAMILIES) #User Story 10
-    checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
+    checkNoBigamy(INDIVIDUALS, FAMILIES) #User Story 11
+    checkParentsNotTooOld(INDIVIDUALS, FAMILIES) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkSiblingsShouldNotMarry(FAMILIES) #User Story 18
     checkCorrectGenderForRole(FAMILIES, INDIVIDUALS) #User Story 21
@@ -381,11 +382,17 @@ def additionalChecking():
 # so this function will not recheck for errors that have already been covered earlier in the program
 def additionalLists():
     prettyPrint('Individual\'s Age', listIndividualAges(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 27
+    prettyPrint('Siblings Ordered By Age', listSiblingsByAge()) #User Story 28
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
+    prettyPrint('Living Singles', listLivingSingles()) #User Story 31
+    prettyPrint('Orphans', listOrphans()) #User Story 33
+    prettyPrint('Large Age Differences', listLargeAgeDifferences()) #User Story 34
     prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 36
+    prettyPrint('Upcoming Birthdays', listUpcomingBirthdays()) #User Story 38
+    prettyPrint('Upcoming Anniversaries', listUpcomingAnniversaries()) #User Story 39
 
 # Checks User Story 01:
 # Dates (birth, marriage, divorce, death) should not be after the current date
@@ -664,11 +671,20 @@ def checkMarriageAfter14(indi, fam):
 
     return passesCheck
 
+# Checks User Story 11:
+# Marriage should not occur during marriage to another spouse
+# This is considered an Anomaly
+# Returns True if the check is passed, and False if the check is failed
+def checkNoBigamy(indi, fam):
+    passesCheck = True
+    
+    return passesCheck
+
 # Checks User Story 12:
 # The mother and father in the family should be checked.
 # Mothers age should be less than 60 years older than her children
 # The fathers age should be less than 80 years older than his children
-def checkParentsNotTooOld(fam, indi):
+def checkParentsNotTooOld(indi, fam):
     passesCheck = True
 
     if(fam and indi):
@@ -852,6 +868,17 @@ def listIndividualAges(indi):
         rows.append([v['NAME'],age]) #append the data for the individual
     return rows
 
+# User Story 28:
+# List siblings in families by decreasing age, i.e. oldest siblings first
+# Returns a row of values to print as a pretty table (first row is the header)
+def listSiblingsByAge():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
+
 # User Story 29:
 # List all deceased individuals in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
@@ -878,6 +905,39 @@ def listLivingMarried(indi, fam):
                     rows.append([v['NAME'], f])
 
     return rows
+
+# User Story 31:
+# List all living people over 30 who have never been married in a GEDCOM file
+# Returns a row of values to print as a pretty table (first row is the header)
+def listLivingSingles():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
+
+# User Story 33:
+# List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
+# Returns a row of values to print as a pretty table (first row is the header)
+def listOrphans():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
+
+# User Story 34:
+# List all couples who were married when the older spouse was more than twice as old as the younger spouse
+# Returns a row of values to print as a pretty table (first row is the header)
+def listLargeAgeDifferences():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
 
 # User Story 35:
 # List all people in a GEDCOM file who were born in the last 30 days
@@ -915,6 +975,33 @@ def listRecentDeaths(indi):
 				rows.append([v['NAME'], v['DEAT']])
 
     return rows
+
+# User Story 38:
+# List all living people in a GEDCOM file whose birthdays occur in the next 30 days
+# Returns a row of values to print as a pretty table (first row is the header)
+def listUpcomingBirthdays():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
+
+# User Story 39:
+# List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days
+# Returns a row of values to print as a pretty table (first row is the header)
+def listUpcomingAnniversaries():
+     rows = [] #initilize the row list
+     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
+     return rows
+
+# Checks User Story 40:
+# List line numbers from GEDCOM source file when reporting errors
+def includeLineNumbers():
+    return True
 
 # Checks User Story 42:
 # All dates should be legitimate dates for the months specified (e.g., 2/30/2015 is not legitimate)
