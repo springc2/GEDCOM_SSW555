@@ -382,7 +382,8 @@ def additionalChecking():
 # so this function will not recheck for errors that have already been covered earlier in the program
 def additionalLists():
     prettyPrint('Individual\'s Age', listIndividualAges(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 27
-    prettyPrint('Siblings Ordered By Age', listSiblingsByAge()) #User Story 28
+    prettyPrint('Siblings Ordered By Age', listSiblingsByAge(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 28
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
@@ -871,13 +872,21 @@ def listIndividualAges(indi):
 # User Story 28:
 # List siblings in families by decreasing age, i.e. oldest siblings first
 # Returns a row of values to print as a pretty table (first row is the header)
-def listSiblingsByAge():
-     rows = [] #initilize the row list
-     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     return rows
+def listSiblingsByAge(indi, fam):
+    rows = [] #initilize the row list
+    rows.append(['Family', 'Sibling', 'Age']) #add in the header row
+    if(fam):
+        for k, v in fam.iteritems():
+            temp = []
+            if(v.get('CHIL') is not None):
+                for child in v.get('CHIL'):
+                    age = getAgeAlive([indi[child].get('BIRT')])
+                    temp.append(['^', indi[child].get('NAME'), age])
+
+                temp.sort(key = lambda x: x[2], reverse = True)
+                temp[0][0] = k
+                rows.extend(temp)
+    return rows
 
 # User Story 29:
 # List all deceased individuals in a GEDCOM file

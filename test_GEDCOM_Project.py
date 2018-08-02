@@ -1052,10 +1052,77 @@ class TestGEDCOM_Project(unittest.TestCase):
                          expected2)  # in order, all alive
         self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))),
                          expected3)  # not in order, not all alive
-
+    # Michael Macari
     # US28 - Tests listSiblingsByAge function
     def test_listSiblingsByAge(self):
-        self.assertEqual("","")
+        expected1 = [['Family', 'Sibling', 'Age']]
+        test1indic = {}
+        test1famdic = {}
+
+        expected2 = [['Family', 'Sibling', 'Age']]
+        test2indic = {}
+        test2famdic = {'F01': {'MARR': '21 JUN 2010'}}
+
+        expected3 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1]]
+        test3indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'}}
+        test3famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02']}}
+
+        expected4 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'Sean /Connery/', 18],
+                     ['^', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1]]
+        test4indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'},
+                      'I03': {'NAME': 'Sean /Connery/',
+                              'BIRT': '01 AUG 2000'}}
+        test4famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02', 'I03']}}
+
+        expected5 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'Sean /Connery/', 18],
+                     ['^', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1],
+                     ['F05', 'Dragon /Man/', 4]]
+        test5indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'},
+                      'I03': {'NAME': 'Sean /Connery/',
+                              'BIRT': '01 AUG 2000'},
+                      'I05': {'NAME': 'Dragon /Man/',
+                              'BIRT': '01 AUG 2014'}}
+        test5famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02', 'I03']},
+                       'F05': {'MARR': '21 JUN 2005',
+                               'CHIL': ['I05']}}
+
+
+        self.assertEqual(expected1, GEDCOM_Project.listSiblingsByAge(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))    # Empty Dictionaries
+        self.assertEqual(expected2, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test2indic.items())), collections.OrderedDict(sorted(test2famdic.items()))))                     # One family with no children
+        self.assertEqual(expected3, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test3indic.items())),
+            collections.OrderedDict(sorted(test3famdic.items()))))  # Two families one with no children other with 2 children
+        self.assertEqual(expected4, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test4indic.items())),
+            collections.OrderedDict(
+                sorted(test4famdic.items()))))  # Two families one with no children other with 3 children
+        self.assertEqual(expected5, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test5indic.items())),
+            collections.OrderedDict(
+                sorted(test5famdic.items()))))  # Three families one with no children other with 3 children last one with 1 child
     
     # Michael Macari
     # US29 - Tests listDeceased function
@@ -1218,8 +1285,7 @@ class TestGEDCOM_Project(unittest.TestCase):
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018'],
-                     ['Brooke /Burke/', '03 JUL 2018']]
+                     ['Amy /Adams/', '16 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
                             'BIRT': '16 JUL 2018'},
@@ -1278,8 +1344,7 @@ class TestGEDCOM_Project(unittest.TestCase):
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018'],
-                     ['Brooke /Burke/', '03 JUL 2018']]
+                     ['Amy /Adams/', '16 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
                             'DEAT': '16 JUL 2018'},
