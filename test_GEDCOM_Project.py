@@ -1248,8 +1248,57 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US31 - Tests listLivingSingles function
     def test_listLivingSingles(self):
-        self.assertEqual("","")
-    
+        expected1 = [['Name', 'Age']]
+        test1indic = {}
+
+        expected2 = [['Name', 'Age']]
+        test2indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'}}
+
+        expected3 = [['Name', 'Age']]
+        test3indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'}}
+        expected4 = [['Name', 'Age'],
+                     ['Bobby Flay', 48]]
+        test4indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'},
+                      'I03': {'NAME': 'Bobby Flay',
+                              'BIRT': '01 JUN 1970'}}
+        expected5 = [['Name', 'Age'],
+                     ['Bobby Flay', 48],
+                     ['Ass Hat', 38]]
+        test5indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'},
+                      'I03': {'NAME': 'Bobby Flay',
+                              'BIRT': '01 JUN 1970'},
+                      'I04': {'NAME': 'Paul Pills',
+                              'BIRT': '01 JUN 1999'},
+                      'I05': {'NAME': 'Ass Hat',
+                              'BIRT': '01 JUN 1980'}}
+
+        self.assertEqual(expected1, GEDCOM_Project.listLivingSingles(collections.OrderedDict(sorted(test1indic.items()))))      # Empty dict of individual
+        self.assertEqual(expected2, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(sorted(test2indic.items()))))  # One individual but he died
+        self.assertEqual(expected3, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(sorted(test3indic.items()))))  # Two individuals, one that died and other thats in family
+        self.assertEqual(expected4, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(
+                sorted(test4indic.items()))))  # Three individuals, one of which is single and over 30 never having been married
+        self.assertEqual(expected5, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(
+                sorted(
+                    test5indic.items()))))  # Three individuals, two of which is single and over 30 never having been married
+
+
     # US33 - Tests listOrphans function
     def test_listOrphans(self):
         self.assertEqual("","")

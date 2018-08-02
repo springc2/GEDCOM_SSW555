@@ -387,7 +387,7 @@ def additionalLists():
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
-    prettyPrint('Living Singles', listLivingSingles()) #User Story 31
+    prettyPrint('Living Singles', listLivingSingles(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 31
     prettyPrint('Orphans', listOrphans()) #User Story 33
     prettyPrint('Large Age Differences', listLargeAgeDifferences()) #User Story 34
     prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
@@ -918,13 +918,16 @@ def listLivingMarried(indi, fam):
 # User Story 31:
 # List all living people over 30 who have never been married in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
-def listLivingSingles():
-     rows = [] #initilize the row list
-     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     return rows
+def listLivingSingles(indi):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Age'])            #add in the header row
+    if(indi):
+        for k, v in indi.iteritems():
+            if(v.get('DEAT') is None and v.get('FAMS') is None):
+                age = getAgeAlive([v.get('BIRT')])
+                if(age > 30):
+                    rows.append([v.get('NAME'), age])
+    return rows
 
 # User Story 33:
 # List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
