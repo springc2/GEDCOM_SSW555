@@ -387,8 +387,10 @@ def additionalLists():
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
     prettyPrint('Living Singles', listLivingSingles()) #User Story 31
-    prettyPrint('Orphans', listOrphans()) #User Story 33
-    prettyPrint('Large Age Differences', listLargeAgeDifferences()) #User Story 34
+    prettyPrint('Orphans', listOrphans(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 33
+    prettyPrint('Large Age Differences', listLargeAgeDifferences(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 34
     prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 36
     prettyPrint('Upcoming Birthdays', listUpcomingBirthdays()) #User Story 38
@@ -926,11 +928,12 @@ def listOrphans(indi, fam):
      for k, v in fam.iteritems():
          if(indi):
              currentFamilyChildren = v.get('CHIL')
-             if currentFamilyChildren and indi[v.get('WIFE')].get('DEAT') and indi[v.get('HUSB')].get('DEAT'):
+             if currentFamilyChildren and indi.get(v.get('WIFE')) and indi.get(v.get('HUSB')) and indi[
+                 v.get('WIFE')].get('DEAT') and indi[v.get('HUSB')].get('DEAT'):
                  for child in currentFamilyChildren:
                      childBirthDate = getFormattedDateForCompare(indi[child].get('BIRT'))
-                     if ((datetime.today() - childBirthDate).days/365) < 18:
-                         rows.append[indi[child].get('NAME'), k]
+                     if ((date.today() - childBirthDate).days/365) < 18:
+                         rows.append([indi[child].get('NAME'), k])
      return rows
 
 # User Story 34:
@@ -938,18 +941,20 @@ def listOrphans(indi, fam):
 # Returns a row of values to print as a pretty table (first row is the header)
 def listLargeAgeDifferences(indi, fam):
      rows = [] #initilize the row list
-     rows.append(['Family', 'Older Spouse', 'Younger Spouse', 'Age Multiple']) #add in the header row
+     rows.append(['Family', 'Older Spouse', 'Younger Spouse']) #add in the header row
      for k, v in fam.iteritems():
          marriageDate = getFormattedDateForCompare(v['MARR'])
          if (indi):
+             if not indi[v.get('HUSB')] or not indi[v.get('WIFE')]:
+                 continue
              husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
              husbandAgeAtMarriage = (marriageDate - husbandBirthDate).days
              wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
              wifeAgeAtMarriage = (marriageDate - wifeBirthDate).days
              if husbandAgeAtMarriage / wifeAgeAtMarriage >= 2:
-                 rows.append([k, v.get('HUSB'), v.get('WIFE'), husbandAgeAtMarriage / wifeAgeAtMarriage])
+                 rows.append([k, indi[v.get('HUSB')], indi[v.get('WIFE')]])
              if wifeAgeAtMarriage / husbandAgeAtMarriage >= 2:
-                 rows.append([k, v.get('WIFE'), v.get('HUSB'), husbandAgeAtMarriage / wifeAgeAtMarriage])
+                 rows.append([k, indi[v.get('WIFE')], indi[v.get('HUSB')]])
      return rows
 
 # User Story 35:

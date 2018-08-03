@@ -1181,11 +1181,71 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US31 - Tests listLivingSingles function
     def test_listLivingSingles(self):
+
         self.assertEqual("","")
     
     # US33 - Tests listOrphans function
     def test_listOrphans(self):
-        self.assertEqual("","")
+        expected1 = [['Name', 'Family']]
+        test1indic = {}
+        test1famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'}}
+
+        expected2 = [['Name', 'Family']]
+        test2indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test2famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected3 = [['Name', 'Family']]
+        test3indic = {'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test3famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected4 = [['Name', 'Family']]
+        test4indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test4famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected5 = [['Name', 'Family'],['Name One', 'F01']]
+        test5indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 2018', 'NAME': 'Name One'}}
+        test5famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected6 = [['Name', 'Family'],['Name One', 'F01']]
+        test6indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900', 'NAME': 'Name One'},
+                      'I04': {'BIRT': '1 JAN 2018', 'NAME': 'Name One'}}
+        test6famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03', 'I04']}}
+
+
+
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))  # Empty Dictionary
+
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test2indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test2famdic.items()))))  # Mom still living
+
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test3indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test3famdic.items()))))  # Dad still living
+
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test4indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test4famdic.items()))))  # Child Over 18
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test5indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test5famdic.items()))))  # Orphan
+        self.assertEqual(expected6,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test6indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test6famdic.items()))))  # Second child orphan
+
     
     # US34 - Tests listLargeAgeDifferences function
     def test_listLargeAgeDifferences(self):
