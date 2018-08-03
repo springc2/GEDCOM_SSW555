@@ -952,9 +952,9 @@ def listLargeAgeDifferences(indi, fam):
              wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
              wifeAgeAtMarriage = (marriageDate - wifeBirthDate).days
              if husbandAgeAtMarriage / wifeAgeAtMarriage >= 2:
-                 rows.append([k, indi[v.get('HUSB')], indi[v.get('WIFE')]])
+                 rows.append([k, indi[v.get('HUSB')]['NAME'], indi[v.get('WIFE')]['NAME']])
              if wifeAgeAtMarriage / husbandAgeAtMarriage >= 2:
-                 rows.append([k, indi[v.get('WIFE')], indi[v.get('HUSB')]])
+                 rows.append([k, indi[v.get('WIFE')]['NAME'], indi[v.get('HUSB')]['NAME']])
      return rows
 
 # User Story 35:
