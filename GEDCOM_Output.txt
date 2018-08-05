@@ -43,44 +43,39 @@ Anomaly: US11: 90: Individual (I13) is married in family (F10) and family (F06) 
 Anomaly: US11: 90: Individual (I09) is married in family (F10) and family (F03) at the same time.
 Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F07) at the same time.
 Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F01) at the same time.
-Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F07) at the same time.
-Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F01) at the same time.
-Anomaly: US12: 121: Family (F12) mother is over 60 years older than child I23.
-Anomaly: US12: 130: Family (F13) father is over 80 years older than child I26.
-Anomaly: US12: 139: Family (F14) mother is over 60 years older than child I29 and father is over 80 years older than child I29.
-Anomaly: US15: 98: Family (F11) has more than 15 siblings.
-Anomaly: US18: 41: Family (F05) has husband and wife as siblings.
-Anomaly: US18: 33: Family (F04) has husband and wife as siblings.
-Anomaly: US18: 61: Family (F07) has husband and wife as siblings.
-Anomaly: US18: 52: Family (F06) has husband and wife as siblings.
-Anomaly: US18: 5: Family (F01) has husband and wife as siblings.
-Anomaly: US18: 25: Family (F03) has husband and wife as siblings.
-Anomaly: US18: 16: Family (F02) has husband and wife as siblings.
-Anomaly: US18: 90: Family (F10) has husband and wife as siblings.
-Anomaly: US18: 98: Family (F11) has husband and wife as siblings.
-Anomaly: US18: 78: Family (F09) has husband and wife as siblings.
-Anomaly: US18: 68: Family (F08) has husband and wife as siblings.
-Anomoly: US21: 61: I06 is the wrong gender for husband.
-Anomoly: US21: 5: I06 is the wrong gender for husband.
-Anomoly: US21: 68: I06 is the wrong gender for husband.
-Error: US23: 301: Individual Luke /Smith/ (I18) and Luke /Smith/ (I19) have the same name and birth date.
-Error: US24: 5: Family (F01) has same spouses and marriage date as family (F07).
-Error: US25: 68: Family (F08) child Luke /Smith/ shares a name and birthday.
-
-Individuals:
-+-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
-|  ID |          Name         | Gender |   Birthday  | Age | Alive |    Death    |  Child  |     Spouse     |
-+-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
-| I01 |      Dan /Smith/      |   M    |  8 OCT 1993 |  24 |  True |      NA     | ['F01'] |       NA       |
-| I02 |     Laura /Smith/     |   F    | 15 SEP 1986 |  31 |  True |      NA     | ['F01'] |       NA       |
-| I03 |    William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
-| I04 |    Madeline /Smith/   |   F    | 18 MAR 1995 |  23 |  True |      NA     | ['F01'] |       NA       |
-| I05 |     Renee /Smith/     |   F    | 11 FEB 1962 |  56 |  True |      NA     | ['F03'] |    ['F01']     |
-| I06 |      Mark /Smith/     |   F    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
-| I07 |      Jean /Smith/     |   F    |  6 OCT 1933 |  84 |  True |      NA     |    NA   |    ['F02']     |
-| I08 |    Matthew /Smith/    |   M    | 16 FEB 1935 |  59 | False | 10 FEB 1995 |    NA   |    ['F02']     |
-| I09 |    Jane /Anderson/    |   F    |  4 JAN 1933 |  81 | False | 26 APR 2014 | ['F04'] |    ['F03']     |
-| I10 |   William /Anderson/  |   M    |  7 JAN 1926 |  60 | False |  9 JAN 1986 |    NA   |    ['F03']     |
+A: US42: 1: The date '30 JUNE 2015' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
+Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
+Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
+Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
+Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
+Anomaly: US10: NoLineNumber: Individual (I01) was younger than 14 when married
+Anomaly: US10: NoLineNumber: Individual (I02) was younger than 14 when married
+Anomaly: US10: NoLineNumber: Individual (I01) was younger than 14 when married
+Anomaly: US10: NoLineNumber: Individual (I02) was younger than 14 when married
+Error: US05: NoLineNumber: Family (F01) has death before marriage date for husband (I01).
+Error: US05: NoLineNumber: Family (F01) has death before marriage date for wife (I02).
+Error: US05: NoLineNumber: Family (F01) has death before marriage date for husband (I01).
+Error: US05: NoLineNumber: Family (F01) has death before marriage date for wife (I02).
+Error: US04: NoLineNumber: Family (F01) has divorce before marriage.
+Error: US04: NoLineNumber: Family (F02) has divorce before marriage.
+Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
+Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
+Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
+Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
+Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
+Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
+Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I03.
+Anomaly: US12: NoLineNumber: Family (F01) father is over 80 years older than child I03.
+Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
+Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
+Anomaly: US18: NoLineNumber: Family (F01) has husband and wife as siblings.
+Anomaly: US18: NoLineNumber: Family (F03) has husband and wife as siblings.
+Anomaly: US18: NoLineNumber: Family (F03) has husband and wife as siblings.
+Error: US24: NoLineNumber: Family (F02) has same spouses and marriage date as family (F01).
+Error: US24: NoLineNumber: Family (F01) has same spouses and marriage date as family (F05).
+Error: US25: NoLineNumber: Family (F01) child Michael /Flin/ shares a name and birthday.
+Error: US22: 1: ID I03 is not a uniquie ID. Not including it or it's information!
+Error: US23: NoLineNumber: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
 | I11 |  Madeline /Wheeldon/  |   F    | 27 JUN 1908 |  76 | False | 17 MAY 1985 |    NA   |    ['F04']     |
 | I12 |    Isaac /Wheeldon/   |   M    |  1 OCT 1907 |  62 | False | 10 MAY 1970 |    NA   |    ['F04']     |
 | I13 |     Vince /Smith/     |   M    |  7 JUL 1965 |  53 |  True |      NA     | ['F02'] | ['F05', 'F06'] |
@@ -110,7 +105,7 @@ Families:
 +-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
 |  ID |   Married   |   Divorced  | Husband ID |     Husband Name     | Wife ID |       Wife Name       |                                                  Children                                                 |
 +-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
-| F01 | 28 MAR 1987 |      NA     |    I06     |     Mark /Smith/     |   I05   |     Renee /Smith/     |                                        ['I01', 'I02', 'I03', 'I04']                                       |
+| F01 | 28 AUG 1987 |      NA     |    I06     |     Mark /Smith/     |   I05   |     Renee /Smith/     |                                        ['I01', 'I02', 'I03', 'I04']                                       |
 | F02 | 18 MAY 1900 |      NA     |    I08     |   Matthew /Smith/    |   I07   |      Jean /Smith/     |                                               ['I06', 'I13']                                              |
 | F03 | 25 AUG 1955 |      NA     |    I10     |  William /Anderson/  |   I09   |    Jane /Anderson/    |                                                  ['I05']                                                  |
 | F04 | 20 JUN 1928 |      NA     |    I12     |   Isaac /Wheeldon/   |   I11   |  Madeline /Wheeldon/  |                                                  ['I09']                                                  |
@@ -286,7 +281,9 @@ Upcoming Birthdays:
 +------------------+-------------+
 
 Upcoming Anniversaries:
-+------+--------+------+
-| Name | Family | Date |
-+------+--------+------+
-+------+--------+------+
++---------------+--------+-------------+
+|      Name     | Family |     Date    |
++---------------+--------+-------------+
+| Renee /Smith/ |  F01   | 28 AUG 1987 |
+|  Mark /Smith/ |  F01   | 28 AUG 1987 |
++---------------+--------+-------------+
