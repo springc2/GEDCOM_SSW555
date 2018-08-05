@@ -691,6 +691,65 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertFalse(test5)  # False
         self.assertTrue(test6)  # True
 
+    # US11 test the checkNoBigamy function
+    def test_checkNoBigamy(self):
+        test1DictFam = {}
+        test2DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'}}
+        test3DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test4DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I04', 'MARR': '3 JUN 1971', 'DIV': '3 MAY 1981'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1972', 'DIV': '3 MAY 1982'}}
+        test5DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1981', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test6DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}      
+        test7DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test8DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1970'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test9DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1981', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test10DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}      
+        test11DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test12DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        
+        test1 = GEDCOM_Project.checkNoBigamy(test1DictFam)  # empty fam
+        test2 = GEDCOM_Project.checkNoBigamy(test2DictFam)  # 1 fam, no divorce
+        test3 = GEDCOM_Project.checkNoBigamy(test3DictFam)  # 1 fam, with divorce
+        test4 = GEDCOM_Project.checkNoBigamy(test4DictFam)  # multiple fams, no overlap
+        test5 = GEDCOM_Project.checkNoBigamy(test5DictFam)  # husb gets divorced and remarried (no overlap)
+        test6 = GEDCOM_Project.checkNoBigamy(test6DictFam)  # husb gets divorced and remarried (has overlap)
+        test7 = GEDCOM_Project.checkNoBigamy(test7DictFam)  # husb gets remarried without divorcing first wife
+        test8 = GEDCOM_Project.checkNoBigamy(test8DictFam)  # same as test 7 but order is switched
+        test9 = GEDCOM_Project.checkNoBigamy(test9DictFam)  # wife gets divorced and remarried (no overlap)
+        test10 = GEDCOM_Project.checkNoBigamy(test10DictFam)  # wife gets divorced and remarried (has overlap)
+        test11 = GEDCOM_Project.checkNoBigamy(test11DictFam)  # wife gets remarried without divorcing first wife
+        test12 = GEDCOM_Project.checkNoBigamy(test12DictFam)  # same as test 11 but order is switched
+        
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertTrue(test3) #True
+        self.assertTrue(test4) #True
+        self.assertTrue(test5) #True
+        self.assertFalse(test6) #False
+        self.assertFalse(test7) #False
+        self.assertFalse(test8) #False
+        self.assertTrue(test9) #True
+        self.assertFalse(test10) #False
+        self.assertFalse(test11) #False
+        self.assertFalse(test12) #False
+
     # US12 test to check that mother and father aren't too old
     def test_checkParentsNotTooOld(self):
         test1fam = {}
@@ -720,14 +779,14 @@ class TestGEDCOM_Project(unittest.TestCase):
                     'I03': {'BIRT': '01 FEB 1950'},
                     'I04': {'BIRT': '01 FEB 1980'}}
 
-        test1 = GEDCOM_Project.checkParentsNotTooOld(test1fam,
-                                                     test1ind)  # Empty family and individuals, should pass true
-        test2 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test2ind)  # Neither parent is too old, should pass true
-        test3 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test3ind)  # Just the mom is too old
-        test4 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test4ind)  # Just the dad is too old
-        test5 = GEDCOM_Project.checkParentsNotTooOld(test2fam, test5ind)  # Both parents are too old
-        test6 = GEDCOM_Project.checkParentsNotTooOld(test2fam,
-                                                     test6ind)  # mom is exactly 60 years older, dad is exactly 80 years older
+        test1 = GEDCOM_Project.checkParentsNotTooOld(test1ind,
+                                                     test1fam)  # Empty family and individuals, should pass true
+        test2 = GEDCOM_Project.checkParentsNotTooOld(test2ind, test2fam)  # Neither parent is too old, should pass true
+        test3 = GEDCOM_Project.checkParentsNotTooOld(test3ind, test2fam)  # Just the mom is too old
+        test4 = GEDCOM_Project.checkParentsNotTooOld(test4ind, test2fam)  # Just the dad is too old
+        test5 = GEDCOM_Project.checkParentsNotTooOld(test5ind, test2fam)  # Both parents are too old
+        test6 = GEDCOM_Project.checkParentsNotTooOld(test6ind,
+                                                     test2fam)  # mom is exactly 60 years older, dad is exactly 80 years older
 
         self.assertTrue(test1)  # True
         self.assertTrue(test2)  # True
@@ -824,9 +883,9 @@ class TestGEDCOM_Project(unittest.TestCase):
                      'I02': 'Jane Doe',
                      'I03': 'Jake Doe'}
 
-        test1 = GEDCOM_Project.checkUniqueIDs('I03', test1Dict)  # empty dictionary
-        test2 = GEDCOM_Project.checkUniqueIDs('I03', test2Dict)  # unique IDs
-        test3 = GEDCOM_Project.checkUniqueIDs('I03', test3Dict)  # not unique IDs
+        test1 = GEDCOM_Project.checkUniqueIDs('I03', test1Dict, 1)  # empty dictionary
+        test2 = GEDCOM_Project.checkUniqueIDs('I03', test2Dict, 1)  # unique IDs
+        test3 = GEDCOM_Project.checkUniqueIDs('I03', test3Dict, 1)  # not unique IDs
 
         self.assertTrue(test1)  # True
         self.assertTrue(test2)  # True
@@ -1049,6 +1108,78 @@ class TestGEDCOM_Project(unittest.TestCase):
         self.assertEqual(GEDCOM_Project.listIndividualAges(collections.OrderedDict(sorted(test3indidic.items()))),
                          expected3)  # not in order, not all alive
     # Michael Macari
+    # US28 - Tests listSiblingsByAge function
+    def test_listSiblingsByAge(self):
+        expected1 = [['Family', 'Sibling', 'Age']]
+        test1indic = {}
+        test1famdic = {}
+
+        expected2 = [['Family', 'Sibling', 'Age']]
+        test2indic = {}
+        test2famdic = {'F01': {'MARR': '21 JUN 2010'}}
+
+        expected3 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1]]
+        test3indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'}}
+        test3famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02']}}
+
+        expected4 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'Sean /Connery/', 18],
+                     ['^', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1]]
+        test4indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'},
+                      'I03': {'NAME': 'Sean /Connery/',
+                              'BIRT': '01 AUG 2000'}}
+        test4famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02', 'I03']}}
+
+        expected5 = [['Family', 'Sibling', 'Age'],
+                     ['F03', 'Sean /Connery/', 18],
+                     ['^', 'John /Hof/', 2],
+                     ['^', 'Matt /Damon/', 1],
+                     ['F05', 'Dragon /Man/', 4]]
+        test5indic = {'I01': {'NAME': 'Matt /Damon/',
+                              'BIRT': '01 AUG 2017'},
+                      'I02': {'NAME': 'John /Hof/',
+                              'BIRT': '01 AUG 2016'},
+                      'I03': {'NAME': 'Sean /Connery/',
+                              'BIRT': '01 AUG 2000'},
+                      'I05': {'NAME': 'Dragon /Man/',
+                              'BIRT': '01 AUG 2014'}}
+        test5famdic = {'F01': {'MARR': '21 JUN 2009'},
+                       'F03': {'MARR': '21 JUN 2004',
+                               'CHIL': ['I01', 'I02', 'I03']},
+                       'F05': {'MARR': '21 JUN 2005',
+                               'CHIL': ['I05']}}
+
+
+        self.assertEqual(expected1, GEDCOM_Project.listSiblingsByAge(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))    # Empty Dictionaries
+        self.assertEqual(expected2, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test2indic.items())), collections.OrderedDict(sorted(test2famdic.items()))))                     # One family with no children
+        self.assertEqual(expected3, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test3indic.items())),
+            collections.OrderedDict(sorted(test3famdic.items()))))  # Two families one with no children other with 2 children
+        self.assertEqual(expected4, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test4indic.items())),
+            collections.OrderedDict(
+                sorted(test4famdic.items()))))  # Two families one with no children other with 3 children
+        self.assertEqual(expected5, GEDCOM_Project.listSiblingsByAge(
+            collections.OrderedDict(sorted(test5indic.items())),
+            collections.OrderedDict(
+                sorted(test5famdic.items()))))  # Three families one with no children other with 3 children last one with 1 child
+    
+    # Michael Macari
     # US29 - Tests listDeceased function
     def test_listDeceased(self):
         test1dic = {}
@@ -1170,49 +1301,197 @@ class TestGEDCOM_Project(unittest.TestCase):
                              collections.OrderedDict(
                                  sorted(test5famdic.items()))))  # One individual with family but divorced the first family, another individual just in one family
 
+    # US31 - Tests listLivingSingles function
+    def test_listLivingSingles(self):
+        expected1 = [['Name', 'Age']]
+        test1indic = {}
+
+        expected2 = [['Name', 'Age']]
+        test2indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'}}
+
+        expected3 = [['Name', 'Age']]
+        test3indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'}}
+        expected4 = [['Name', 'Age'],
+                     ['Bobby Flay', 48]]
+        test4indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'},
+                      'I03': {'NAME': 'Bobby Flay',
+                              'BIRT': '01 JUN 1970'}}
+        expected5 = [['Name', 'Age'],
+                     ['Bobby Flay', 48],
+                     ['Ass Hat', 38]]
+        test5indic = {'I01': {'NAME': 'Tom Johnson',
+                              'DEAT': '01 AUG 2004'},
+                      'I02': {'NAME': 'Jack Daniels',
+                              'BIRT': '01 JUN 1980',
+                              'FAMS': 'F01'},
+                      'I03': {'NAME': 'Bobby Flay',
+                              'BIRT': '01 JUN 1970'},
+                      'I04': {'NAME': 'Paul Pills',
+                              'BIRT': '01 JUN 1999'},
+                      'I05': {'NAME': 'Ass Hat',
+                              'BIRT': '01 JUN 1980'}}
+
+        self.assertEqual(expected1, GEDCOM_Project.listLivingSingles(collections.OrderedDict(sorted(test1indic.items()))))      # Empty dict of individual
+        self.assertEqual(expected2, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(sorted(test2indic.items()))))  # One individual but he died
+        self.assertEqual(expected3, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(sorted(test3indic.items()))))  # Two individuals, one that died and other thats in family
+        self.assertEqual(expected4, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(
+                sorted(test4indic.items()))))  # Three individuals, one of which is single and over 30 never having been married
+        self.assertEqual(expected5, GEDCOM_Project.listLivingSingles(
+            collections.OrderedDict(
+                sorted(
+                    test5indic.items()))))  # Three individuals, two of which is single and over 30 never having been married
+
+    # US33 - Tests listOrphans function
+    def test_listOrphans(self):
+        expected1 = [['Name', 'Family']]
+        test1indic = {}
+        test1famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02'}}
+
+        expected2 = [['Name', 'Family']]
+        test2indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test2famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected3 = [['Name', 'Family']]
+        test3indic = {'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test3famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected4 = [['Name', 'Family']]
+        test4indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900'}}
+        test4famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected5 = [['Name', 'Family'],['Name One', 'F01']]
+        test5indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 2018', 'NAME': 'Name One'}}
+        test5famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03']}}
+
+        expected6 = [['Name', 'Family'],['Name One', 'F01']]
+        test6indic = {'I01': {'DEAT': '1 JAN 1900'}, 'I02': {'DEAT': '1 JAN 1900'}, 'I03': {'BIRT': '1 JAN 1900', 'NAME': 'Name One'},
+                      'I04': {'BIRT': '1 JAN 2018', 'NAME': 'Name One'}}
+        test6famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'CHIL': ['I03', 'I04']}}
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))  # Empty Dictionary
+
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test2indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test2famdic.items()))))  # Mom still living
+
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test3indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test3famdic.items()))))  # Dad still living
+
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test4indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test4famdic.items()))))  # Child Over 18
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test5indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test5famdic.items()))))  # Orphan
+        self.assertEqual(expected6,
+                         GEDCOM_Project.listOrphans(
+                             collections.OrderedDict(sorted(test6indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test6famdic.items()))))  # Second child orphan
+
+    
+    # US34 - Tests listLargeAgeDifferences function
+    def test_listLargeAgeDifferences(self):
+        expected1 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']]
+        test1indic = {}
+        test1famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
+
+        expected2 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']]
+        test2indic = {'I01': {'BIRT': '1 JAN 1900', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1900', 'NAME':'Name Two'}}
+        test2famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
+
+        expected3 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age'],['F01','Name One',100,'Name Two',50]]
+        test3indic = {'I01': {'BIRT': '1 JAN 1900', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1950', 'NAME':'Name Two'}}
+        test3famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
+
+        expected4 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age'],['F01','Name Two',100,'Name One',50]]
+        test4indic = {'I01': {'BIRT': '1 JAN 1950', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1900', 'NAME':'Name Two'}}
+        test4famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listLargeAgeDifferences(
+                             collections.OrderedDict(sorted(test1indic.items())),
+                             collections.OrderedDict(sorted(test1famdic.items()))))  # Empty Dictionary
+
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listLargeAgeDifferences(
+                             collections.OrderedDict(sorted(test2indic.items())),
+                             collections.OrderedDict(sorted(test2famdic.items()))))  # No large age differences
+
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listLargeAgeDifferences(
+                             collections.OrderedDict(sorted(test3indic.items())),
+                             collections.OrderedDict(sorted(test3famdic.items()))))  # Husband Older
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listLargeAgeDifferences(
+                             collections.OrderedDict(sorted(test4indic.items())),
+                             collections.OrderedDict(sorted(test4famdic.items()))))  # Wife Older
+
     # US35 - Tests listRecentBirths function
     def test_listRecentBirths(self):
         test1dic = {}
         expected1 = [['Name', 'Date']]
 
         test2dic = {'I01': {'NAME': 'Robert /Redford/',
-                            'BIRT': '13 JUL 2018'},
+                            'BIRT': '03 AUG 2018'},
                     'I02': {'NAME': 'Danny /DeVito/',
                             'BIRT': '22 AUG 1955'}}
         expected2 = [['Name', 'Date'],
-                     ['Robert /Redford/', '13 JUL 2018']]
+                     ['Robert /Redford/', '03 AUG 2018']]
 
         test3dic = {'I01': {'NAME': 'Piper /Perabo/',
-                            'BIRT': '04 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Maggie /Ma/',
-                            'BIRT': '11 JUL 2018'}}
+                            'BIRT': '29 JUL 2018'}}
         expected3 = [['Name', 'Date'],
-                     ['Piper /Perabo/', '04 JUL 2018'],
-                     ['Maggie /Ma/', '11 JUL 2018']]
+                     ['Piper /Perabo/', '30 JUL 2018'],
+                     ['Maggie /Ma/', '29 JUL 2018']]
 
         test4dic = {'I01': {'NAME': 'Amy /Adams/',
-                            'BIRT': '16 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Brooke /Burke/',
                             'BIRT': '03 JUL 2018'},
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018'],
-                     ['Brooke /Burke/', '03 JUL 2018']]
+                     ['Amy /Adams/', '30 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
-                            'BIRT': '16 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Wade /Williams/',
                             'BIRT': '02 JAN 1975'},
                     'I03': {'NAME': 'Kelly /Clarkson/',
-                            'BIRT': '07 JUL 2018'},
+                            'BIRT': '29 JUL 2018'},
                     'I04': {'NAME': 'Nick /Nolte/'},
                     'I05': {'NAME': 'Mandy /Moore/',
-                            'BIRT': '19 JUL 2018'}}
+                            'BIRT': '31 JUL 2018'}}
         expected5 = [['Name', 'Date'],
-                     ['Sylvester /Stallone/', '16 JUL 2018'],
-                     ['Kelly /Clarkson/', '07 JUL 2018'],
-                     ['Mandy /Moore/', '19 JUL 2018']]
+                     ['Sylvester /Stallone/', '30 JUL 2018'],
+                     ['Kelly /Clarkson/', '29 JUL 2018'],
+                     ['Mandy /Moore/', '31 JUL 2018']]
 
         self.assertEqual(expected1,
                          GEDCOM_Project.listRecentBirths(
@@ -1236,60 +1515,178 @@ class TestGEDCOM_Project(unittest.TestCase):
         expected1 = [['Name', 'Date']]
 
         test2dic = {'I01': {'NAME': 'Robert /Redford/',
-                            'DEAT': '13 JUL 2018'},
+                            'DEAT': '03 AUG 2018'},
                     'I02': {'NAME': 'Danny /DeVito/',
                             'DEAT': '22 AUG 1955'}}
         expected2 = [['Name', 'Date'],
-                     ['Robert /Redford/', '13 JUL 2018']]
+                     ['Robert /Redford/', '03 AUG 2018']]
 
         test3dic = {'I01': {'NAME': 'Piper /Perabo/',
-                            'DEAT': '04 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Maggie /Ma/',
-                            'DEAT': '11 JUL 2018'}}
+                            'DEAT': '29 JUL 2018'}}
         expected3 = [['Name', 'Date'],
-                     ['Piper /Perabo/', '04 JUL 2018'],
-                     ['Maggie /Ma/', '11 JUL 2018']]
+                     ['Piper /Perabo/', '30 JUL 2018'],
+                     ['Maggie /Ma/', '29 JUL 2018']]
 
         test4dic = {'I01': {'NAME': 'Amy /Adams/',
-                            'DEAT': '16 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Brooke /Burke/',
                             'DEAT': '03 JUL 2018'},
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018'],
-                     ['Brooke /Burke/', '03 JUL 2018']]
+                     ['Amy /Adams/', '30 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
-                            'DEAT': '16 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Wade /Williams/',
                             'DEAT': '02 JAN 1975'},
                     'I03': {'NAME': 'Kelly /Clarkson/',
-                            'DEAT': '07 JUL 2018'},
+                            'DEAT': '29 JUL 2018'},
                     'I04': {'NAME': 'Nick /Nolte/'},
                     'I05': {'NAME': 'Mandy /Moore/',
-                            'DEAT': '19 JUL 2018'}}
+                            'DEAT': '31 JUL 2018'}}
         expected5 = [['Name', 'Date'],
-                     ['Sylvester /Stallone/', '16 JUL 2018'],
-                     ['Kelly /Clarkson/', '07 JUL 2018'],
-                     ['Mandy /Moore/', '19 JUL 2018']]
+                     ['Sylvester /Stallone/', '30 JUL 2018'],
+                     ['Kelly /Clarkson/', '29 JUL 2018'],
+                     ['Mandy /Moore/', '31 JUL 2018']]
+
 
         self.assertEqual(expected1,
                          GEDCOM_Project.listRecentDeaths(
                              collections.OrderedDict(sorted(test1dic.items())))) # Empty Dictionary
         self.assertEqual(expected2,
                          GEDCOM_Project.listRecentDeaths(
-                             collections.OrderedDict(sorted(test2dic.items()))))  # Dictionary with 2 inds & 1 recent death
+                             collections.OrderedDict(sorted(test2dic.items()))))  # Dictionary with 2 inds & 1 upcoming birthday
         self.assertEqual(expected3,
                          GEDCOM_Project.listRecentDeaths(
-                             collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 2 inds & 2 recent deaths
+                             collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 2 inds & 2 upcoming birthdays
         self.assertEqual(expected4,
                          GEDCOM_Project.listRecentDeaths(
-                             collections.OrderedDict(sorted(test4dic.items()))))  # Dictionary with 4 inds & 2 recent deaths
+                             collections.OrderedDict(sorted(test4dic.items()))))  # Dictionary with 4 inds & 1 upcoming birthday
         self.assertEqual(expected5,
                          GEDCOM_Project.listRecentDeaths(
-                             collections.OrderedDict(sorted(test5dic.items()))))  # Dictionary with 5 inds & 3 recent deaths
+                             collections.OrderedDict(sorted(test5dic.items()))))  # Dictionary with 5 inds & 3 upcoming birthdays
 
+    # US38 - Tests listUpcomingBirthdays function
+    def test_listUpcomingBirthdays(self):
+        test1dic = {}
+        expected1 = [['Name', 'Date']]
+
+        test2dic = {'I01': {'NAME': 'Robert /Redford/',
+                            'BIRT': '22 AUG 1955'}}
+        expected2 = [['Name', 'Date'],
+                     ['Robert /Redford/', '22 AUG 1955']]
+
+        test3dic = {'I01': {'NAME': 'Piper /Perabo/',
+                            'BIRT': '30 AUG 2012'},
+                    'I02': {'NAME': 'Maggie /Ma/',
+                            'BIRT': '29 AUG 1999'}}
+        expected3 = [['Name', 'Date'],
+                     ['Piper /Perabo/', '30 AUG 2012'],
+                     ['Maggie /Ma/', '29 AUG 1999']]
+
+        test4dic = {'I01': {'NAME': 'Amy /Adams/',
+                            'BIRT': '30 AUG 1958'},
+                    'I02': {'NAME': 'Brooke /Burke/',
+                            'BIRT': '03 AUG 2018'},
+                    'I03': {'NAME': 'Jesse /James/'},
+                    'I04': {'NAME': 'Kevin /Kline/'}}
+        expected4 = [['Name', 'Date'],
+                     ['Amy /Adams/', '30 AUG 1958']]
+
+        test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
+                            'BIRT': '30 AUG 1974'},
+                    'I02': {'NAME': 'Wade /Williams/',
+                            'BIRT': '02 JAN 1975'},
+                    'I03': {'NAME': 'Kelly /Clarkson/',
+                            'BIRT': '29 JUL 2018'},
+                    'I04': {'NAME': 'Nick /Nolte/'},
+                    'I05': {'NAME': 'Mandy /Moore/',
+                            'BIRT': '31 AUG 2014'}}
+        expected5 = [['Name', 'Date'],
+                     ['Sylvester /Stallone/', '30 AUG 1974'],
+                     ['Mandy /Moore/', '31 AUG 2014']]
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listUpcomingBirthdays(
+                             collections.OrderedDict(sorted(test1dic.items())))) # Empty Dictionary
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listUpcomingBirthdays(
+                             collections.OrderedDict(sorted(test2dic.items()))))  # Dictionary with 2 inds & 1 upcoming birthday
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listUpcomingBirthdays(
+                             collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 2 inds & 2 upcoming birthdays
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listUpcomingBirthdays(
+                             collections.OrderedDict(sorted(test4dic.items()))))  # Dictionary with 4 inds & 1 upcoming birthday
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listUpcomingBirthdays(
+                             collections.OrderedDict(sorted(test5dic.items()))))  # Dictionary with 5 inds & 3 upcoming birthdays
+
+    # US39 - Tests listUpcomingAnniversaries function
+    def test_listUpcomingAnniversaries(self):
+        expected1 = [['Name', 'Family', 'Date']]
+        test1indic = {}
+        test1famdic = {}
+
+        expected2 = [['Name', 'Family', 'Date']]
+        test2indic = {'I01': {'NAME': 'Jerome /Buck/'}}
+        test2famdic = {}
+
+        expected3 = [['Name', 'Family', 'Date'],
+                     ['Donald /Trump/', 'F01', '31 AUG 2010']]
+        test3indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01']}}
+        test3famdic = {'F01': {'MARR': '31 AUG 2010'}}
+
+        expected4 = [['Name', 'Family', 'Date']]
+        test4indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01'],
+                              'DEAT': '06 JUN 1994'}}
+        test4famdic = {'F01': {'MARR': '31 AUG 1987'}}
+
+        expected5 = [['Name', 'Family', 'Date'],
+                     ['Donald /Trump/', 'F01', '31 AUG 1987']]
+        test5indic = {'I01': {'NAME': 'Donald /Trump/',
+                              'FAMS': ['F01']},
+                      'I02': {'NAME': 'Jack /Frost/',
+                              'FAMS': ['F02']}}
+        test5famdic = {'F01': {'MARR': '31 AUG 1987'},
+                       'F02': {'MARR': '13 MAY 1999'}}
+
+        self.assertEqual(expected1,
+                         GEDCOM_Project.listUpcomingAnniversaries(
+                             collections.OrderedDict(sorted(test1indic.items())), collections.OrderedDict(sorted(test1famdic.items()))))  # Empty Dictionary
+
+        self.assertEqual(expected2,
+                         GEDCOM_Project.listUpcomingAnniversaries(
+                             collections.OrderedDict(sorted(test2indic.items())),
+                             collections.OrderedDict(sorted(test2famdic.items()))))  # One individual with no family 
+
+        self.assertEqual(expected3,
+                         GEDCOM_Project.listUpcomingAnniversaries(
+                             collections.OrderedDict(sorted(test3indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test3famdic.items()))))  # One married individual with upcoming anniversary
+
+        self.assertEqual(expected4,
+                         GEDCOM_Project.listUpcomingAnniversaries(
+                             collections.OrderedDict(sorted(test4indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test4famdic.items()))))  # One married individual with upcoming anniversary but is dead
+
+        self.assertEqual(expected5,
+                         GEDCOM_Project.listUpcomingAnniversaries(
+                             collections.OrderedDict(sorted(test5indic.items())),
+                             collections.OrderedDict(
+                                 sorted(test5famdic.items()))))  # Two married individuals, only one with upcoming anniversary
+
+    
+    # US40 - Tests includeLineNumbers function
+    def test_includeLineNumbers(self):
+        self.assertEqual("","")
 
     # US42 - test the checkIllegitimateDate function
     def test_checkIllegitimateDate(self):

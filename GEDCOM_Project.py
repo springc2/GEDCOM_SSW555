@@ -26,7 +26,7 @@ INDIVIDUALS = {} #empty dictionary for individuals. The key is an individuals ID
 
 #main function
 def main():
-    
+
     try:
         with open(INPUT_FILE) as fp:
             invalidLines = []
@@ -42,14 +42,14 @@ def main():
                 if (isSpecialCase(parsedLine)):
                     #new family or new individual
                     curEntityType = parsedLine[2] #this is either FAM or INDI
-                    curEntityID = createEntity(parsedLine, curEntityType)
+                    curEntityID = createEntity(parsedLine, curEntityType, numLine)
                 elif (isValid(parsedLine)):
                     #either adding info to an existing family/individual or it is a comment
                     datePredecessor = updateEntity(parsedLine, curEntityID, curEntityType, datePredecessor, numLine)
                 else:
                     #add error reporting to help user
                     invalidLines.append(numLine)
-            
+
             if(len(invalidLines) > 0):
                 #print 'Invalid GEDCOM format on lines:', invalidLines
                 F.write('The following lines had an invalid format: ' + str(invalidLines) + '\n')
@@ -70,21 +70,23 @@ def main():
 #this fuction will create either a new family or a new individual
 #returns the current entities ID
 #(if it is not a uniquie ID, will return blanks so the info of this entity is not added)
-def createEntity(pLine, entType):
+def createEntity(pLine, entType, lineNum):
     entID = pLine[1] #this is the ID of the entity
     if (entType == 'FAM'):
         #check if the ID is a unique ID
-        if (checkUniqueIDs(entID,FAMILIES)):
+        if (checkUniqueIDs(entID,FAMILIES,lineNum)):
             #the new entity is a family so we will create a new dictionary for it within the fam dictionary
             FAMILIES.update({entID: {'ID': entID}})
+            FAMILIES[entID].update({'LINE' : str(lineNum)}) #add family line number
         else:
             #the ID is not unique so we will not add it and will not add any of it's info
             entID = ''
     elif (entType == 'INDI'):
         #check if the ID is a unique ID
-        if (checkUniqueIDs(entID,INDIVIDUALS)):
+        if (checkUniqueIDs(entID,INDIVIDUALS,lineNum)):
             #the new entity is an individual so we will create a new dictionary for it within the indi dictionary
             INDIVIDUALS.update({entID: {'ID': entID}})
+            INDIVIDUALS[entID].update({'LINE' : str(lineNum)}) #add family line number
         else:
             #the ID is not unique so we will not add it and will not add any of it's info
             entID = ''
@@ -139,7 +141,7 @@ def updateEntity(pLine, entID, entType, curDatePred, lineNumber):
                     #adding a basic date so the program doesn't crash
                     INDIVIDUALS[entID].update({curDatePred: ' '.join(['01','JAN','2000'])})
             else:
-                
+
                 if ((pLine[1] == 'FAMS' or pLine[1] == 'FAMC') and (pLine[1] in INDIVIDUALS[entID])):
                     #an individual can be in multiple families (as a child or spouse)
                     INDIVIDUALS[entID][pLine[1]].append(' '.join(pLine[2:]))
@@ -213,7 +215,7 @@ def getAgeAlive(birthDate):
 def getAgeDead(birthDate, deathDate):
     dDate = deathDate[0].split() #parse the deathday
     deathDay = int(dDate[0])
-    
+
     bDate = birthDate[0].split() #parse the birthday
     birthDay = int(bDate[0])
     months = {
@@ -296,10 +298,10 @@ def checkMomTooOld(momBirth, childBirth):
 #input dates are in the format <day month year>
 def getFormattedDateForCompare(date):
     _date = date.split() #parse the date
-    
-    workingDay = int(_date[0])    
+
+    workingDay = int(_date[0])
     workingYear = int(_date[2])
-    
+
     if (_date[1] == 'JAN'):
         workingMonth = 1
     elif (_date[1] == 'FEB'):
@@ -324,13 +326,13 @@ def getFormattedDateForCompare(date):
         workingMonth = 11
     else:
         workingMonth = 12
-    
+
     workingDate = datetime.date(workingYear, workingMonth, workingDay)
     return workingDate
 
 #returns true if the line is in the correct format
 #returns false otherwise
-def isValid(pLine):    
+def isValid(pLine):
     #note that INDI and FAM are not valid here, they are handled in the special case method
     validTags = {
             '0': ('HEAD', 'TRLR', 'NOTE'),
@@ -340,10 +342,10 @@ def isValid(pLine):
     level = pLine[0]
     tag = pLine[1]
     isValid = False
-    
+
     if (level in validTags and tag in validTags[level]):
         isValid = True
-    
+
     return isValid
 
 #returns true if the input is a special case in the correct format
@@ -368,7 +370,8 @@ def additionalChecking():
     checkBirthBeforeMarriageOfParents(INDIVIDUALS, FAMILIES) #User Story 08
     checkBirthBeforeDeathOfParents(INDIVIDUALS, FAMILIES) #User Story 09
     checkMarriageAfter14(INDIVIDUALS, FAMILIES) #User Story 10
-    checkParentsNotTooOld(FAMILIES, INDIVIDUALS) #User Story 12
+    checkNoBigamy(FAMILIES) #User Story 11
+    checkParentsNotTooOld(INDIVIDUALS, FAMILIES) #User Story 12
     checkFewerThan15Siblings(FAMILIES) #User Story 15
     checkSiblingsShouldNotMarry(FAMILIES) #User Story 18
     checkCorrectGenderForRole(FAMILIES, INDIVIDUALS) #User Story 21
@@ -381,11 +384,22 @@ def additionalChecking():
 # so this function will not recheck for errors that have already been covered earlier in the program
 def additionalLists():
     prettyPrint('Individual\'s Age', listIndividualAges(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 27
+    prettyPrint('Siblings Ordered By Age', listSiblingsByAge(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 28
     prettyPrint('Deceased Individuals', listDeceased(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 29
     prettyPrint('Living Married Individuals', listLivingMarried(collections.OrderedDict(sorted(INDIVIDUALS.items())),
                                                                 collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 30
+    prettyPrint('Living Singles', listLivingSingles(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 31
+    prettyPrint('Orphans', listOrphans(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 33
+    prettyPrint('Large Age Differences', listLargeAgeDifferences(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 34
+
     prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 36
+    prettyPrint('Upcoming Birthdays', listUpcomingBirthdays(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 38
+    prettyPrint('Upcoming Anniversaries', listUpcomingAnniversaries(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 39
 
 # Checks User Story 01:
 # Dates (birth, marriage, divorce, death) should not be after the current date
@@ -393,7 +407,7 @@ def additionalLists():
 # Returns True if the check is passed, and False if the check is failed
 def checkDatesBeforeCurrentDate(indi, fam):
     passesCheck = True
-    
+
     currentDate = date.today() #today's date
     #look at the birth and death dates for individuals
     if(indi):
@@ -403,14 +417,14 @@ def checkDatesBeforeCurrentDate(indi, fam):
                 workingDate = getFormattedDateForCompare(v['BIRT'])
                 if (workingDate > currentDate):
                     passesCheck = False
-                    log('Error','US01','Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a birth date after the current date.')
+                    log('Error','US01',v.get('LINE'),'Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a birth date after the current date.')
 
             #looking at the deathdate if there is one
             if (v.get('DEAT', 'NA') != 'NA'):
                 workingDate = getFormattedDateForCompare(v['DEAT'])
                 if (workingDate > currentDate):
                     passesCheck = False
-                    log('Error','US01','Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a death date after the current date.')
+                    log('Error','US01',v.get('LINE'),'Individual ' + v.get('NAME', 'NA') + ' (' + v.get('ID', 'NA') + ') has a death date after the current date.')
 
     #look at the marr and div dates for families
     if(fam):
@@ -420,14 +434,14 @@ def checkDatesBeforeCurrentDate(indi, fam):
                 workingDate = getFormattedDateForCompare(v['MARR'])
                 if (workingDate > currentDate):
                     passesCheck = False
-                    log('Error','US01','Family ' + v.get('ID', 'NA') + ' has a marriage date after the current date.')
+                    log('Error','US01',v.get('LINE'),'Family ' + v.get('ID', 'NA') + ' has a marriage date after the current date.')
 
             #looking at the divorce if there is one
             if (v.get('DIV', 'NA') != 'NA'):
                 workingDate = getFormattedDateForCompare(v['DIV'])
                 if (workingDate > currentDate):
                     passesCheck = False
-                    log('Error','US01','Family ' + v.get('ID', 'NA') + ' has a divorce date after the current date.')
+                    log('Error','US01',v.get('LINE'),'Family ' + v.get('ID', 'NA') + ' has a divorce date after the current date.')
 
 
     return passesCheck
@@ -460,7 +474,7 @@ def checkBirthBeforeMarriage(indi, fam):
 
                 if bDate > mDate:
                     #there was a match, so we must print out the info
-                    log('Error','US02','Individual ' + indi_name + ' (' + indi_id + ') has marriage date before birth date.')
+                    log('Error','US02',v.get('LINE'),'Individual ' + indi_name + ' (' + indi_id + ') has marriage date before birth date.')
                     passesCheck = False
 
     return passesCheck
@@ -482,7 +496,7 @@ def checkBirthBeforeDeath(indi):
 
             if bDate > dDate:
                 #there was a match, so we must print out the info
-                log('Error','US03','Individual ' + indi_name + ' (' + indi_id + ') has death date before birth date.')
+                log('Error','US03',v.get('LINE'),'Individual ' + indi_name + ' (' + indi_id + ') has death date before birth date.')
                 passesCheck = False
 
     return passesCheck
@@ -493,7 +507,7 @@ def checkBirthBeforeDeath(indi):
 # Returns True if the check is passed, and False if the check is failed
 def checkMarriageBeforeDivorce(fam):
     passesCheck = True
-    
+
     for k, v in fam.iteritems():
         if v.get('DIV') is None:
             continue
@@ -502,8 +516,8 @@ def checkMarriageBeforeDivorce(fam):
 
         if coupleDivorceDate < coupleMarriageDate:
             passesCheck = False
-            log('Error','US04','Family (' + k +') has divorce before marriage.')
-        
+            log('Error','US04',v.get('LINE'),'Family (' + k +') has divorce before marriage.')
+
     return passesCheck
 
 # Checks User Story 05:
@@ -520,12 +534,12 @@ def checkMarriageBeforeDeath(ind, fam):
                 husbandDeathDate = getFormattedDateForCompare(ind[v['HUSB']]['DEAT'])
                 if coupleMarriageDate > husbandDeathDate:
                     passesCheck = False
-                    log('Error','US05','Family (' + k +') has death before marriage date for husband ('+v['HUSB']+ ').')
+                    log('Error','US05',v.get('LINE'),'Family (' + k +') has death before marriage date for husband ('+v['HUSB']+ ').')
             if ind[v['WIFE']].get('DEAT') is not None:
                 wifeDeathDate = getFormattedDateForCompare(ind[v['WIFE']]['DEAT'])
                 if coupleMarriageDate > wifeDeathDate:
                     passesCheck = False
-                    log('Error','US05','Family (' + k +') has death before marriage date for wife ('+v['WIFE']+ ').')
+                    log('Error','US05',v.get('LINE'),'Family (' + k +') has death before marriage date for wife ('+v['WIFE']+ ').')
     return passesCheck
 
 # Checks User Story 06:
@@ -543,12 +557,12 @@ def checkDivorceBeforeDeath(indi, fam):
                 husbandDeathDate = getFormattedDateForCompare(indi[v['HUSB']]['DEAT'])
                 if coupleDivorceDate > husbandDeathDate:
                     passesCheck = False
-                    log('Error','US06','Family (' + k +') has divorce after death date for husband ('+v['HUSB']+ ').')
+                    log('Error','US06',v.get('LINE'),'Family (' + k +') has divorce after death date for husband ('+v['HUSB']+ ').')
             if indi[v['WIFE']].get('DEAT') is not None:
                 wifeDeathDate = getFormattedDateForCompare(indi[v['WIFE']]['DEAT'])
                 if coupleDivorceDate > wifeDeathDate:
                     passesCheck = False
-                    log('Error','US06','Family (' + k +') has divorce after death date for wife ('+v['WIFE']+ ').')
+                    log('Error','US06',v.get('LINE'),'Family (' + k +') has divorce after death date for wife ('+v['WIFE']+ ').')
     return passesCheck
 
 # Checks User Story 07:
@@ -574,7 +588,7 @@ def checkLessThan150YearsOld(indi):
 
         if (age >= 150):
             #there was a match, so we must print out the info
-            log('Error','US07', 'Individual' + indi_name + ' (' + indi_id + ') is not less than 150 years old.')
+            log('Error','US07',v.get('LINE'), 'Individual' + indi_name + ' (' + indi_id + ') is not less than 150 years old.')
             passesCheck = False
 
     return passesCheck
@@ -594,7 +608,7 @@ def checkBirthBeforeMarriageOfParents(indi, fam):
             for i in range(0, len(v['CHIL'])):
                 childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if coupleMarriageDate >= childAge:
-                    log('Anomaly','US08','Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born before marriage in Family (' + k +').')
+                    log('Anomaly','US08',v.get('LINE'),'Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born before marriage in Family (' + k +').')
                     passesCheck = False
 
         #check against div date if there is one
@@ -606,7 +620,7 @@ def checkBirthBeforeMarriageOfParents(indi, fam):
             for i in range(0, len(v['CHIL'])):
                 childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if plus9MonthDivDate < childAge:
-                    log('Anomaly','US08','Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after divorce in Family (' + k +').')
+                    log('Anomaly','US08',v.get('LINE'),'Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after divorce in Family (' + k +').')
                     passesCheck = False
 
     return passesCheck
@@ -617,7 +631,7 @@ def checkBirthBeforeMarriageOfParents(indi, fam):
 # Returns True if the check is passed, and False if the check is failed
 def checkBirthBeforeDeathOfParents(indi, fam):
     passesCheck = True
-    
+
     for k, v in fam.iteritems():
         #check against mother's death date if there is one
         if (indi[v['WIFE']].get('DEAT') is not None and v.get('CHIL') is not None):
@@ -626,7 +640,7 @@ def checkBirthBeforeDeathOfParents(indi, fam):
             for i in range(0, len(v['CHIL'])):
                 childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if motherDeathDate <= childAge:
-                    log('Error','US09','Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born after death of mother ' + indi[v['WIFE']].get('NAME') + ' (' + indi[v['WIFE']].get('ID') + ') in Family (' + k +').')
+                    log('Error','US09',v.get('LINE'),'Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born after death of mother ' + indi[v['WIFE']].get('NAME') + ' (' + indi[v['WIFE']].get('ID') + ') in Family (' + k +').')
                     passesCheck = False
 
         #check against father's death date if there is one
@@ -638,9 +652,9 @@ def checkBirthBeforeDeathOfParents(indi, fam):
             for i in range(0, len(v['CHIL'])):
                 childAge = getFormattedDateForCompare(indi[v['CHIL'][i]].get('BIRT'))
                 if plus9MonthDeathDate <= childAge:
-                    log('Error','US09','Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after death of father ' + indi[v['HUSB']].get('NAME') + ' (' + indi[v['HUSB']].get('ID') + ') in Family (' + k +').')
+                    log('Error','US09',v.get('LINE'),'Individual ' + indi[v['CHIL'][i]].get('NAME') + ' (' + indi[v['CHIL'][i]].get('ID') + ') was born more than 9 months after death of father ' + indi[v['HUSB']].get('NAME') + ' (' + indi[v['HUSB']].get('ID') + ') in Family (' + k +').')
                     passesCheck = False
-    
+
     return passesCheck
 
 # Checks User Story 10:
@@ -649,7 +663,7 @@ def checkBirthBeforeDeathOfParents(indi, fam):
 # Returns True if the check is passed, and False if the check is failed
 def checkMarriageAfter14(indi, fam):
     passesCheck = True
-   
+
     for k, v in fam.iteritems():
         marriageDate = getFormattedDateForCompare(v['MARR'])
         if(indi):
@@ -657,18 +671,100 @@ def checkMarriageAfter14(indi, fam):
             wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
             if ((marriageDate - husbandBirthDate).days / 365) < 14:
                 passesCheck = False
-                log('Anomaly', 'US10', 'Individual (' + v['HUSB'] + ') was younger than 14 when married')
+                log('Anomaly', 'US10',v.get('LINE'), 'Individual (' + v['HUSB'] + ') was younger than 14 when married')
             if ((marriageDate - wifeBirthDate).days / 365) < 14:
                 passesCheck = False
-                log('Anomaly', 'US10', 'Individual (' + v['WIFE'] + ') was younger than 14 when married')
+                log('Anomaly', 'US10',v.get('LINE'), 'Individual (' + v['WIFE'] + ') was younger than 14 when married')
 
+    return passesCheck
+
+# Checks User Story 11:
+# Marriage should not occur during marriage to another spouse
+# This is considered an Anomaly
+# Returns True if the check is passed, and False if the check is failed
+def checkNoBigamy(fam):
+    passesCheck = True
+    alreadyMarriedList = {}
+    for k, v in fam.iteritems():
+        if(fam):
+            if(v['HUSB'] in alreadyMarriedList):
+                curMarrDate = getFormattedDateForCompare(v['MARR'])
+                if(v.get('DIV') is not None):
+                    curDivDate = getFormattedDateForCompare(v['DIV'])
+                else:
+                    curDivDate = datetime.date(5000, 1, 1) #set date to a future date that is unrealistic
+                i = 0
+                for fam_id in alreadyMarriedList[v['HUSB']]['FAM_ID']:
+                    #look at all the husbands previous families
+                    prevMarrDate = getFormattedDateForCompare(alreadyMarriedList[v['HUSB']]['MARR'][i])
+                    if(alreadyMarriedList[v['HUSB']]['DIV'][i] is not None):
+                        prevDivDate = getFormattedDateForCompare(alreadyMarriedList[v['HUSB']]['DIV'][i])
+                    else:
+                        prevDivDate = datetime.date(5000, 1, 1) #set date to a future date that is unrealistic
+                    if((curMarrDate < prevDivDate) and (curDivDate > prevMarrDate)):
+                        #log the anomaly
+                        passesCheck = False
+                        log('Anomaly', 'US11',v.get('LINE'), 'Individual (' + v['HUSB'] + ') is married in family (' + v['ID'] + ') and family (' + alreadyMarriedList[v['HUSB']]['FAM_ID'][i] + ') at the same time.')
+                    i = i + 1
+                #since we logged the data, we want to add the husbands info from this new fam
+                alreadyMarriedList[v['HUSB']]['FAM_ID'].append(v['ID'])
+                alreadyMarriedList[v['HUSB']]['MARR'].append(v['MARR'])
+                if(v.get('DIV') is not None):
+                    alreadyMarriedList[v['HUSB']]['DIV'].append(v['DIV'])
+                else:
+                    alreadyMarriedList[v['HUSB']]['DIV'].append(None)
+            else:
+                #if the husband is not on the list, we need to make a new entry for him
+                alreadyMarriedList.update({v['HUSB']: {'INDI_ID': v['HUSB']}})
+                alreadyMarriedList[v['HUSB']].update({'FAM_ID': [v['ID']]}) #there can be more than one fam
+                alreadyMarriedList[v['HUSB']].update({'MARR': [v['MARR']]}) #there can be more than one marriage date
+                if(v.get('DIV') is not None):
+                    alreadyMarriedList[v['HUSB']].update({'DIV': [v['DIV']]}) #there can be more than one div date
+                else:
+                    alreadyMarriedList[v['HUSB']].update({'DIV': [None]}) #there can be more than one div date
+            if(v['WIFE'] in alreadyMarriedList):
+                curMarrDate = getFormattedDateForCompare(v['MARR'])
+                if(v.get('DIV') is not None):
+                    curDivDate = getFormattedDateForCompare(v['DIV'])
+                else:
+                    curDivDate = datetime.date(5000, 1, 1) #set date to a future date that is unrealistic
+                i = 0
+                for fam_id in alreadyMarriedList[v['WIFE']]['FAM_ID']:
+                    #look at all the husbands previous families
+                    prevMarrDate = getFormattedDateForCompare(alreadyMarriedList[v['WIFE']]['MARR'][i])
+                    if(alreadyMarriedList[v['WIFE']]['DIV'][i] is not None):
+                        prevDivDate = getFormattedDateForCompare(alreadyMarriedList[v['WIFE']]['DIV'][i])
+                    else:
+                        prevDivDate = datetime.date(5000, 1, 1) #set date to a future date that is unrealistic
+                    if((curMarrDate < prevDivDate) and (curDivDate > prevMarrDate)):
+                        #log the anomaly
+                        passesCheck = False
+                        log('Anomaly', 'US11',v.get('LINE'), 'Individual (' + v['WIFE'] + ') is married in family (' + v['ID'] + ') and family (' + alreadyMarriedList[v['WIFE']]['FAM_ID'][i] + ') at the same time.')
+                    i = i + 1
+                #since we logged the data, we want to add the wife info from this new fam
+                alreadyMarriedList[v['WIFE']]['FAM_ID'].append(v['ID'])
+                alreadyMarriedList[v['WIFE']]['MARR'].append(v['MARR'])
+                if(v.get('DIV') is not None):
+                    alreadyMarriedList[v['WIFE']]['DIV'].append(v['DIV'])
+                else:
+                    alreadyMarriedList[v['WIFE']]['DIV'].append(None)
+            else:
+                #if the wife is not on the list, we need to make a new entry for him
+                alreadyMarriedList.update({v['WIFE']: {'INDI_ID': v['WIFE']}})
+                alreadyMarriedList[v['WIFE']].update({'FAM_ID': [v['ID']]}) #there can be more than one fam
+                alreadyMarriedList[v['WIFE']].update({'MARR': [v['MARR']]}) #there can be more than one marriage date
+                if(v.get('DIV') is not None):
+                    alreadyMarriedList[v['WIFE']].update({'DIV': [v['DIV']]}) #there can be more than one div date
+                else:
+                    alreadyMarriedList[v['WIFE']].update({'DIV': [None]}) #there can be more than one div date
+                
     return passesCheck
 
 # Checks User Story 12:
 # The mother and father in the family should be checked.
 # Mothers age should be less than 60 years older than her children
 # The fathers age should be less than 80 years older than his children
-def checkParentsNotTooOld(fam, indi):
+def checkParentsNotTooOld(indi, fam):
     passesCheck = True
 
     if(fam and indi):
@@ -681,15 +777,15 @@ def checkParentsNotTooOld(fam, indi):
 
                     if(checkMomTooOld(momBirth, childBirth) and checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12',v.get('LINE'),'Family (' + k + ') mother is over 60 years older than child ' + childID + ' and father is over 80 years older than child ' + childID + '.')
                         break
                     elif(checkMomTooOld(momBirth, childBirth)):
                         passesCheck = False
-                        log('Anomaly','US12','Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
+                        log('Anomaly','US12',v.get('LINE'),'Family (' + k + ') mother is over 60 years older than child ' + childID + '.')
                         break
                     elif(checkDadTooOld(dadBirth, childBirth)):
                         passesCheck = False
-                        log('Anomaly','US12','Family (' + k + ') father is over 80 years older than child ' + childID + '.')
+                        log('Anomaly','US12',v.get('LINE'),'Family (' + k + ') father is over 80 years older than child ' + childID + '.')
                         break
     return passesCheck
 
@@ -702,7 +798,7 @@ def checkFewerThan15Siblings(fam):
     if(fam):
         for k, v in fam.iteritems():
             if('CHIL' in v and len(v['CHIL']) >= 15):
-                log('Anomaly','US15','Family (' + k + ') has more than 15 siblings.')
+                log('Anomaly','US15',v.get('LINE'),'Family (' + k + ') has more than 15 siblings.')
                 passesCheck = False
 
     return passesCheck
@@ -721,7 +817,7 @@ def checkSiblingsShouldNotMarry(fam):
                 currentChildren = w.get('CHIL')
                 if currentChildren and len(currentChildren) > 1 and currentHusband in currentChildren and \
                         currentWife in currentChildren:
-                    log('Anomaly', 'US18', 'Family (' + k + ') has husband and wife as siblings.')
+                    log('Anomaly', 'US18',v.get('LINE'), 'Family (' + k + ') has husband and wife as siblings.')
                     passesCheck = False
                     break
     return passesCheck
@@ -737,10 +833,10 @@ def checkCorrectGenderForRole(fam, indi):
         currentHusband = v.get('HUSB')
         if(indi):
             if currentWife is not None and indi[currentWife]['SEX'] != 'F':
-                log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentWife + ' is the wrong gender for wife.')
+                log('Anomoly', 'US21',v.get('LINE'), currentWife + ' is the wrong gender for wife.')
                 passesCheck = False
             if currentHusband is not None and indi[currentHusband]['SEX'] != 'M':
-                log('Anomoly', 'US21', 'TRIGGER WARNING! ' + currentHusband + ' is the wrong gender for husband.')
+                log('Anomoly', 'US21',v.get('LINE'), currentHusband + ' is the wrong gender for husband.')
                 passesCheck = False
 
     return passesCheck
@@ -749,14 +845,14 @@ def checkCorrectGenderForRole(fam, indi):
 # All individual IDs should be unique and all family IDs should be unique
 # This is considered an Error
 # Returns True if the check is passed, and False if the check is failed
-def checkUniqueIDs(curID, dictionary):
+def checkUniqueIDs(curID, dictionary,lineNum):
     #NOTE that the name of an individual is not included in this error message
     #because families have no names but can run into the same error
     #and we want to keep the error message consistent for the both of them
     passesCheck = True
     if (curID in dictionary):
         #the ID is already in the dict, thus it is not unique
-        log('Error','US22','ID ' + curID + ' is not a uniquie ID. Not including it or it\'s information!')
+        log('Error','US22',str(lineNum),'ID ' + curID + ' is not a uniquie ID. Not including it or it\'s information!')
         passesCheck = False
     #otherwise the ID is unique
     return passesCheck
@@ -770,22 +866,22 @@ def checkUniqueNameAndBirthDate(indi):
     all_IDs = [] #all the individual's IDs
     all_names = [] #all the individual's names
     all_bDays = [] #all the individual's birth days
-    
+
     #loop over all stored individuals
     for k, v in indi.iteritems():
         indi_id = v['ID']
         indi_name = v['NAME']
         indi_bDay = v['BIRT']
         isNewNameAndBDay = True
-        
+
         for i in range(0, len(all_IDs)):
             #look at the previously stored names and bdays
             if (indi_name == all_names[i] and indi_bDay == all_bDays[i]):
                 #there was a match, so we must print out the info
-                log('Error','US23','Individual ' + indi_name + ' (' + indi_id + ') and '+ all_names[i] + ' (' + all_IDs[i] + ') have the same name and birth date.')
+                log('Error','US23',v.get('LINE'),'Individual ' + indi_name + ' (' + indi_id + ') and '+ all_names[i] + ' (' + all_IDs[i] + ') have the same name and birth date.')
                 passesCheck = False
                 isNewNameAndBDay = False
-        
+
         if (isNewNameAndBDay):
             #after logic checking, store the values in the list so the next individual can check against them
             #no need to have duplicate individuals with the same BDay and Name...since we already included both their names in the print above,
@@ -810,12 +906,12 @@ def checkUniqueFamiliesBySpouses(fam):
             if(s in marHusWife):
                 i = marHusWife.index(s)
                 passesCheck = False
-                log('Error','US24','Family (' + k + ') has same spouses and marriage date as family (' + famIDs[i] + ').')
+                log('Error','US24',v.get('LINE'),'Family (' + k + ') has same spouses and marriage date as family (' + famIDs[i] + ').')
             else:
                 famIDs.append(k)
                 marHusWife.append(s)
     return passesCheck
-    
+
 # Checks User Story 25:
 # No more than one child with the same name and birth date should appear in a family
 # This is considered an Error
@@ -829,7 +925,7 @@ def checkUniqueFirstNamesInFamilies(indi, fam):
                 for childId in v['CHIL']:
                     s = indi[childId]['NAME'] + ' ' + indi[childId]['BIRT']
                     if(s in childrenArr):
-                        log('Error','US25','Family (' + k + ') child ' + indi[childId]['NAME'] + ' shares a name and birthday.')
+                        log('Error','US25',v.get('LINE'),'Family (' + k + ') child ' + indi[childId]['NAME'] + ' shares a name and birthday.')
                         passesCheck = False
                     else:
                         childrenArr.append(s)
@@ -852,6 +948,25 @@ def listIndividualAges(indi):
         rows.append([v['NAME'],age]) #append the data for the individual
     return rows
 
+# User Story 28:
+# List siblings in families by decreasing age, i.e. oldest siblings first
+# Returns a row of values to print as a pretty table (first row is the header)
+def listSiblingsByAge(indi, fam):
+    rows = [] #initilize the row list
+    rows.append(['Family', 'Sibling', 'Age']) #add in the header row
+    if(fam):
+        for k, v in fam.iteritems():
+            temp = []
+            if(v.get('CHIL') is not None):
+                for child in v.get('CHIL'):
+                    age = getAgeAlive([indi[child].get('BIRT')])
+                    temp.append(['^', indi[child].get('NAME'), age])
+
+                temp.sort(key = lambda x: x[2], reverse = True)
+                temp[0][0] = k
+                rows.extend(temp)
+    return rows
+
 # User Story 29:
 # List all deceased individuals in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
@@ -864,7 +979,7 @@ def listDeceased(indi):
             rows.append([v['NAME'], v['DEAT']])
 
     return rows
-    
+
 # User Story 30:
 # List all living married people in a GEDCOM file
 # Returns a row of values to print as a pretty table (first row is the header)
@@ -878,6 +993,58 @@ def listLivingMarried(indi, fam):
                     rows.append([v['NAME'], f])
 
     return rows
+
+# User Story 31:
+# List all living people over 30 who have never been married in a GEDCOM file
+# Returns a row of values to print as a pretty table (first row is the header)
+def listLivingSingles(indi):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Age'])            #add in the header row
+    if(indi):
+        for k, v in indi.iteritems():
+            if(v.get('DEAT') is None and v.get('FAMS') is None):
+                age = getAgeAlive([v.get('BIRT')])
+                if(age > 30):
+                    rows.append([v.get('NAME'), age])
+    return rows
+
+# User Story 33:
+# List all orphaned children (both parents dead and child < 18 years old) in a GEDCOM file
+# Returns a row of values to print as a pretty table (first row is the header)
+def listOrphans(indi, fam):
+     rows = [] #initilize the row list
+     rows.append(['Name', 'Family']) #add in the header row
+     for k, v in fam.iteritems():
+         if(indi):
+             currentFamilyChildren = v.get('CHIL')
+             if currentFamilyChildren and indi.get(v.get('WIFE')) and indi.get(v.get('HUSB')) and indi[
+                 v.get('WIFE')].get('DEAT') and indi[v.get('HUSB')].get('DEAT'):
+                 for child in currentFamilyChildren:
+                     childBirthDate = getFormattedDateForCompare(indi[child].get('BIRT'))
+                     if ((date.today() - childBirthDate).days/365) < 18:
+                         rows.append([indi[child].get('NAME'), k])
+     return rows
+
+# User Story 34:
+# List all couples who were married when the older spouse was more than twice as old as the younger spouse
+# Returns a row of values to print as a pretty table (first row is the header)
+def listLargeAgeDifferences(indi, fam):
+     rows = [] #initilize the row list
+     rows.append(['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']) #add in the header row
+     for k, v in fam.iteritems():
+         marriageDate = getFormattedDateForCompare(v['MARR'])
+         if (indi):
+             if not indi[v.get('HUSB')] or not indi[v.get('WIFE')]:
+                 continue
+             husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
+             husbandAgeAtMarriage = (marriageDate - husbandBirthDate).days/365
+             wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
+             wifeAgeAtMarriage = (marriageDate - wifeBirthDate).days/365
+             if husbandAgeAtMarriage / wifeAgeAtMarriage >= 2:
+                 rows.append([k, indi[v.get('HUSB')]['NAME'],husbandAgeAtMarriage, indi[v.get('WIFE')]['NAME'], wifeAgeAtMarriage])
+             if wifeAgeAtMarriage / husbandAgeAtMarriage >= 2:
+                 rows.append([k, indi[v.get('WIFE')]['NAME'],wifeAgeAtMarriage ,indi[v.get('HUSB')]['NAME'],husbandAgeAtMarriage])
+     return rows
 
 # User Story 35:
 # List all people in a GEDCOM file who were born in the last 30 days
@@ -916,6 +1083,58 @@ def listRecentDeaths(indi):
 
     return rows
 
+# User Story 38:
+# List all living people in a GEDCOM file whose birthdays occur in the next 30 days
+# Returns a row of values to print as a pretty table (first row is the header)
+def listUpcomingBirthdays(indi):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Date']) #add in the header row
+    for k,v in indi.iteritems():
+    	if(v.get('BIRT') is not None):
+	        currentDate = date.today() #today's date
+	        birthDay = datetime.datetime.strptime(v['BIRT'], '%d %b %Y').date().replace(year=currentDate.year)
+	        if(birthDay.month == 1 and currentDate.month == 12):
+	        	#handle case when birthday is upcoming, but in next calendar year
+	        	birthDay = birthDay + relativedelta(years=1)
+
+	        futureDate = currentDate + timedelta(days=30) #30 days in the future
+
+	        if(birthDay <= futureDate and birthDay > currentDate):
+	        	# Means individual has a birthday in the next 30 days
+				rows.append([v['NAME'], v['BIRT']])
+
+    return rows
+
+# User Story 39:
+# List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days
+# Returns a row of values to print as a pretty table (first row is the header)
+def listUpcomingAnniversaries(indi, fam):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Family', 'Date']) #add in the header row    
+    for k, v in indi.iteritems():
+        if(v.get('DEAT') is None and v.get('FAMS') is not None):
+            for f in v.get('FAMS'):
+                if(fam[f].get('DIV') is None):
+                	if(fam[f].get('MARR') is not None):
+				        currentDate = date.today() #today's date
+				        marrDay = datetime.datetime.strptime(fam[f]['MARR'], '%d %b %Y').date().replace(year=currentDate.year)
+				        if(marrDay.month == 1 and currentDate.month == 12):
+				        	#handle case when anniversary is upcoming, but in next calendar year
+				        	marrDay = marrDay + relativedelta(years=1)
+
+				        futureDate = currentDate + timedelta(days=30) #30 days in the future
+
+				        if(marrDay <= futureDate and marrDay > currentDate):
+				        	# Means individual has anniversary in the next 30 days
+							rows.append([v['NAME'], f, fam[f]['MARR']])
+
+    return rows
+
+# Checks User Story 40:
+# List line numbers from GEDCOM source file when reporting errors
+def includeLineNumbers():
+    return True
+
 # Checks User Story 42:
 # All dates should be legitimate dates for the months specified (e.g., 2/30/2015 is not legitimate)
 # This is considered an Error
@@ -923,7 +1142,7 @@ def listRecentDeaths(indi):
 def checkIllegitimateDate(date, line):
     passesCheck = True
     if len(date) != 3:
-        log('Error','US42',str(line)+': The date entered is not in the correct format.')
+        log('Error','US42',str(line),'The date entered is not in the correct format.')
         passesCheck = False
     else:
         try:
@@ -942,10 +1161,10 @@ def checkIllegitimateDate(date, line):
             if (date[1] in months):
                 datetime.datetime(year=int(date[2]),month=months[date[1]],day=int(date[0]))
             else:
-                log('Error','US42',str(line)+': The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
+                log('Error','US42',str(line),'The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
                 passesCheck = False
         except ValueError:
-            log('Error','US42',str(line)+': The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
+            log('Error','US42',str(line),'The date \'' + str(date[0]) + ' ' + str(date[1]) + ' ' + str(date[2]) + '\' is not a legitimate date. A date of \'01 JAN 2000\' is being set for this date until it is fixed.')
             passesCheck = False
     return passesCheck
 
@@ -953,8 +1172,11 @@ def checkIllegitimateDate(date, line):
 # severity - Error or Anomaly
 # userStory - the user story in which the error/anomaly failed
 # message - detailed explination of the error/anomaly
-def log(severity, userStory, message):
-    F.write(severity + ': ' + userStory + ': ' + message + '\n')
+def log(severity, userStory, line, message):
+    if(line is None):
+        F.write(severity + ': ' + userStory + ': NoLineNumber: ' + message + '\n')
+    else:
+        F.write(severity + ': ' + userStory + ': ' + str(line) + ': ' + message + '\n')
 
 # this function prints in a pretty table
 # title is the title of the table (i.e. 'Individuals' or 'Families' or 'Recent Births')
