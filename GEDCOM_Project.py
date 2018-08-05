@@ -1130,11 +1130,6 @@ def listUpcomingAnniversaries(indi, fam):
 
     return rows
 
-# Checks User Story 40:
-# List line numbers from GEDCOM source file when reporting errors
-def includeLineNumbers():
-    return True
-
 # Checks User Story 42:
 # All dates should be legitimate dates for the months specified (e.g., 2/30/2015 is not legitimate)
 # This is considered an Error

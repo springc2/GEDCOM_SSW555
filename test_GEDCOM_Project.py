@@ -1683,10 +1683,6 @@ class TestGEDCOM_Project(unittest.TestCase):
                              collections.OrderedDict(
                                  sorted(test5famdic.items()))))  # Two married individuals, only one with upcoming anniversary
 
-    
-    # US40 - Tests includeLineNumbers function
-    def test_includeLineNumbers(self):
-        self.assertEqual("","")
 
     # US42 - test the checkIllegitimateDate function
     def test_checkIllegitimateDate(self):

@@ -37,8 +37,6 @@ Anomaly: US10: 121: Individual (I22) was younger than 14 when married
 Anomaly: US10: 130: Individual (I25) was younger than 14 when married
 Anomaly: US10: 98: Individual (I01) was younger than 14 when married
 Anomaly: US10: 98: Individual (I02) was younger than 14 when married
-Anomaly: US10: 139: Individual (I27) was younger than 14 when married
-Anomaly: US10: 139: Individual (I28) was younger than 14 when married
 Anomaly: US11: 5: Individual (I06) is married in family (F01) and family (F07) at the same time.
 Anomaly: US11: 5: Individual (I05) is married in family (F01) and family (F07) at the same time.
 Anomaly: US11: 90: Individual (I13) is married in family (F10) and family (F06) at the same time.
@@ -125,7 +123,7 @@ Families:
 | F11 | 23 JUL 1999 |      NA     |    I01     |     Dan /Smith/      |   I02   |     Laura /Smith/     | ['I03', 'I04', 'I05', 'I06', 'I07', 'I08', 'I09', 'I10', 'I11', 'I12', 'I13', 'I14', 'I15', 'I16', 'I17'] |
 | F12 | 01 JAN 1932 |      NA     |    I21     |  Daron /McSwiggen/   |   I22   |   Donna /McSwiggen/   |                                                  ['I23']                                                  |
 | F13 | 01 JAN 1951 |      NA     |    I24     | Donald /Carrymehome/ |   I25   | Destiny /Carrymehome/ |                                                  ['I26']                                                  |
-| F14 | 01 JAN 1931 |      NA     |    I27     |   Paul /Telepathy/   |   I28   |  Tiffany /Telepathy/  |                                               ['I29', 'I30']                                              |
+| F14 | 31 AUG 1987 |      NA     |    I27     |   Paul /Telepathy/   |   I28   |  Tiffany /Telepathy/  |                                               ['I29', 'I30']                                              |
 +-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
 
 Individual's Age:
@@ -262,7 +260,6 @@ Large Age Differences:
 |  F11   |    Laura /Smith/     |        12        |      Dan /Smith/      |         5          |
 |  F12   |  Daron /McSwiggen/   |        12        |   Donna /McSwiggen/   |         2          |
 |  F13   | Donald /Carrymehome/ |        41        | Destiny /Carrymehome/ |         1          |
-|  F14   |   Paul /Telepathy/   |        11        |  Tiffany /Telepathy/  |         1          |
 +--------+----------------------+------------------+-----------------------+--------------------+
 
 Recent Births:
@@ -280,19 +277,16 @@ Recent Deaths:
 +-------------------+-------------+
 
 Upcoming Birthdays:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++------------------+-------------+
+|       Name       |     Date    |
++------------------+-------------+
+|   Luke /Smith/   | 11 AUG 2003 |
+|   Luke /Smith/   | 11 AUG 2003 |
+| Brian /Dinosuar/ | 12 AUG 2005 |
++------------------+-------------+
 
 Upcoming Anniversaries:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++------+--------+------+
+| Name | Family | Date |
++------+--------+------+
++------+--------+------+
