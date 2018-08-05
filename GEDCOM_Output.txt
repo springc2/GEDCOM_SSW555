@@ -1,76 +1,82 @@
-Error: US22: ID I19 is not a uniquie ID. Not including it or it's information!
+Error: US22: 317: ID I19 is not a uniquie ID. Not including it or it's information!
 Error: US42: 412: The date '29 FEB 2013' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US01: Individual Bo /Telepathy/ (I30) has a birth date after the current date.
-Error: US01: Individual Bo /Telepathy/ (I30) has a death date after the current date.
-Error: US02: Individual Jean /Smith/ (I07) has marriage date before birth date.
-Error: US02: Individual Matthew /Smith/ (I08) has marriage date before birth date.
-Error: US03: Individual Brian /Dinosuar/ (I20) has death date before birth date.
-Error: US04: Family (F09) has divorce before marriage.
-Error: US05: Family (F10) has death before marriage date for wife (I09).
-Error: US06: Family (F05) has divorce after death date for wife (I14).
-Error: US07: IndividualBo /Telepathy/ (I30) is not less than 150 years old.
-Anomaly: US08: Individual Jane /Anderson/ (I09) was born before marriage in Family (F07).
-Anomaly: US08: Individual William /Smith/ (I03) was born before marriage in Family (F11).
-Anomaly: US08: Individual Madeline /Smith/ (I04) was born before marriage in Family (F11).
-Anomaly: US08: Individual Renee /Smith/ (I05) was born before marriage in Family (F11).
-Anomaly: US08: Individual Mark /Smith/ (I06) was born before marriage in Family (F11).
-Anomaly: US08: Individual Jean /Smith/ (I07) was born before marriage in Family (F11).
-Anomaly: US08: Individual Matthew /Smith/ (I08) was born before marriage in Family (F11).
-Anomaly: US08: Individual Jane /Anderson/ (I09) was born before marriage in Family (F11).
-Anomaly: US08: Individual William /Anderson/ (I10) was born before marriage in Family (F11).
-Anomaly: US08: Individual Madeline /Wheeldon/ (I11) was born before marriage in Family (F11).
-Anomaly: US08: Individual Isaac /Wheeldon/ (I12) was born before marriage in Family (F11).
-Anomaly: US08: Individual Vince /Smith/ (I13) was born before marriage in Family (F11).
-Anomaly: US08: Individual Brenda /Smith/ (I14) was born before marriage in Family (F11).
-Anomaly: US08: Individual Paul /Smith/ (I15) was born before marriage in Family (F11).
-Anomaly: US08: Individual Jason /Smith/ (I16) was born before marriage in Family (F11).
-Anomaly: US08: Individual Jenn /Smith/ (I17) was born before marriage in Family (F11).
-Anomaly: US08: Individual Paul /Smith/ (I15) was born more than 9 months after divorce in Family (F09).
-Anomaly: US08: Individual Jason /Smith/ (I16) was born more than 9 months after divorce in Family (F09).
-Error: US09: Individual Bo /Telepathy/ (I30) was born after death of mother Tiffany /Telepathy/ (I28) in Family (F14).
-Error: US09: Individual Bo /Telepathy/ (I30) was born more than 9 months after death of father Paul /Telepathy/ (I27) in Family (F14).
-Anomaly: US10: Individual (I08) was younger than 14 when married
-Anomaly: US10: Individual (I07) was younger than 14 when married
-Anomaly: US10: Individual (I21) was younger than 14 when married
-Anomaly: US10: Individual (I22) was younger than 14 when married
-Anomaly: US10: Individual (I25) was younger than 14 when married
-Anomaly: US10: Individual (I01) was younger than 14 when married
-Anomaly: US10: Individual (I02) was younger than 14 when married
-Anomaly: US10: Individual (I27) was younger than 14 when married
-Anomaly: US10: Individual (I28) was younger than 14 when married
-Anomaly: US12: Family (F12) mother is over 60 years older than child I23.
-Anomaly: US12: Family (F13) father is over 80 years older than child I26.
-Anomaly: US12: Family (F14) mother is over 60 years older than child I29 and father is over 80 years older than child I29.
-Anomaly: US15: Family (F11) has more than 15 siblings.
-Anomaly: US18: Family (F05) has husband and wife as siblings.
-Anomaly: US18: Family (F04) has husband and wife as siblings.
-Anomaly: US18: Family (F07) has husband and wife as siblings.
-Anomaly: US18: Family (F06) has husband and wife as siblings.
-Anomaly: US18: Family (F01) has husband and wife as siblings.
-Anomaly: US18: Family (F03) has husband and wife as siblings.
-Anomaly: U (I01) was younger than 14 when married
-Anomaly: US10: Individual (I02) was younger than 14 when married
-Anomaly: US10: Individual (I01) was younger than 14 when married
-Anomaly: US10: Individual (I02) was younger than 14 when married
-Error: US05: Family (F01) has death before marriage date for husband (I01).
-Error: US05: Family (F01) has death before marriage date for wife (I02).
-Error: US05: Family (F01) has death before marriage date for husband (I01).
-Error: US05: Family (F01) has death before marriage date for wife (I02).
-Error: US04: Family (F01) has divorce before marriage.
-Error: US04: Family (F02) has divorce before marriage.
-Anomaly: US12: Family (F01) mother is over 60 years older than child I03.
-Anomaly: US12: Family (F01) father is over 80 years older than child I03.
-Anomaly: US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Anomaly: US12: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Anomaly: US18: Family (F01) has husband and wife as siblings.
-Anomaly: US18: Family (F03) has husband and wife as siblings.
-Anomaly: US18: Family (F03) has husband and wife as siblings.
-Error: US24: Family (F02) has same spouses and marriage date as family (F01).
-Error: US24: Family (F01) has same spouses and marriage date as family (F05).
-Error: US25: Family (F01) child Michael /Flin/ shares a name and birthday.
-Error: US22: ID I03 is not a uniquie ID. Not including it or it's information!
-Error: US23: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
-F03'] |    ['F01']     |
+Error: US01: 400: Individual Bo /Telepathy/ (I30) has a birth date after the current date.
+Error: US01: 400: Individual Bo /Telepathy/ (I30) has a death date after the current date.
+Error: US02: 198: Individual Jean /Smith/ (I07) has marriage date before birth date.
+Error: US02: 206: Individual Matthew /Smith/ (I08) has marriage date before birth date.
+Error: US03: 325: Individual Brian /Dinosuar/ (I20) has death date before birth date.
+Error: US04: 78: Family (F09) has divorce before marriage.
+Error: US05: 90: Family (F10) has death before marriage date for wife (I09).
+Error: US06: 41: Family (F05) has divorce after death date for wife (I14).
+Error: US07: 400: IndividualBo /Telepathy/ (I30) is not less than 150 years old.
+Anomaly: US08: 61: Individual Jane /Anderson/ (I09) was born before marriage in Family (F07).
+Anomaly: US08: 98: Individual William /Smith/ (I03) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Madeline /Smith/ (I04) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Renee /Smith/ (I05) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Mark /Smith/ (I06) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jean /Smith/ (I07) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Matthew /Smith/ (I08) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jane /Anderson/ (I09) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual William /Anderson/ (I10) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Madeline /Wheeldon/ (I11) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Isaac /Wheeldon/ (I12) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Vince /Smith/ (I13) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Brenda /Smith/ (I14) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Paul /Smith/ (I15) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jason /Smith/ (I16) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jenn /Smith/ (I17) was born before marriage in Family (F11).
+Anomaly: US08: 78: Individual Paul /Smith/ (I15) was born more than 9 months after divorce in Family (F09).
+Anomaly: US08: 78: Individual Jason /Smith/ (I16) was born more than 9 months after divorce in Family (F09).
+Error: US09: 139: Individual Bo /Telepathy/ (I30) was born after death of mother Tiffany /Telepathy/ (I28) in Family (F14).
+Error: US09: 139: Individual Bo /Telepathy/ (I30) was born more than 9 months after death of father Paul /Telepathy/ (I27) in Family (F14).
+Anomaly: US10: 16: Individual (I08) was younger than 14 when married
+Anomaly: US10: 16: Individual (I07) was younger than 14 when married
+Anomaly: US10: 121: Individual (I21) was younger than 14 when married
+Anomaly: US10: 121: Individual (I22) was younger than 14 when married
+Anomaly: US10: 130: Individual (I25) was younger than 14 when married
+Anomaly: US10: 98: Individual (I01) was younger than 14 when married
+Anomaly: US10: 98: Individual (I02) was younger than 14 when married
+Anomaly: US10: 139: Individual (I27) was younger than 14 when married
+Anomaly: US10: 139: Individual (I28) was younger than 14 when married
+Anomaly: US11: 5: Individual (I06) is married in family (F01) and family (F07) at the same time.
+Anomaly: US11: 5: Individual (I05) is married in family (F01) and family (F07) at the same time.
+Anomaly: US11: 90: Individual (I13) is married in family (F10) and family (F06) at the same time.
+Anomaly: US11: 90: Individual (I09) is married in family (F10) and family (F03) at the same time.
+Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F07) at the same time.
+Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F01) at the same time.
+Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F07) at the same time.
+Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F01) at the same time.
+Anomaly: US12: 121: Family (F12) mother is over 60 years older than child I23.
+Anomaly: US12: 130: Family (F13) father is over 80 years older than child I26.
+Anomaly: US12: 139: Family (F14) mother is over 60 years older than child I29 and father is over 80 years older than child I29.
+Anomaly: US15: 98: Family (F11) has more than 15 siblings.
+Anomaly: US18: 41: Family (F05) has husband and wife as siblings.
+Anomaly: US18: 33: Family (F04) has husband and wife as siblings.
+Anomaly: US18: 61: Family (F07) has husband and wife as siblings.
+Anomaly: US18: 52: Family (F06) has husband and wife as siblings.
+Anomaly: US18: 5: Family (F01) has husband and wife as siblings.
+Anomaly: US18: 25: Family (F03) has husband and wife as siblings.
+Anomaly: US18: 16: Family (F02) has husband and wife as siblings.
+Anomaly: US18: 90: Family (F10) has husband and wife as siblings.
+Anomaly: US18: 98: Family (F11) has husband and wife as siblings.
+Anomaly: US18: 78: Family (F09) has husband and wife as siblings.
+Anomaly: US18: 68: Family (F08) has husband and wife as siblings.
+Anomoly: US21: 61: I06 is the wrong gender for husband.
+Anomoly: US21: 5: I06 is the wrong gender for husband.
+Anomoly: US21: 68: I06 is the wrong gender for husband.
+Error: US23: 301: Individual Luke /Smith/ (I18) and Luke /Smith/ (I19) have the same name and birth date.
+Error: US24: 5: Family (F01) has same spouses and marriage date as family (F07).
+Error: US25: 68: Family (F08) child Luke /Smith/ shares a name and birthday.
+
+Individuals:
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+|  ID |          Name         | Gender |   Birthday  | Age | Alive |    Death    |  Child  |     Spouse     |
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+| I01 |      Dan /Smith/      |   M    |  8 OCT 1993 |  24 |  True |      NA     | ['F01'] |       NA       |
+| I02 |     Laura /Smith/     |   F    | 15 SEP 1988 |  29 |  True |      NA     | ['F01'] |       NA       |
+| I03 |    William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
+| I04 |    Madeline /Smith/   |   F    | 18 MAR 1995 |  23 |  True |      NA     | ['F01'] |       NA       |
+| I05 |     Renee /Smith/     |   F    | 11 FEB 1962 |  56 |  True |      NA     | ['F03'] |    ['F01']     |
 | I06 |      Mark /Smith/     |   F    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
 | I07 |      Jean /Smith/     |   F    |  6 OCT 1933 |  84 |  True |      NA     |    NA   |    ['F02']     |
 | I08 |    Matthew /Smith/    |   M    | 16 FEB 1935 |  59 | False | 10 FEB 1995 |    NA   |    ['F02']     |
@@ -161,13 +167,45 @@ Individual's Age:
 +-----------------------+-----+
 
 Siblings Ordered By Age:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++--------+---------------------+-----+
+| Family |       Sibling       | Age |
++--------+---------------------+-----+
+|  F01   |    Laura /Smith/    |  29 |
+|   ^    |   William /Smith/   |  27 |
+|   ^    |     Dan /Smith/     |  24 |
+|   ^    |   Madeline /Smith/  |  23 |
+|  F02   |     Mark /Smith/    |  58 |
+|   ^    |    Vince /Smith/    |  53 |
+|  F03   |    Renee /Smith/    |  56 |
+|  F04   |   Jane /Anderson/   |  85 |
+|  F05   |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|  F06   |     Luke /Smith/    |  14 |
+|  F07   |   Jane /Anderson/   |  85 |
+|  F08   |     Luke /Smith/    |  14 |
+|   ^    |     Luke /Smith/    |  14 |
+|  F09   |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|  F11   | Madeline /Wheeldon/ | 110 |
+|   ^    |   Isaac /Wheeldon/  | 110 |
+|   ^    |  William /Anderson/ |  92 |
+|   ^    |   Jane /Anderson/   |  85 |
+|   ^    |     Jean /Smith/    |  84 |
+|   ^    |   Matthew /Smith/   |  83 |
+|   ^    |     Mark /Smith/    |  58 |
+|   ^    |    Renee /Smith/    |  56 |
+|   ^    |    Vince /Smith/    |  53 |
+|   ^    |    Brenda /Smith/   |  53 |
+|   ^    |     Jenn /Smith/    |  51 |
+|   ^    |   William /Smith/   |  27 |
+|   ^    |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|   ^    |   Madeline /Smith/  |  23 |
+|  F12   |  Billy /McSwiggen/  |  28 |
+|  F13   | Fabio /Carrymehome/ |  18 |
+|  F14   |  Hannah /Telepathy/ |  4  |
+|   ^    |    Bo /Telepathy/   |  -1 |
++--------+---------------------+-----+
 
 Deceased Individuals:
 +---------------------+-------------+
@@ -202,31 +240,27 @@ Living Married Individuals:
 +-----------------------+--------+
 
 Living Singles:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++------+-----+
+| Name | Age |
++------+-----+
++------+-----+
 
 Orphans:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++--------------------+--------+
+|        Name        | Family |
++--------------------+--------+
+| Hannah /Telepathy/ |  F14   |
+|   Bo /Telepathy/   |  F14   |
++--------------------+--------+
 
 Large Age Differences:
-+---------+---------+---------+
-| Header0 | Header1 | Header2 |
-+---------+---------+---------+
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-|  Data0  |  Data1  |  Data2  |
-+---------+---------+---------+
++--------+----------------------+-----------------------+
+| Family |     Older Spouse     |     Younger Spouse    |
++--------+----------------------+-----------------------+
+|  F12   |  Daron /McSwiggen/   |   Donna /McSwiggen/   |
+|  F13   | Donald /Carrymehome/ | Destiny /Carrymehome/ |
+|  F14   |   Paul /Telepathy/   |  Tiffany /Telepathy/  |
++--------+----------------------+-----------------------+
 
 Recent Births:
 +-------------------+-------------+
