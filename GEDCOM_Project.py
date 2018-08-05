@@ -1150,7 +1150,7 @@ def log(severity, userStory, line, message):
     if(line is None):
         F.write(severity + ': ' + userStory + ': NoLineNumber: ' + message + '\n')
     else:
-        F.write(severity + ': ' + userStory + ': ' + line + ': ' + message + '\n')
+        F.write(severity + ': ' + userStory + ': ' + str(line) + ': ' + message + '\n')
 
 # this function prints in a pretty table
 # title is the title of the table (i.e. 'Individuals' or 'Families' or 'Recent Births')
