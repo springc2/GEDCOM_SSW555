@@ -1459,42 +1459,42 @@ class TestGEDCOM_Project(unittest.TestCase):
         expected1 = [['Name', 'Date']]
 
         test2dic = {'I01': {'NAME': 'Robert /Redford/',
-                            'BIRT': '13 JUL 2018'},
+                            'BIRT': '03 AUG 2018'},
                     'I02': {'NAME': 'Danny /DeVito/',
                             'BIRT': '22 AUG 1955'}}
         expected2 = [['Name', 'Date'],
-                     ['Robert /Redford/', '13 JUL 2018']]
+                     ['Robert /Redford/', '03 AUG 2018']]
 
         test3dic = {'I01': {'NAME': 'Piper /Perabo/',
-                            'BIRT': '04 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Maggie /Ma/',
-                            'BIRT': '11 JUL 2018'}}
+                            'BIRT': '29 JUL 2018'}}
         expected3 = [['Name', 'Date'],
-                     ['Piper /Perabo/', '04 JUL 2018'],
-                     ['Maggie /Ma/', '11 JUL 2018']]
+                     ['Piper /Perabo/', '30 JUL 2018'],
+                     ['Maggie /Ma/', '29 JUL 2018']]
 
         test4dic = {'I01': {'NAME': 'Amy /Adams/',
-                            'BIRT': '16 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Brooke /Burke/',
                             'BIRT': '03 JUL 2018'},
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018']]
+                     ['Amy /Adams/', '30 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
-                            'BIRT': '16 JUL 2018'},
+                            'BIRT': '30 JUL 2018'},
                     'I02': {'NAME': 'Wade /Williams/',
                             'BIRT': '02 JAN 1975'},
                     'I03': {'NAME': 'Kelly /Clarkson/',
-                            'BIRT': '07 JUL 2018'},
+                            'BIRT': '29 JUL 2018'},
                     'I04': {'NAME': 'Nick /Nolte/'},
                     'I05': {'NAME': 'Mandy /Moore/',
-                            'BIRT': '19 JUL 2018'}}
+                            'BIRT': '31 JUL 2018'}}
         expected5 = [['Name', 'Date'],
-                     ['Sylvester /Stallone/', '16 JUL 2018'],
-                     ['Kelly /Clarkson/', '07 JUL 2018'],
-                     ['Mandy /Moore/', '19 JUL 2018']]
+                     ['Sylvester /Stallone/', '30 JUL 2018'],
+                     ['Kelly /Clarkson/', '29 JUL 2018'],
+                     ['Mandy /Moore/', '31 JUL 2018']]
 
         self.assertEqual(expected1,
                          GEDCOM_Project.listRecentBirths(
@@ -1518,42 +1518,43 @@ class TestGEDCOM_Project(unittest.TestCase):
         expected1 = [['Name', 'Date']]
 
         test2dic = {'I01': {'NAME': 'Robert /Redford/',
-                            'DEAT': '13 JUL 2018'},
+                            'DEAT': '03 AUG 2018'},
                     'I02': {'NAME': 'Danny /DeVito/',
                             'DEAT': '22 AUG 1955'}}
         expected2 = [['Name', 'Date'],
-                     ['Robert /Redford/', '13 JUL 2018']]
+                     ['Robert /Redford/', '03 AUG 2018']]
 
         test3dic = {'I01': {'NAME': 'Piper /Perabo/',
-                            'DEAT': '04 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Maggie /Ma/',
-                            'DEAT': '11 JUL 2018'}}
+                            'DEAT': '29 JUL 2018'}}
         expected3 = [['Name', 'Date'],
-                     ['Piper /Perabo/', '04 JUL 2018'],
-                     ['Maggie /Ma/', '11 JUL 2018']]
+                     ['Piper /Perabo/', '30 JUL 2018'],
+                     ['Maggie /Ma/', '29 JUL 2018']]
 
         test4dic = {'I01': {'NAME': 'Amy /Adams/',
-                            'DEAT': '16 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Brooke /Burke/',
                             'DEAT': '03 JUL 2018'},
                     'I03': {'NAME': 'Jesse /James/'},
                     'I04': {'NAME': 'Kevin /Kline/'}}
         expected4 = [['Name', 'Date'],
-                     ['Amy /Adams/', '16 JUL 2018']]
+                     ['Amy /Adams/', '30 JUL 2018']]
 
         test5dic = {'I01': {'NAME': 'Sylvester /Stallone/',
-                            'DEAT': '16 JUL 2018'},
+                            'DEAT': '30 JUL 2018'},
                     'I02': {'NAME': 'Wade /Williams/',
                             'DEAT': '02 JAN 1975'},
                     'I03': {'NAME': 'Kelly /Clarkson/',
-                            'DEAT': '07 JUL 2018'},
+                            'DEAT': '29 JUL 2018'},
                     'I04': {'NAME': 'Nick /Nolte/'},
                     'I05': {'NAME': 'Mandy /Moore/',
-                            'DEAT': '19 JUL 2018'}}
+                            'DEAT': '31 JUL 2018'}}
         expected5 = [['Name', 'Date'],
-                     ['Sylvester /Stallone/', '16 JUL 2018'],
-                     ['Kelly /Clarkson/', '07 JUL 2018'],
-                     ['Mandy /Moore/', '19 JUL 2018']]
+                     ['Sylvester /Stallone/', '30 JUL 2018'],
+                     ['Kelly /Clarkson/', '29 JUL 2018'],
+                     ['Mandy /Moore/', '31 JUL 2018']]
+
 
         self.assertEqual(expected1,
                          GEDCOM_Project.listRecentDeaths(
