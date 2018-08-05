@@ -1029,20 +1029,20 @@ def listOrphans(indi, fam):
 # Returns a row of values to print as a pretty table (first row is the header)
 def listLargeAgeDifferences(indi, fam):
      rows = [] #initilize the row list
-     rows.append(['Family', 'Older Spouse', 'Younger Spouse']) #add in the header row
+     rows.append(['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']) #add in the header row
      for k, v in fam.iteritems():
          marriageDate = getFormattedDateForCompare(v['MARR'])
          if (indi):
              if not indi[v.get('HUSB')] or not indi[v.get('WIFE')]:
                  continue
              husbandBirthDate = getFormattedDateForCompare(indi[v['HUSB']]['BIRT'])
-             husbandAgeAtMarriage = (marriageDate - husbandBirthDate).days
+             husbandAgeAtMarriage = (marriageDate - husbandBirthDate).days/365
              wifeBirthDate = getFormattedDateForCompare(indi[v['WIFE']]['BIRT'])
-             wifeAgeAtMarriage = (marriageDate - wifeBirthDate).days
+             wifeAgeAtMarriage = (marriageDate - wifeBirthDate).days/365
              if husbandAgeAtMarriage / wifeAgeAtMarriage >= 2:
-                 rows.append([k, indi[v.get('HUSB')]['NAME'], indi[v.get('WIFE')]['NAME']])
+                 rows.append([k, indi[v.get('HUSB')]['NAME'],husbandAgeAtMarriage, indi[v.get('WIFE')]['NAME'], wifeAgeAtMarriage])
              if wifeAgeAtMarriage / husbandAgeAtMarriage >= 2:
-                 rows.append([k, indi[v.get('WIFE')]['NAME'], indi[v.get('HUSB')]['NAME']])
+                 rows.append([k, indi[v.get('WIFE')]['NAME'],wifeAgeAtMarriage ,indi[v.get('HUSB')]['NAME'],husbandAgeAtMarriage])
      return rows
 
 # User Story 35:

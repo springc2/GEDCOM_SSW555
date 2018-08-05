@@ -1418,19 +1418,19 @@ class TestGEDCOM_Project(unittest.TestCase):
     
     # US34 - Tests listLargeAgeDifferences function
     def test_listLargeAgeDifferences(self):
-        expected1 = [['Family', 'Older Spouse', 'Younger Spouse']]
+        expected1 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']]
         test1indic = {}
         test1famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
 
-        expected2 = [['Family', 'Older Spouse', 'Younger Spouse']]
+        expected2 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age']]
         test2indic = {'I01': {'BIRT': '1 JAN 1900', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1900', 'NAME':'Name Two'}}
         test2famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
 
-        expected3 = [['Family', 'Older Spouse', 'Younger Spouse'],['F01','Name One','Name Two']]
+        expected3 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age'],['F01','Name One',100,'Name Two',50]]
         test3indic = {'I01': {'BIRT': '1 JAN 1900', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1950', 'NAME':'Name Two'}}
         test3famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
 
-        expected4 = [['Family', 'Older Spouse', 'Younger Spouse'],['F01','Name Two','Name One']]
+        expected4 = [['Family', 'Older Spouse', 'Older Spouse Age', 'Younger Spouse', 'Younger Spouse Age'],['F01','Name Two',100,'Name One',50]]
         test4indic = {'I01': {'BIRT': '1 JAN 1950', 'NAME':'Name One'}, 'I02': {'BIRT': '1 JAN 1900', 'NAME':'Name Two'}}
         test4famdic = {'F01': {'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '1 JAN 2000'}}
 
