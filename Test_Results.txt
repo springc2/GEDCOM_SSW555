@@ -1,5 +1,51 @@
-................................
+...........................FF...
+======================================================================
+FAIL: test_listRecentBirths (__main__.TestGEDCOM_Project)
 ----------------------------------------------------------------------
-Ran 32 tests in 0.001s
+Traceback (most recent call last):
+  File "C:/Users/danbe/Desktop/GEDCOM_SSW555-Sprint4/test_GEDCOM_Project.py", line 1507, in test_listRecentBirths
+    collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 2 inds & 2 recent births
+AssertionError: Lists differ: [['Name', 'Date'], ['Piper /Pe... != [['Name', 'Date'], ['Maggie /M...
 
-OK
+First differing element 1:
+['Piper /Perabo/', '04 JUL 2018']
+['Maggie /Ma/', '11 JUL 2018']
+
+First list contains 1 additional elements.
+First extra element 2:
+['Maggie /Ma/', '11 JUL 2018']
+
+- [['Name', 'Date'],
+-  ['Piper /Perabo/', '04 JUL 2018'],
+-  ['Maggie /Ma/', '11 JUL 2018']]
++ [['Name', 'Date'], ['Maggie /Ma/', '11 JUL 2018']]
+? ++++++++++++++++++
+
+
+======================================================================
+FAIL: test_listRecentDeaths (__main__.TestGEDCOM_Project)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:/Users/danbe/Desktop/GEDCOM_SSW555-Sprint4/test_GEDCOM_Project.py", line 1566, in test_listRecentDeaths
+    collections.OrderedDict(sorted(test3dic.items()))))  # Dictionary with 2 inds & 2 recent deaths
+AssertionError: Lists differ: [['Name', 'Date'], ['Piper /Pe... != [['Name', 'Date'], ['Maggie /M...
+
+First differing element 1:
+['Piper /Perabo/', '04 JUL 2018']
+['Maggie /Ma/', '11 JUL 2018']
+
+First list contains 1 additional elements.
+First extra element 2:
+['Maggie /Ma/', '11 JUL 2018']
+
+- [['Name', 'Date'],
+-  ['Piper /Perabo/', '04 JUL 2018'],
+-  ['Maggie /Ma/', '11 JUL 2018']]
++ [['Name', 'Date'], ['Maggie /Ma/', '11 JUL 2018']]
+? ++++++++++++++++++
+
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.004s
+
+FAILED (failures=2)

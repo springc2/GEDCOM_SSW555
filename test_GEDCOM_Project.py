@@ -693,7 +693,62 @@ class TestGEDCOM_Project(unittest.TestCase):
 
     # US11 test the checkNoBigamy function
     def test_checkNoBigamy(self):
-        self.assertTrue(True) #True
+        test1DictFam = {}
+        test2DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'}}
+        test3DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test4DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I04', 'MARR': '3 JUN 1971', 'DIV': '3 MAY 1981'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1972', 'DIV': '3 MAY 1982'}}
+        test5DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1981', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test6DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}      
+        test7DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test8DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I01', 'WIFE': 'I04', 'MARR': '3 JUN 1970'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test9DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1981', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}
+        test10DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}}      
+        test11DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        test12DictFam = {'F01': {'ID': 'F01', 'HUSB': 'I01', 'WIFE': 'I02', 'MARR': '3 JUN 1979', 'DIV': '3 MAY 1985'},
+                        'F02': {'ID': 'F02', 'HUSB': 'I03', 'WIFE': 'I02', 'MARR': '3 JUN 1970'},
+                        'F03': {'ID': 'F03', 'HUSB': 'I05', 'WIFE': 'I06', 'MARR': '3 JUN 1970', 'DIV': '3 MAY 1980'}} 
+        
+        test1 = GEDCOM_Project.checkNoBigamy(test1DictFam)  # empty fam
+        test2 = GEDCOM_Project.checkNoBigamy(test2DictFam)  # 1 fam, no divorce
+        test3 = GEDCOM_Project.checkNoBigamy(test3DictFam)  # 1 fam, with divorce
+        test4 = GEDCOM_Project.checkNoBigamy(test4DictFam)  # multiple fams, no overlap
+        test5 = GEDCOM_Project.checkNoBigamy(test5DictFam)  # husb gets divorced and remarried (no overlap)
+        test6 = GEDCOM_Project.checkNoBigamy(test6DictFam)  # husb gets divorced and remarried (has overlap)
+        test7 = GEDCOM_Project.checkNoBigamy(test7DictFam)  # husb gets remarried without divorcing first wife
+        test8 = GEDCOM_Project.checkNoBigamy(test8DictFam)  # same as test 7 but order is switched
+        test9 = GEDCOM_Project.checkNoBigamy(test9DictFam)  # wife gets divorced and remarried (no overlap)
+        test10 = GEDCOM_Project.checkNoBigamy(test10DictFam)  # wife gets divorced and remarried (has overlap)
+        test11 = GEDCOM_Project.checkNoBigamy(test11DictFam)  # wife gets remarried without divorcing first wife
+        test12 = GEDCOM_Project.checkNoBigamy(test12DictFam)  # same as test 11 but order is switched
+        
+        self.assertTrue(test1) #True
+        self.assertTrue(test2) #True
+        self.assertTrue(test3) #True
+        self.assertTrue(test4) #True
+        self.assertTrue(test5) #True
+        self.assertFalse(test6) #False
+        self.assertFalse(test7) #False
+        self.assertFalse(test8) #False
+        self.assertTrue(test9) #True
+        self.assertFalse(test10) #False
+        self.assertFalse(test11) #False
+        self.assertFalse(test12) #False
 
     # US12 test to check that mother and father aren't too old
     def test_checkParentsNotTooOld(self):
@@ -828,9 +883,9 @@ class TestGEDCOM_Project(unittest.TestCase):
                      'I02': 'Jane Doe',
                      'I03': 'Jake Doe'}
 
-        test1 = GEDCOM_Project.checkUniqueIDs('I03', test1Dict)  # empty dictionary
-        test2 = GEDCOM_Project.checkUniqueIDs('I03', test2Dict)  # unique IDs
-        test3 = GEDCOM_Project.checkUniqueIDs('I03', test3Dict)  # not unique IDs
+        test1 = GEDCOM_Project.checkUniqueIDs('I03', test1Dict, 1)  # empty dictionary
+        test2 = GEDCOM_Project.checkUniqueIDs('I03', test2Dict, 1)  # unique IDs
+        test3 = GEDCOM_Project.checkUniqueIDs('I03', test3Dict, 1)  # not unique IDs
 
         self.assertTrue(test1)  # True
         self.assertTrue(test2)  # True
