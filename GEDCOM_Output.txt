@@ -1,75 +1,298 @@
-Error: US03: NoLineNumber: Individual John Doe (I01) has death date before birth date.
-Error: US03: NoLineNumber: Individual Jane Doe (I02) has death date before birth date.
-Error: US03: NoLineNumber: Individual John Doe (I01) has death date before birth date.
-Error: US09: NoLineNumber: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error: US09: NoLineNumber: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error: US09: NoLineNumber: Individual Jane Doe (I04) was born after death of mother Karen Doe (I02) in Family (F01).
-Error: US09: NoLineNumber: Individual John Doe (I03) was born after death of mother Karen Doe (I02) in Family (F01).
-Error: US09: NoLineNumber: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
-Error: US09: NoLineNumber: Individual John Doe (I03) was born more than 9 months after death of father Ed Doe (I01) in Family (F01).
-Error: US02: NoLineNumber: Individual John Doe (I01) has marriage date before birth date.
-Error: US02: NoLineNumber: Individual Jane Doe (I01) has marriage date before birth date.
-Error: US02: NoLineNumber: Individual Jane Doe (I02) has marriage date before birth date.
-Error: US02: NoLineNumber: Individual John Doe (I01) has marriage date before birth date.
-Error: US02: NoLineNumber: Individual John Doe (I01) has marriage date before birth date.
-Error: US02: NoLineNumber: Individual Jane Doe (I02) has marriage date before birth date.
-Anomaly: US08: NoLineNumber: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly: US08: NoLineNumber: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly: US08: NoLineNumber: Individual Jane Doe (I04) was born before marriage in Family (F01).
-Anomaly: US08: NoLineNumber: Individual John Doe (I03) was born before marriage in Family (F01).
-Anomaly: US08: NoLineNumber: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
-Anomaly: US08: NoLineNumber: Individual John Doe (I03) was born more than 9 months after divorce in Family (F01).
-Anomaly: US08: NoLineNumber: Individual Jane Doe (I04) was born more than 9 months after divorce in Family (F01).
-Anomoly: US21: NoLineNumber: I02 is the wrong gender for wife.
-Anomoly: US21: NoLineNumber: I02 is the wrong gender for wife.
-Anomoly: US21: NoLineNumber: I01 is the wrong gender for husband.
-Anomoly: US21: NoLineNumber: I01 is the wrong gender for husband.
-Error: US01: NoLineNumber: Individual John Doe (I01) has a birth date after the current date.
-Error: US01: NoLineNumber: Individual John Doe (I01) has a death date after the current date.
-Error: US01: NoLineNumber: Family F01 has a marriage date after the current date.
-Error: US01: NoLineNumber: Family F01 has a divorce date after the current date.
-Error: US06: NoLineNumber: Family (F01) has divorce after death date for husband (I01).
-Error: US06: NoLineNumber: Family (F01) has divorce after death date for wife (I02).
-Error: US06: NoLineNumber: Family (F01) has divorce after death date for husband (I01).
-Error: US06: NoLineNumber: Family (F01) has divorce after death date for wife (I02).
-Anomaly: US15: NoLineNumber: Family (F01) has more than 15 siblings.
-Anomaly: US15: NoLineNumber: Family (F01) has more than 15 siblings.
-Error: US42: 1: The date entered is not in the correct format.
-Error: US42: 1: The date '35 JUN 2015' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US42: 1: The date '-1 JUN 2015' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US42: 1: The date '29 FEB 2015' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US42: 1: The date '30 JUN 0' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US42: 1: The date '30 JUN -1' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US42: 1: The date '30 JUNE 2015' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
-Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
-Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
-Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
-Error: US07: NoLineNumber: IndividualJohn Doe (I01) is not less than 150 years old.
-Anomaly: US10: NoLineNumber: Individual (I01) was younger than 14 when married
-Anomaly: US10: NoLineNumber: Individual (I02) was younger than 14 when married
-Anomaly: US10: NoLineNumber: Individual (I01) was younger than 14 when married
-Anomaly: US10: NoLineNumber: Individual (I02) was younger than 14 when married
-Error: US05: NoLineNumber: Family (F01) has death before marriage date for husband (I01).
-Error: US05: NoLineNumber: Family (F01) has death before marriage date for wife (I02).
-Error: US05: NoLineNumber: Family (F01) has death before marriage date for husband (I01).
-Error: US05: NoLineNumber: Family (F01) has death before marriage date for wife (I02).
-Error: US04: NoLineNumber: Family (F01) has divorce before marriage.
-Error: US04: NoLineNumber: Family (F02) has divorce before marriage.
-Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
-Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
-Anomaly: US11: NoLineNumber: Individual (I01) is married in family (F02) and family (F01) at the same time.
-Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
-Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
-Anomaly: US11: NoLineNumber: Individual (I02) is married in family (F02) and family (F01) at the same time.
-Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I03.
-Anomaly: US12: NoLineNumber: Family (F01) father is over 80 years older than child I03.
-Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Anomaly: US12: NoLineNumber: Family (F01) mother is over 60 years older than child I04 and father is over 80 years older than child I04.
-Anomaly: US18: NoLineNumber: Family (F01) has husband and wife as siblings.
-Anomaly: US18: NoLineNumber: Family (F03) has husband and wife as siblings.
-Anomaly: US18: NoLineNumber: Family (F03) has husband and wife as siblings.
-Error: US24: NoLineNumber: Family (F02) has same spouses and marriage date as family (F01).
-Error: US24: NoLineNumber: Family (F01) has same spouses and marriage date as family (F05).
-Error: US25: NoLineNumber: Family (F01) child Michael /Flin/ shares a name and birthday.
-Error: US22: 1: ID I03 is not a uniquie ID. Not including it or it's information!
-Error: US23: NoLineNumber: Individual John Doe (I01) and John Doe (I03) have the same name and birth date.
+Error: US22: 317: ID I19 is not a uniquie ID. Not including it or it's information!
+Error: US42: 412: The date '29 FEB 2013' is not a legitimate date. A date of '01 JAN 2000' is being set for this date until it is fixed.
+Error: US01: 400: Individual Bo /Telepathy/ (I30) has a birth date after the current date.
+Error: US01: 400: Individual Bo /Telepathy/ (I30) has a death date after the current date.
+Error: US02: 198: Individual Jean /Smith/ (I07) has marriage date before birth date.
+Error: US02: 206: Individual Matthew /Smith/ (I08) has marriage date before birth date.
+Error: US03: 325: Individual Brian /Dinosuar/ (I20) has death date before birth date.
+Error: US04: 78: Family (F09) has divorce before marriage.
+Error: US05: 90: Family (F10) has death before marriage date for wife (I09).
+Error: US06: 41: Family (F05) has divorce after death date for wife (I14).
+Error: US07: 400: IndividualBo /Telepathy/ (I30) is not less than 150 years old.
+Anomaly: US08: 61: Individual Jane /Anderson/ (I09) was born before marriage in Family (F07).
+Anomaly: US08: 5: Individual Laura /Smith/ (I02) was born before marriage in Family (F01).
+Anomaly: US08: 98: Individual William /Smith/ (I03) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Madeline /Smith/ (I04) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Renee /Smith/ (I05) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Mark /Smith/ (I06) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jean /Smith/ (I07) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Matthew /Smith/ (I08) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jane /Anderson/ (I09) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual William /Anderson/ (I10) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Madeline /Wheeldon/ (I11) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Isaac /Wheeldon/ (I12) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Vince /Smith/ (I13) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Brenda /Smith/ (I14) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Paul /Smith/ (I15) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jason /Smith/ (I16) was born before marriage in Family (F11).
+Anomaly: US08: 98: Individual Jenn /Smith/ (I17) was born before marriage in Family (F11).
+Anomaly: US08: 78: Individual Paul /Smith/ (I15) was born more than 9 months after divorce in Family (F09).
+Anomaly: US08: 78: Individual Jason /Smith/ (I16) was born more than 9 months after divorce in Family (F09).
+Error: US09: 139: Individual Bo /Telepathy/ (I30) was born after death of mother Tiffany /Telepathy/ (I28) in Family (F14).
+Error: US09: 139: Individual Bo /Telepathy/ (I30) was born more than 9 months after death of father Paul /Telepathy/ (I27) in Family (F14).
+Anomaly: US10: 16: Individual (I08) was younger than 14 when married
+Anomaly: US10: 16: Individual (I07) was younger than 14 when married
+Anomaly: US10: 121: Individual (I21) was younger than 14 when married
+Anomaly: US10: 121: Individual (I22) was younger than 14 when married
+Anomaly: US10: 130: Individual (I25) was younger than 14 when married
+Anomaly: US10: 98: Individual (I01) was younger than 14 when married
+Anomaly: US10: 98: Individual (I02) was younger than 14 when married
+Anomaly: US10: 139: Individual (I27) was younger than 14 when married
+Anomaly: US10: 139: Individual (I28) was younger than 14 when married
+Anomaly: US11: 5: Individual (I06) is married in family (F01) and family (F07) at the same time.
+Anomaly: US11: 5: Individual (I05) is married in family (F01) and family (F07) at the same time.
+Anomaly: US11: 90: Individual (I13) is married in family (F10) and family (F06) at the same time.
+Anomaly: US11: 90: Individual (I09) is married in family (F10) and family (F03) at the same time.
+Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F07) at the same time.
+Anomaly: US11: 68: Individual (I06) is married in family (F08) and family (F01) at the same time.
+Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F07) at the same time.
+Anomaly: US11: 68: Individual (I05) is married in family (F08) and family (F01) at the same time.
+Anomaly: US12: 121: Family (F12) mother is over 60 years older than child I23.
+Anomaly: US12: 130: Family (F13) father is over 80 years older than child I26.
+Anomaly: US12: 139: Family (F14) mother is over 60 years older than child I29 and father is over 80 years older than child I29.
+Anomaly: US15: 98: Family (F11) has more than 15 siblings.
+Anomaly: US18: 41: Family (F05) has husband and wife as siblings.
+Anomaly: US18: 33: Family (F04) has husband and wife as siblings.
+Anomaly: US18: 61: Family (F07) has husband and wife as siblings.
+Anomaly: US18: 52: Family (F06) has husband and wife as siblings.
+Anomaly: US18: 5: Family (F01) has husband and wife as siblings.
+Anomaly: US18: 25: Family (F03) has husband and wife as siblings.
+Anomaly: US18: 16: Family (F02) has husband and wife as siblings.
+Anomaly: US18: 90: Family (F10) has husband and wife as siblings.
+Anomaly: US18: 98: Family (F11) has husband and wife as siblings.
+Anomaly: US18: 78: Family (F09) has husband and wife as siblings.
+Anomaly: US18: 68: Family (F08) has husband and wife as siblings.
+Anomoly: US21: 61: I06 is the wrong gender for husband.
+Anomoly: US21: 5: I06 is the wrong gender for husband.
+Anomoly: US21: 68: I06 is the wrong gender for husband.
+Error: US23: 301: Individual Luke /Smith/ (I18) and Luke /Smith/ (I19) have the same name and birth date.
+Error: US24: 5: Family (F01) has same spouses and marriage date as family (F07).
+Error: US25: 68: Family (F08) child Luke /Smith/ shares a name and birthday.
+
+Individuals:
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+|  ID |          Name         | Gender |   Birthday  | Age | Alive |    Death    |  Child  |     Spouse     |
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+| I01 |      Dan /Smith/      |   M    |  8 OCT 1993 |  24 |  True |      NA     | ['F01'] |       NA       |
+| I02 |     Laura /Smith/     |   F    | 15 SEP 1986 |  31 |  True |      NA     | ['F01'] |       NA       |
+| I03 |    William /Smith/    |   M    | 15 NOV 1990 |  27 |  True |      NA     | ['F01'] |       NA       |
+| I04 |    Madeline /Smith/   |   F    | 18 MAR 1995 |  23 |  True |      NA     | ['F01'] |       NA       |
+| I05 |     Renee /Smith/     |   F    | 11 FEB 1962 |  56 |  True |      NA     | ['F03'] |    ['F01']     |
+| I06 |      Mark /Smith/     |   F    |  4 APR 1960 |  58 |  True |      NA     | ['F02'] |    ['F01']     |
+| I07 |      Jean /Smith/     |   F    |  6 OCT 1933 |  84 |  True |      NA     |    NA   |    ['F02']     |
+| I08 |    Matthew /Smith/    |   M    | 16 FEB 1935 |  59 | False | 10 FEB 1995 |    NA   |    ['F02']     |
+| I09 |    Jane /Anderson/    |   F    |  4 JAN 1933 |  81 | False | 26 APR 2014 | ['F04'] |    ['F03']     |
+| I10 |   William /Anderson/  |   M    |  7 JAN 1926 |  60 | False |  9 JAN 1986 |    NA   |    ['F03']     |
+| I11 |  Madeline /Wheeldon/  |   F    | 27 JUN 1908 |  76 | False | 17 MAY 1985 |    NA   |    ['F04']     |
+| I12 |    Isaac /Wheeldon/   |   M    |  1 OCT 1907 |  62 | False | 10 MAY 1970 |    NA   |    ['F04']     |
+| I13 |     Vince /Smith/     |   M    |  7 JUL 1965 |  53 |  True |      NA     | ['F02'] | ['F05', 'F06'] |
+| I14 |     Brenda /Smith/    |   F    |  3 MAR 1965 |  34 | False | 21 OCT 1999 |    NA   |    ['F05']     |
+| I15 |      Paul /Smith/     |   M    | 26 NOV 1990 |  27 |  True |      NA     | ['F05'] |       NA       |
+| I16 |     Jason /Smith/     |   M    |  6 SEP 1992 |  25 |  True |      NA     | ['F05'] |       NA       |
+| I17 |      Jenn /Smith/     |   F    | 18 DEC 1966 |  51 |  True |      NA     |    NA   |    ['F06']     |
+| I18 |      Luke /Smith/     |   M    | 11 AUG 2003 |  14 |  True |      NA     | ['F08'] |       NA       |
+| I19 |      Luke /Smith/     |   M    | 11 AUG 2003 |  14 |  True |      NA     | ['F08'] |       NA       |
+| I20 |    Brian /Dinosuar/   |   M    | 12 AUG 2005 |  -5 | False | 15 JUN 2001 |    NA   |       NA       |
+| I21 |   Daron /McSwiggen/   |   M    | 01 JAN 1920 |  98 |  True |      NA     |    NA   |    ['F12']     |
+| I22 |   Donna /McSwiggen/   |   F    | 01 JAN 1930 |  88 |  True |      NA     |    NA   |    ['F12']     |
+| I23 |   Billy /McSwiggen/   |   M    | 02 FEB 1990 |  28 |  True |      NA     | ['F12'] |       NA       |
+| I24 |  Donald /Carrymehome/ |   M    | 01 JAN 1910 | 108 |  True |      NA     |    NA   |    ['F13']     |
+| I25 | Destiny /Carrymehome/ |   F    | 01 JAN 1950 |  68 |  True |      NA     |    NA   |    ['F13']     |
+| I26 |  Fabio /Carrymehome/  |   M    | 02 FEB 2000 |  18 |  True |      NA     | ['F13'] |       NA       |
+| I27 |    Paul /Telepathy/   |   M    | 01 JAN 1920 |  96 | False | 02 FEB 2016 |    NA   |    ['F14']     |
+| I28 |  Tiffany /Telepathy/  |   F    | 01 JAN 1930 |  87 | False | 01 FEB 2017 |    NA   |    ['F14']     |
+| I29 |   Hannah /Telepathy/  |   F    | 02 FEB 2014 |  4  |  True |      NA     | ['F14'] |       NA       |
+| I30 |     Bo /Telepathy/    |   M    | 02 FEB 2019 | 151 | False | 02 FEB 2170 | ['F14'] |       NA       |
+| I31 |    Joey /Telepathy/   |   M    | 01 JAN 2000 |  18 |  True |      NA     | ['F14'] |       NA       |
+| I32 |   Tommy /Telepathy/   |   M    | 21 JUL 2018 |  0  |  True |      NA     | ['F14'] |       NA       |
+| I33 |   Timmy /Telepathy/   |   M    | 04 APR 1999 |  19 | False | 20 JUL 2018 | ['F14'] |       NA       |
++-----+-----------------------+--------+-------------+-----+-------+-------------+---------+----------------+
+
+Families:
++-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
+|  ID |   Married   |   Divorced  | Husband ID |     Husband Name     | Wife ID |       Wife Name       |                                                  Children                                                 |
++-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
+| F01 | 28 MAR 1987 |      NA     |    I06     |     Mark /Smith/     |   I05   |     Renee /Smith/     |                                        ['I01', 'I02', 'I03', 'I04']                                       |
+| F02 | 18 MAY 1900 |      NA     |    I08     |   Matthew /Smith/    |   I07   |      Jean /Smith/     |                                               ['I06', 'I13']                                              |
+| F03 | 25 AUG 1955 |      NA     |    I10     |  William /Anderson/  |   I09   |    Jane /Anderson/    |                                                  ['I05']                                                  |
+| F04 | 20 JUN 1928 |      NA     |    I12     |   Isaac /Wheeldon/   |   I11   |  Madeline /Wheeldon/  |                                                  ['I09']                                                  |
+| F05 | 13 MAY 1986 | 22 OCT 1999 |    I13     |    Vince /Smith/     |   I14   |     Brenda /Smith/    |                                               ['I15', 'I16']                                              |
+| F06 | 21 JUN 2001 |      NA     |    I13     |    Vince /Smith/     |   I17   |      Jenn /Smith/     |                                                  ['I18']                                                  |
+| F07 | 28 MAR 1987 |      NA     |    I06     |     Mark /Smith/     |   I05   |     Renee /Smith/     |                                                  ['I09']                                                  |
+| F08 | 27 APR 1999 |      NA     |    I06     |     Mark /Smith/     |   I05   |     Renee /Smith/     |                                               ['I18', 'I19']                                              |
+| F09 | 20 SEP 1986 | 22 OCT 1978 |    I13     |    Vince /Smith/     |   I14   |     Brenda /Smith/    |                                               ['I15', 'I16']                                              |
+| F10 | 20 JUN 2015 |      NA     |    I13     |    Vince /Smith/     |   I09   |    Jane /Anderson/    |                                                     NA                                                    |
+| F11 | 23 JUL 1999 |      NA     |    I01     |     Dan /Smith/      |   I02   |     Laura /Smith/     | ['I03', 'I04', 'I05', 'I06', 'I07', 'I08', 'I09', 'I10', 'I11', 'I12', 'I13', 'I14', 'I15', 'I16', 'I17'] |
+| F12 | 01 JAN 1932 |      NA     |    I21     |  Daron /McSwiggen/   |   I22   |   Donna /McSwiggen/   |                                                  ['I23']                                                  |
+| F13 | 01 JAN 1951 |      NA     |    I24     | Donald /Carrymehome/ |   I25   | Destiny /Carrymehome/ |                                                  ['I26']                                                  |
+| F14 | 01 JAN 1931 |      NA     |    I27     |   Paul /Telepathy/   |   I28   |  Tiffany /Telepathy/  |                                               ['I29', 'I30']                                              |
++-----+-------------+-------------+------------+----------------------+---------+-----------------------+-----------------------------------------------------------------------------------------------------------+
+
+Individual's Age:
++-----------------------+-----+
+|       Individual      | Age |
++-----------------------+-----+
+|      Dan /Smith/      |  24 |
+|     Laura /Smith/     |  31 |
+|    William /Smith/    |  27 |
+|    Madeline /Smith/   |  23 |
+|     Renee /Smith/     |  56 |
+|      Mark /Smith/     |  58 |
+|      Jean /Smith/     |  84 |
+|    Matthew /Smith/    |  59 |
+|    Jane /Anderson/    |  81 |
+|   William /Anderson/  |  60 |
+|  Madeline /Wheeldon/  |  76 |
+|    Isaac /Wheeldon/   |  62 |
+|     Vince /Smith/     |  53 |
+|     Brenda /Smith/    |  34 |
+|      Paul /Smith/     |  27 |
+|     Jason /Smith/     |  25 |
+|      Jenn /Smith/     |  51 |
+|      Luke /Smith/     |  14 |
+|      Luke /Smith/     |  14 |
+|    Brian /Dinosuar/   |  -5 |
+|   Daron /McSwiggen/   |  98 |
+|   Donna /McSwiggen/   |  88 |
+|   Billy /McSwiggen/   |  28 |
+|  Donald /Carrymehome/ | 108 |
+| Destiny /Carrymehome/ |  68 |
+|  Fabio /Carrymehome/  |  18 |
+|    Paul /Telepathy/   |  96 |
+|  Tiffany /Telepathy/  |  87 |
+|   Hannah /Telepathy/  |  4  |
+|     Bo /Telepathy/    | 151 |
+|    Joey /Telepathy/   |  18 |
+|   Tommy /Telepathy/   |  0  |
+|   Timmy /Telepathy/   |  19 |
++-----------------------+-----+
+
+Siblings Ordered By Age:
++--------+---------------------+-----+
+| Family |       Sibling       | Age |
++--------+---------------------+-----+
+|  F01   |    Laura /Smith/    |  31 |
+|   ^    |   William /Smith/   |  27 |
+|   ^    |     Dan /Smith/     |  24 |
+|   ^    |   Madeline /Smith/  |  23 |
+|  F02   |     Mark /Smith/    |  58 |
+|   ^    |    Vince /Smith/    |  53 |
+|  F03   |    Renee /Smith/    |  56 |
+|  F04   |   Jane /Anderson/   |  85 |
+|  F05   |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|  F06   |     Luke /Smith/    |  14 |
+|  F07   |   Jane /Anderson/   |  85 |
+|  F08   |     Luke /Smith/    |  14 |
+|   ^    |     Luke /Smith/    |  14 |
+|  F09   |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|  F11   | Madeline /Wheeldon/ | 110 |
+|   ^    |   Isaac /Wheeldon/  | 110 |
+|   ^    |  William /Anderson/ |  92 |
+|   ^    |   Jane /Anderson/   |  85 |
+|   ^    |     Jean /Smith/    |  84 |
+|   ^    |   Matthew /Smith/   |  83 |
+|   ^    |     Mark /Smith/    |  58 |
+|   ^    |    Renee /Smith/    |  56 |
+|   ^    |    Vince /Smith/    |  53 |
+|   ^    |    Brenda /Smith/   |  53 |
+|   ^    |     Jenn /Smith/    |  51 |
+|   ^    |   William /Smith/   |  27 |
+|   ^    |     Paul /Smith/    |  27 |
+|   ^    |    Jason /Smith/    |  25 |
+|   ^    |   Madeline /Smith/  |  23 |
+|  F12   |  Billy /McSwiggen/  |  28 |
+|  F13   | Fabio /Carrymehome/ |  18 |
+|  F14   |  Hannah /Telepathy/ |  4  |
+|   ^    |    Bo /Telepathy/   |  -1 |
++--------+---------------------+-----+
+
+Deceased Individuals:
++---------------------+-------------+
+|         Name        |     Date    |
++---------------------+-------------+
+|   Matthew /Smith/   | 10 FEB 1995 |
+|   Jane /Anderson/   | 26 APR 2014 |
+|  William /Anderson/ |  9 JAN 1986 |
+| Madeline /Wheeldon/ | 17 MAY 1985 |
+|   Isaac /Wheeldon/  | 10 MAY 1970 |
+|    Brenda /Smith/   | 21 OCT 1999 |
+|   Brian /Dinosuar/  | 15 JUN 2001 |
+|   Paul /Telepathy/  | 02 FEB 2016 |
+| Tiffany /Telepathy/ | 01 FEB 2017 |
+|    Bo /Telepathy/   | 02 FEB 2170 |
+|  Timmy /Telepathy/  | 20 JUL 2018 |
++---------------------+-------------+
+
+Living Married Individuals:
++-----------------------+--------+
+|          Name         | Family |
++-----------------------+--------+
+|     Renee /Smith/     |  F01   |
+|      Mark /Smith/     |  F01   |
+|      Jean /Smith/     |  F02   |
+|     Vince /Smith/     |  F06   |
+|      Jenn /Smith/     |  F06   |
+|   Daron /McSwiggen/   |  F12   |
+|   Donna /McSwiggen/   |  F12   |
+|  Donald /Carrymehome/ |  F13   |
+| Destiny /Carrymehome/ |  F13   |
++-----------------------+--------+
+
+Living Singles:
++---------------+-----+
+|      Name     | Age |
++---------------+-----+
+| Laura /Smith/ |  31 |
++---------------+-----+
+
+Orphans:
++--------------------+--------+
+|        Name        | Family |
++--------------------+--------+
+| Hannah /Telepathy/ |  F14   |
+|   Bo /Telepathy/   |  F14   |
++--------------------+--------+
+
+Large Age Differences:
++--------+----------------------+------------------+-----------------------+--------------------+
+| Family |     Older Spouse     | Older Spouse Age |     Younger Spouse    | Younger Spouse Age |
++--------+----------------------+------------------+-----------------------+--------------------+
+|  F11   |    Laura /Smith/     |        12        |      Dan /Smith/      |         5          |
+|  F12   |  Daron /McSwiggen/   |        12        |   Donna /McSwiggen/   |         2          |
+|  F13   | Donald /Carrymehome/ |        41        | Destiny /Carrymehome/ |         1          |
+|  F14   |   Paul /Telepathy/   |        11        |  Tiffany /Telepathy/  |         1          |
++--------+----------------------+------------------+-----------------------+--------------------+
+
+Recent Births:
++-------------------+-------------+
+|        Name       |     Date    |
++-------------------+-------------+
+| Tommy /Telepathy/ | 21 JUL 2018 |
++-------------------+-------------+
+
+Recent Deaths:
++-------------------+-------------+
+|        Name       |     Date    |
++-------------------+-------------+
+| Timmy /Telepathy/ | 20 JUL 2018 |
++-------------------+-------------+
+
+Upcoming Birthdays:
++---------+---------+---------+
+| Header0 | Header1 | Header2 |
++---------+---------+---------+
+|  Data0  |  Data1  |  Data2  |
+|  Data0  |  Data1  |  Data2  |
+|  Data0  |  Data1  |  Data2  |
++---------+---------+---------+
+
+Upcoming Anniversaries:
++---------+---------+---------+
+| Header0 | Header1 | Header2 |
++---------+---------+---------+
+|  Data0  |  Data1  |  Data2  |
+|  Data0  |  Data1  |  Data2  |
+|  Data0  |  Data1  |  Data2  |
++---------+---------+---------+
