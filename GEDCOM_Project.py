@@ -397,8 +397,9 @@ def additionalLists():
 
     prettyPrint('Recent Births', listRecentBirths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 35
     prettyPrint('Recent Deaths', listRecentDeaths(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 36
-    prettyPrint('Upcoming Birthdays', listUpcomingBirthdays()) #User Story 38
-    prettyPrint('Upcoming Anniversaries', listUpcomingAnniversaries()) #User Story 39
+    prettyPrint('Upcoming Birthdays', listUpcomingBirthdays(collections.OrderedDict(sorted(INDIVIDUALS.items())))) #User Story 38
+    prettyPrint('Upcoming Anniversaries', listUpcomingAnniversaries(collections.OrderedDict(sorted(INDIVIDUALS.items())),
+                                                                collections.OrderedDict(sorted(FAMILIES.items())))) #User Story 39
 
 # Checks User Story 01:
 # Dates (birth, marriage, divorce, death) should not be after the current date
@@ -1085,24 +1086,49 @@ def listRecentDeaths(indi):
 # User Story 38:
 # List all living people in a GEDCOM file whose birthdays occur in the next 30 days
 # Returns a row of values to print as a pretty table (first row is the header)
-def listUpcomingBirthdays():
-     rows = [] #initilize the row list
-     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     return rows
+def listUpcomingBirthdays(indi):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Date']) #add in the header row
+    for k,v in indi.iteritems():
+    	if(v.get('BIRT') is not None):
+	        currentDate = date.today() #today's date
+	        birthDay = datetime.datetime.strptime(v['BIRT'], '%d %b %Y').date().replace(year=currentDate.year)
+	        if(birthDay.month == 1 and currentDate.month == 12):
+	        	#handle case when birthday is upcoming, but in next calendar year
+	        	birthDay = birthDay + relativedelta(years=1)
+
+	        futureDate = currentDate + timedelta(days=30) #30 days in the future
+
+	        if(birthDay <= futureDate and birthDay > currentDate):
+	        	# Means individual has a birthday in the next 30 days
+				rows.append([v['NAME'], v['BIRT']])
+
+    return rows
 
 # User Story 39:
 # List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days
 # Returns a row of values to print as a pretty table (first row is the header)
-def listUpcomingAnniversaries():
-     rows = [] #initilize the row list
-     rows.append(['Header0', 'Header1', 'Header2']) #add in the header row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     rows.append(['Data0', 'Data1', 'Data2']) #add in data row
-     return rows
+def listUpcomingAnniversaries(indi, fam):
+    rows = [] #initilize the row list
+    rows.append(['Name', 'Family', 'Date']) #add in the header row    
+    for k, v in indi.iteritems():
+        if(v.get('DEAT') is None and v.get('FAMS') is not None):
+            for f in v.get('FAMS'):
+                if(fam[f].get('DIV') is None):
+                	if(fam[f].get('MARR') is not None):
+				        currentDate = date.today() #today's date
+				        marrDay = datetime.datetime.strptime(fam[f]['MARR'], '%d %b %Y').date().replace(year=currentDate.year)
+				        if(marrDay.month == 1 and currentDate.month == 12):
+				        	#handle case when anniversary is upcoming, but in next calendar year
+				        	marrDay = marrDay + relativedelta(years=1)
+
+				        futureDate = currentDate + timedelta(days=30) #30 days in the future
+
+				        if(marrDay <= futureDate and marrDay > currentDate):
+				        	# Means individual has anniversary in the next 30 days
+							rows.append([v['NAME'], f, fam[f]['MARR']])
+
+    return rows
 
 # Checks User Story 40:
 # List line numbers from GEDCOM source file when reporting errors
